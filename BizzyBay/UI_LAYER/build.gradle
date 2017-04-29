@@ -17,13 +17,61 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+}
+repositories {
+    mavenCentral()
+    jcenter()
+
 }
 
+
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    //appcompat library
     compile 'com.android.support:appcompat-v7:25.3.1'
+
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+    compile project(':DATA_LAYER')
+    compile project(':DOMAIN_LAYER')
+
+
+    //design support library
+    compile "com.android.support:support-core-utils:25.3.1"
+    compile 'com.android.support:design:25.3.1'
+
+    //circle image view
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+
+
+    //iconButton
+    compile 'com.githang:com-phillipcalvin-iconbutton:1.0.1@aar'
+
+    //greeen robot's eventbus
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-v4:19.1.0'
+
+    //parceler
+    compile 'org.parceler:parceler-api:1.1.6'
+    annotationProcessor 'org.parceler:parceler:1.1.6'
 }
