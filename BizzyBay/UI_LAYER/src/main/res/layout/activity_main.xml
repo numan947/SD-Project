@@ -21,5 +21,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_view_header"
         app:menu="@menu/navigation_view_navlist"
-        android:id="@+id/navigation_drawer_view"/>
+        android:id="@+id/navigation_drawer_view"
+        app:itemBackground="@drawable/menu_item_click_selector"/>
 </android.support.v4.widget.DrawerLayout>
