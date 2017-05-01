@@ -1,23 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
-
-    <style name="toolbarStyle">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark</item>
-        <item name="android:paddingTop">4dp</item>
-    </style>
-
-
-    <style name="navigationViewStyle">
-
-    </style>
-
 </resources>
