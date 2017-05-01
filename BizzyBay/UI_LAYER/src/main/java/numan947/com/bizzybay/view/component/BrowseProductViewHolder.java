@@ -9,20 +9,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import numan947.com.bizzybay.R;
-
+import numan947.com.bizzybay.model.ProductModelMultiple;
 
 
 public class BrowseProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private Context context;
     private TextView productTitle;
-    private TextView productDescription;
+    private TextView productshop;
     private TextView productPrice;
     private TextView productId;
     private ImageView productImage;
     private Button buttonAddToWishList;
     private Button buttonAddToCart;
     private Button buttonBuyNow;
+    private ProductModelMultiple productModel;
 
 
     public BrowseProductViewHolder(Context context,View itemView) {
@@ -30,7 +31,7 @@ public class BrowseProductViewHolder extends RecyclerView.ViewHolder implements 
         this.context = context;
 
         //bind the views
-        productDescription = (TextView) itemView.findViewById(R.id.browse_products_product_description);
+        productshop = (TextView) itemView.findViewById(R.id.browse_products_product_shop);
         productTitle = (TextView) itemView.findViewById(R.id.browse_products_product_title);
         productPrice = (TextView) itemView.findViewById(R.id.browse_products_product_price);
         productImage = (ImageView) itemView.findViewById(R.id.browse_products_image_view);
@@ -44,20 +45,33 @@ public class BrowseProductViewHolder extends RecyclerView.ViewHolder implements 
 
     }
 
-    public void bindModel()
+    public void bindModel(ProductModelMultiple productModel)
     {
         //todo complete binding model
+        this.productModel = productModel;
+
+
+        this.productId.setText(productModel.getProductID());
+        this.productImage.setImageBitmap(productModel.getProductImage());//todo GLIDE
+        this.productPrice.setText(productModel.getProductPrice());
+        this.productTitle.setText(productModel.getProductTitle());
+        this.productshop.setText(productModel.getProductShop());
 
     }
 
 
     private void addListeners()
     {
-        productDescription.setOnClickListener(this);
         productId.setOnClickListener(this);
         productTitle.setOnClickListener(this);
         productImage.setOnClickListener(this);
 
+        productshop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo go to product shop page
+            }
+        });
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -8,15 +8,16 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import numan947.com.bizzybay.R;
-import numan947.com.bizzybay.model.Product;
+import numan947.com.bizzybay.model.ProductModelMultiple;
 import numan947.com.bizzybay.view.component.BrowseProductViewHolder;
 
 
 public class BrowseProductAdapter extends RecyclerView.Adapter<BrowseProductViewHolder> {
     private Context context;
     private LayoutInflater layoutInflater;
-    private List<Product> products;
-    public BrowseProductAdapter(Context context,LayoutInflater layoutInflater,List<Product> products) {
+    private List<ProductModelMultiple> products;
+
+    public BrowseProductAdapter(Context context,LayoutInflater layoutInflater,List<ProductModelMultiple> products) {
         this.context = context;
         this.layoutInflater = layoutInflater;
         this.products = products;
@@ -32,7 +33,7 @@ public class BrowseProductAdapter extends RecyclerView.Adapter<BrowseProductView
     public void onBindViewHolder(BrowseProductViewHolder holder, int position) {
 
         //todo need to change depending on the data in the browse product models
-        holder.bindModel();
+        holder.bindModel(products.get(position));
     }
 
     @Override

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
     <ImageView
         android:layout_width="0dp"
         android:layout_weight="0.30"
@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="0.70"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
@@ -24,9 +24,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/browse_products_product_description"
-            android:textSize="@dimen/browse_products_product_desciption_size"
-            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"/>
+            android:id="@+id/browse_products_product_shop"
+            android:textSize="@dimen/browse_products_product_shop_size"
+            android:text="ce the 1500s"/>
         <!--use html text for this desciption textview-->
         <TextView
             android:layout_width="wrap_content"
