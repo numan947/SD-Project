@@ -1,4 +1,4 @@
-package numan947.com.bizzybay.view;
+package numan947.com.bizzybay.view.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        //setting up the toolbar
         setSupportActionBar(toolbar);
-
 
         //setting up the Navigation Drawer
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //adding listener for the header views
         userNameNavDrawer.setOnClickListener(this);
         profileImageNavDrawer.setOnClickListener(this);
-
-        
         settingsImageNavDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +90,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.closeDrawer(navigationDrawerGravity);
             }
         });
+
+
+        //setting up the initial fragment
+
+
+
 
 
 

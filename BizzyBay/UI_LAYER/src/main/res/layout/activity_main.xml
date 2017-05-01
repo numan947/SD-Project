@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="numan947.com.bizzybay.view.MainActivity"
+    tools:context="numan947.com.bizzybay.view.activity.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/navigation_drawer">
@@ -13,7 +13,7 @@
         android:orientation="vertical">
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolabr_layout"/>
+            layout="@layout/toolbar_layout"/>
 
         <FrameLayout
             android:layout_width="match_parent"
