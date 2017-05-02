@@ -16,4 +16,5 @@
     <string name="browse_products_button_add_to_wishlist_text">Wishlist</string>
     <string name="browse_products_button_add_to_cart_text">CART</string>
     <string name="browse_products_button_buy_now">BUY</string>
+    <string name="btn_text_retry">Retry</string>
 </resources>

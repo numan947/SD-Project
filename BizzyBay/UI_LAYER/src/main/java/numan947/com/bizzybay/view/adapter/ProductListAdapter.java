@@ -12,12 +12,12 @@ import numan947.com.bizzybay.model.ProductModelMultiple;
 import numan947.com.bizzybay.view.component.BrowseProductViewHolder;
 
 
-public class BrowseProductAdapter extends RecyclerView.Adapter<BrowseProductViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<BrowseProductViewHolder> {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<ProductModelMultiple> products;
 
-    public BrowseProductAdapter(Context context,LayoutInflater layoutInflater,List<ProductModelMultiple> products) {
+    public ProductListAdapter(Context context, LayoutInflater layoutInflater, List<ProductModelMultiple> products) {
         this.context = context;
         this.layoutInflater = layoutInflater;
         this.products = products;

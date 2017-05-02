@@ -2,6 +2,7 @@ package numan947.com.data_layer.cache;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import numan947.com.data_layer.entity.ProductEntity;
@@ -17,7 +18,7 @@ public class TestProductCacheImpl implements ProductCache {
 
     public TestProductCacheImpl() {
         //initialize the productEntities here
-
+        productEntities = new ArrayList<>();
         for(int i=0;i<20;i++){
             try {
                 productEntities.add(new ProductEntity(i+1,"ProductTtitle "+(i+1),(i+1)*100,"ProductStore "+(i+1),i+1,new URL("http://www.google.com")));

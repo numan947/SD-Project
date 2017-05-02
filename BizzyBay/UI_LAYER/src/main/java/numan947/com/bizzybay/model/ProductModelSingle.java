@@ -14,10 +14,10 @@ public class ProductModelSingle {
     private String productShop;
     private String productPrice;
     private String productDescription;
-    private Bitmap[] productImage;//or URL?
+    private Bitmap productImage;//or URL?
 
 
-    public ProductModelSingle(String shopID,String productID, String productTitle,String productDescription, String productShop, String productPrice, Bitmap[] productImage) {
+    public ProductModelSingle(String shopID,String productID, String productTitle,String productDescription, String productShop, String productPrice, Bitmap productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
@@ -75,11 +75,11 @@ public class ProductModelSingle {
         this.productPrice = productPrice;
     }
 
-    public Bitmap[] getProductImage() {
+    public Bitmap getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(Bitmap[] productImage) {
+    public void setProductImage(Bitmap productImage) {
         this.productImage = productImage;
     }
 }

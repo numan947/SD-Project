@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.view.fragment.DemoFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     @BindView(R.id.navigation_drawer) DrawerLayout drawerLayout;
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //setting up the initial fragment
-
+        getSupportFragmentManager().beginTransaction().add(R.id.frame,new DemoFragment()).commit();
 
 
 
@@ -132,6 +133,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         navigationView.setCheckedItem(item.getItemId());
+
+        if(item.getItemId()==R.id.browse_products){
+
+        }
+
+
         drawerLayout.closeDrawer(navigationDrawerGravity);
         return true;
     }

@@ -17,7 +17,7 @@ import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 public class ProductDataRepository implements ProductRepository {
     private static ProductDataRepository INSTANCE;
-    public static synchronized ProductDataRepository getInstance(ProductDataStoreFactory dataStoreFactory, ProductEntityDataMapper productEntityDataMapper){
+    public static synchronized ProductDataRepository newInstance(ProductDataStoreFactory dataStoreFactory, ProductEntityDataMapper productEntityDataMapper){
         if(INSTANCE==null)INSTANCE = new ProductDataRepository(productEntityDataMapper, dataStoreFactory);
         return INSTANCE;
     }

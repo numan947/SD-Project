@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/browse_products_product_shop"
             android:textSize="@dimen/browse_products_product_shop_size"
-            android:text="ce the 1500s"/>
+            android:text="Lorem ipsum dolor sit amet, commune salutandi scripserit quo ea, eu ignota similique sententiae sed. Velit primis scripserit vis at. Epicurei voluptaria vituperatoribus eu cum, causae scaevola ne has. Ut vim quem mucius oportere"/>
         <!--use html text for this desciption textview-->
         <TextView
             android:layout_width="wrap_content"
