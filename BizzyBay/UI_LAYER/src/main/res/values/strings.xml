@@ -13,8 +13,6 @@
     <string name="open_drawer">Open Nav Drawer</string>
     <string name="settings_icon">Settings Icon</string>
     <string name="product_page_image_view">Product_Page_Image_View</string>
-    <string name="browse_products_button_add_to_wishlist_text">Wishlist</string>
-    <string name="browse_products_button_add_to_cart_text">CART</string>
-    <string name="browse_products_button_buy_now">BUY</string>
     <string name="btn_text_retry">Retry</string>
+    <string name="list_product_button_like">LIKE</string>
 </resources>

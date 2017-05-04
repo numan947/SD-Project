@@ -7,7 +7,7 @@ import com.example.interactor.BrowseProducts;
 import java.util.Collection;
 
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
-import numan947.com.bizzybay.model.ProductModelMultiple;
+import numan947.com.bizzybay.model.ListProductModel;
 import numan947.com.bizzybay.view.ProductListView;
 
 /**
@@ -73,7 +73,7 @@ public class ProductListPresenter implements Presenter {
     }
 
     private void showProductsCollectionInView(Collection<Product> products) {
-        final Collection<ProductModelMultiple>productModelCollection = this.productModelDataMapper.transform(products);
+        final Collection<ListProductModel>productModelCollection = this.productModelDataMapper.transform(products);
         this.productListView.renderProductList(productModelCollection);
     }
 

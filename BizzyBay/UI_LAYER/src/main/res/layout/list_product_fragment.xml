@@ -10,6 +10,6 @@
         android:layout_height="match_parent"
         android:id="@+id/browse_products_recycler_view"/>
 
-    <include layout="@layout/view_retry"/>
-    <include layout="@layout/view_progress"/>
+    <include layout="@layout/generic_retry_view"/>
+    <include layout="@layout/generic_progress_view"/>
 </RelativeLayout>
