@@ -12,14 +12,14 @@ import java.util.Collection;
  * Created by numan947 on 5/1/17.
  */
 
-public class BrowseProductsImpl implements BrowseProducts {
+public class GetProductListUseCaseImpl implements GetProductListUseCase {
     private final ProductRepository productRepository;
     private final ThreadExecutor threadExecutor;
     private final PostExecutionThread postExecutionThread;
 
     private Callback callback;
 
-    public BrowseProductsImpl(ProductRepository productRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public GetProductListUseCaseImpl(ProductRepository productRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
 
         if(productRepository==null||threadExecutor==null||postExecutionThread==null)
             throw new IllegalArgumentException("Constructor Parameters MUST NOT be NULL");
@@ -49,12 +49,12 @@ public class BrowseProductsImpl implements BrowseProducts {
     private final ProductRepository.ProductListCallback repositoryCallback = new ProductRepository.ProductListCallback() {
         @Override
         public void onProductListLoaded(Collection<Product> products) {
-            BrowseProductsImpl.this.notifyGetProductListSucceccsufully(products);
+            GetProductListUseCaseImpl.this.notifyGetProductListSucceccsufully(products);
         }
 
         @Override
         public void onError(ErrorBundle errorBundle) {
-            BrowseProductsImpl.this.notifyError(errorBundle);
+            GetProductListUseCaseImpl.this.notifyError(errorBundle);
         }
     };
 
@@ -62,7 +62,7 @@ public class BrowseProductsImpl implements BrowseProducts {
         this.postExecutionThread.post(new Runnable() {
             @Override
             public void run() {
-                BrowseProductsImpl.this.callback.onError(errorBundle);
+                GetProductListUseCaseImpl.this.callback.onError(errorBundle);
             }
         });
     }
@@ -72,7 +72,7 @@ public class BrowseProductsImpl implements BrowseProducts {
         this.postExecutionThread.post(new Runnable() {
             @Override
             public void run() {
-                BrowseProductsImpl.this.callback.onProductsListLoaded(products);
+                GetProductListUseCaseImpl.this.callback.onProductsListLoaded(products);
             }
         });
     }

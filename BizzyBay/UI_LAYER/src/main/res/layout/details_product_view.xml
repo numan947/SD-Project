@@ -1,56 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/details_product_view_CL">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <android.support.v4.view.ViewPager
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight=".20"
-            android:id="@+id/details_product_image_view_pager"
-            android:background="@drawable/details_product_viewpager_background"/>
-
-        <com.ogaclejapan.smarttablayout.SmartTabLayout
-            android:id="@+id/viewpagertab"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:stl_indicatorAlwaysInCenter="false"
-            app:stl_indicatorWithoutPadding="false"
-            app:stl_indicatorInFront="false"
-            app:stl_indicatorInterpolation="smart"
-            app:stl_indicatorGravity="bottom"
-            app:stl_indicatorColor="#40C4FF"
-            app:stl_indicatorThickness="4dp"
-            app:stl_indicatorWidth="auto"
-            app:stl_indicatorCornerRadius="2dp"
-            app:stl_overlineColor="#4D000000"
-            app:stl_overlineThickness="0dp"
-            app:stl_underlineColor="#4D000000"
-            app:stl_underlineThickness="1dp"
-            app:stl_dividerColor="#4D000000"
-            app:stl_dividerThickness="1dp"
-            app:stl_defaultTabBackground="?attr/selectableItemBackground"
-            app:stl_defaultTabTextAllCaps="true"
-            app:stl_defaultTabTextColor="#FC000000"
-            app:stl_defaultTabTextSize="12sp"
-            app:stl_defaultTabTextHorizontalPadding="16dp"
-            app:stl_defaultTabTextMinWidth="0dp"
-            app:stl_distributeEvenly="false"
-            app:stl_clickable="true"
-            app:stl_titleOffset="24dp"
-            app:stl_drawDecorationAfterTab="false"
-            />
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight=".80"
-        android:text="TITLE"/>
+        android:id="@+id/details_product_view_ABL">
+        <include
+            layout="@layout/generic_toolbar_layout"/>
+    </android.support.design.widget.AppBarLayout>
 
-</LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/details_product_view_SRL">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/details_product_view_NSV"
+            android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/details_product_view_viewpager"
+                    android:layout_height="350dp"
+                    android:layout_width="wrap_content"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Product Title"
+                        android:id="@+id/details_product_view_product_title"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Shopname"
+                        android:id="@+id/details_product_view_product_shopname"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ProductmPrice"
+                        android:id="@+id/details_product_view_product_price"/>
+
+                    <include
+                        layout="@layout/details_product_view_button_bar"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dummy_product_details"
+                        android:id="@+id/details_product_view_product_details"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="shop location"
+                        android:id="@+id/details_product_view_shop_location"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Category"
+                        android:id="@+id/details_product_view_category"/>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</android.support.design.widget.CoordinatorLayout>

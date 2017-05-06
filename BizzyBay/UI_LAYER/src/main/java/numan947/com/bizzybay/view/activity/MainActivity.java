@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,36 +15,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.view.fragment.ProductListFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-    @BindView(R.id.navigation_drawer) DrawerLayout drawerLayout;
-    @BindView(R.id.toolbar)Toolbar toolbar;
-    @BindView(R.id.navigation_drawer_view)NavigationView navigationView;
-
-
-    ImageView settingsImageNavDrawer;
-    CircleImageView profileImageNavDrawer;
-    TextView userNameNavDrawer;
-    int navigationDrawerGravity = GravityCompat.START;
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,ProductListFragment.ProductListListener {
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    NavigationView navigationView;
 
 
-    ActionBarDrawerToggle actionBarDrawerToggle;
+    private ImageView settingsImageNavDrawer;
+    private CircleImageView profileImageNavDrawer;
+    private TextView userNameNavDrawer;
+    private int navigationDrawerGravity = GravityCompat.START;
 
-    int cnt=0;
+
+    private ActionBarDrawerToggle actionBarDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
 
         //setting up the toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //setting up the Navigation Drawer
+        drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //Setting up the NavigationView
-
+        navigationView = (NavigationView) findViewById(R.id.navigation_drawer_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View headerView = navigationView.getHeaderView(0);
@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawerLayout.closeDrawer(navigationDrawerGravity);
             }
         });
-
 
 
 
@@ -161,4 +160,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this,"Showing profile of owner",Toast.LENGTH_SHORT).show();
         drawerLayout.closeDrawer(navigationDrawerGravity);
     }
+
+
+
+    @Override
+    public void onProductClicked(ListProductModel model) {
+        //todo
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package numan947.com.bizzybay.view;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 import numan947.com.bizzybay.model.ListProductModel;
 
@@ -9,9 +9,7 @@ import numan947.com.bizzybay.model.ListProductModel;
  */
 
 public interface ProductListView extends DataToLoad {
-    void renderProductList(Collection<ListProductModel>products);
+    void renderProductList(ArrayList<ListProductModel>products);
     void viewProduct(ListProductModel product);
-    void showProductAddedToCart(ListProductModel product);
-    void showProductAddedToWishList(ListProductModel product);
-    void buyProduct(ListProductModel product);
+    void showProductLiked(ListProductModel productModel, int position);
 }

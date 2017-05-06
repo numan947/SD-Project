@@ -9,7 +9,7 @@ import java.util.Collection;
  * Created by numan947 on 5/1/17.
  */
 
-public interface BrowseProducts extends BaseUseCase {
+public interface GetProductListUseCase extends BaseUseCase {
     interface Callback{
         void onProductsListLoaded(Collection<Product>products);
         void onError(ErrorBundle errorBundle);

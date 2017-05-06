@@ -2,8 +2,9 @@ package numan947.com.bizzybay.presenter;
 
 import com.example.Product;
 import com.example.exception.ErrorBundle;
-import com.example.interactor.BrowseProducts;
+import com.example.interactor.GetProductListUseCase;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
@@ -17,16 +18,16 @@ import numan947.com.bizzybay.view.ProductListView;
 public class ProductListPresenter implements Presenter {
 
     private final ProductListView productListView;
-    private final BrowseProducts browseProductsUseCase;
+    private final GetProductListUseCase getProductListUseCaseUseCase;
     private final ProductModelDataMapper productModelDataMapper;
 
-    public ProductListPresenter(ProductListView productListView, BrowseProducts browseProductsUseCase, ProductModelDataMapper productModelDataMapper) {
+    public ProductListPresenter(ProductListView productListView, GetProductListUseCase getProductListUseCaseUseCase, ProductModelDataMapper productModelDataMapper) {
 
-        if(productListView==null||browseProductsUseCase==null||productModelDataMapper==null)
+        if(productListView==null|| getProductListUseCaseUseCase ==null||productModelDataMapper==null)
             throw  new IllegalArgumentException("Constructor parameters MUST not be null");
 
         this.productListView = productListView;
-        this.browseProductsUseCase = browseProductsUseCase;
+        this.getProductListUseCaseUseCase = getProductListUseCaseUseCase;
         this.productModelDataMapper = productModelDataMapper;
     }
     
@@ -43,10 +44,10 @@ public class ProductListPresenter implements Presenter {
 
 
     private void getProductsList() {
-        this.browseProductsUseCase.execute(productListCallback);
+        this.getProductListUseCaseUseCase.execute(productListCallback);
     }
 
-    private final BrowseProducts.Callback productListCallback = new BrowseProducts.Callback() {
+    private final GetProductListUseCase.Callback productListCallback = new GetProductListUseCase.Callback() {
         @Override
         public void onProductsListLoaded(Collection<Product> products) {
             ProductListPresenter.this.showProductsCollectionInView(products);
@@ -73,7 +74,7 @@ public class ProductListPresenter implements Presenter {
     }
 
     private void showProductsCollectionInView(Collection<Product> products) {
-        final Collection<ListProductModel>productModelCollection = this.productModelDataMapper.transform(products);
+        final ArrayList<ListProductModel> productModelCollection = this.productModelDataMapper.transform(products);
         this.productListView.renderProductList(productModelCollection);
     }
 
@@ -91,4 +92,14 @@ public class ProductListPresenter implements Presenter {
 
     @Override
     public void onPause() {}
+
+    public void viewProduct(ListProductModel product) {
+        //todo implement
+        productListView.viewProduct(product);
+    }
+
+    public void likeProduct(ListProductModel model, int position) {
+        //todo implement
+        productListView.showProductLiked(model,position);
+    }
 }

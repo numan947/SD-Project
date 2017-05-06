@@ -21,19 +21,19 @@ public class ListProductModel {
     private String shopDetails;
 
     //liked status
-    private int productLikedStatus;
+    private boolean isLiked;
 
     //productImage
-    private URL productImage;//or URL?
+    private URL productImage;
 
 
-    public ListProductModel(String shopID, String productID, String productTitle, String shopDetails, String productPrice, int productLikedStatus, URL productImage) {
+    public ListProductModel(String shopID, String productID, String productTitle, String shopDetails, String productPrice, boolean isLiked, URL productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
         this.shopDetails = shopDetails;
         this.productPrice = productPrice;
-        this.productLikedStatus = productLikedStatus;
+        this.isLiked = isLiked;
         this.productImage = productImage;
     }
 
@@ -57,8 +57,8 @@ public class ListProductModel {
         return productPrice;
     }
 
-    public int getProductLikedStatus() {
-        return productLikedStatus;
+    public boolean isLiked() {
+        return isLiked;
     }
 
     public URL getProductImage() {
