@@ -54,9 +54,7 @@ public class TestProductCacheImpl implements ProductCache {
         for(int i=0;i<20;i++){
             ListProductEntity a= new ListProductEntity(i+1,
                     i+1,"ProductTitle"+i,(i+1)*100,
-                    "SHOP DEtAILS HERE.............................." +
-                            ".........................................." +
-                            "........................................................",
+                    "SHOP details here",
                     (i%2)==1,placeHolders[i%5]);
 
             productEntities.add(a);

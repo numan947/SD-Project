@@ -84,6 +84,8 @@ public class ProductListPresenter implements Presenter {
 
 
     private void showProductsCollectionInView(Collection<ListProduct> listProducts) {
+
+
         final ArrayList<ListProductModel> productModelCollection = this.productModelDataMapper.transform(listProducts);
         this.productListView.renderProductList(productModelCollection);
     }
@@ -110,7 +112,7 @@ public class ProductListPresenter implements Presenter {
     public void likeProduct(ListProductModel model, int position) {
         //todo send server data about the like
 
-        model.setLiked(true);
+        model.setLiked(!model.isLiked());
         productListView.showProductLiked(model,position);
     }
 }

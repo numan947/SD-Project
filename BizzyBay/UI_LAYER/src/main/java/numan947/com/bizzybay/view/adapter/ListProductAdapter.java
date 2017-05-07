@@ -10,20 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.signature.StringSignature;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.view.component.SquareImageView;
 
 /**
  * Created by numan947 on 5/6/17.
@@ -56,6 +53,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view=null;
         RecyclerView.ViewHolder vh;
+
 
         if(viewType==VIEW_TYPE_NORMAL){
             view=layoutInflater.inflate(R.layout.list_product_view,parent,false);
@@ -108,7 +106,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
     //view holder class for the view
     class ListProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView productImage;
+        private SquareImageView productImage;
         private TextView productTitle;
         private TextView productShop;
         private TextView productPrice;
@@ -122,7 +120,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
             super(itemView);
 
             //bind the views
-            productImage = (ImageView) itemView.findViewById(R.id.list_product_image_view);
+            productImage = (SquareImageView) itemView.findViewById(R.id.list_product_image_view);
             productTitle = (TextView) itemView.findViewById(R.id.list_product_product_title);
             productShop = (TextView) itemView.findViewById(R.id.list_product_shop_details);
             productPrice = (TextView) itemView.findViewById(R.id.list_product_product_price);
@@ -142,16 +140,13 @@ public class ListProductAdapter extends RecyclerView.Adapter {
             this.model = model;
             this.position = position;
             //setup image
-            try {
-                Glide.with(context).load(model.getProductImage().toURI())
-                        .error(R.drawable.error)
-                        .placeholder(R.drawable.place_holder)
-                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                        .signature(new StringSignature(String.valueOf(System.currentTimeMillis())))
-                        .into(productImage);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+
+            Glide.with(context).load(model.getProductImage().toString())
+                    .error(R.drawable.error)
+                    .placeholder(R.drawable.placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .crossFade().fitCenter()
+                    .into(productImage);
 
             //set up product
             productTitle.setText(model.getProductTitle());
@@ -179,13 +174,13 @@ public class ListProductAdapter extends RecyclerView.Adapter {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.list_product_cardView:
-                    Toast.makeText(context,"SHOULD GO TO DETAILS VIEW",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"SHOULD GO TO DETAILS VIEW",Toast.LENGTH_SHORT).show();
 
                     callback.OnCardViewClicked(model,position);
 
                     break;
                 case R.id.list_product_button_like:
-                    Toast.makeText(context,"SHOULD ADD TO LIKED LIST",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context,"SHOULD ADD TO LIKED LIST",Toast.LENGTH_SHORT).show();
                     callback.OnLikedButtonClicked(model,position);
 
                     break;

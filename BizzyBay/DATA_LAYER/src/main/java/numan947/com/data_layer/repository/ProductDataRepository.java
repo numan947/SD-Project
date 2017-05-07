@@ -37,6 +37,8 @@ public class ProductDataRepository implements ProductRepository {
     @Override
     public void getProductList(final ProductListCallback callback) {
         //todo create data store and load
+
+
         final ProductDataStore productDataStore = this.productDataStoreFactory.createTestDataStore();
 
         productDataStore.getProductsEntityList(new ProductDataStore.ProductListCallback() {

@@ -12,4 +12,13 @@
         android:layout_height="match_parent"
         android:id="@+id/list_product_fragment_recycler_view"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <include
+        layout="@layout/generic_progress_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <include
+        layout="@layout/generic_retry_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -36,6 +36,7 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
         if(callback == null)
             throw new IllegalArgumentException("Interactor Callback MUST NOT BE NULL");
 
+
         this.callback = callback;
         this.threadExecutor.execute(this);
     }

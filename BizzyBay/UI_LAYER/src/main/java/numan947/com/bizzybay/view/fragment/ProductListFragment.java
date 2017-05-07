@@ -3,6 +3,7 @@ package numan947.com.bizzybay.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,6 +105,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.list_product_fragment,container,false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.list_product_fragment_recycler_view);
@@ -178,6 +180,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
             if(this.adapter==null) {
                 //first load
                 adapter = new ListProductAdapter(getContext(), adapterCallback,products);
+                this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 this.recyclerView.setAdapter(adapter);
             }
             else{
@@ -198,7 +201,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void showProductLiked(ListProductModel productModel, int position) {
         //reload the adapter here
-        adapter.notifyItemChanged(position);
+        adapter.notifyItemChanged(position,productModel);
     }
 
     @Override
