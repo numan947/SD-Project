@@ -1,11 +1,11 @@
 package numan947.com.data_layer.repository;
 
-import com.example.Product;
+import com.example.ListProduct;
 import com.example.repository.ProductRepository;
 
 import java.util.Collection;
 
-import numan947.com.data_layer.entity.ProductEntity;
+import numan947.com.data_layer.entity.ListProductEntity;
 import numan947.com.data_layer.entity.mapper.ProductEntityDataMapper;
 import numan947.com.data_layer.exception.RepositoryErrorBundle;
 import numan947.com.data_layer.repository.datasource.ProductDataStore;
@@ -16,7 +16,9 @@ import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
  */
 
 public class ProductDataRepository implements ProductRepository {
+
     private static ProductDataRepository INSTANCE;
+
     public static synchronized ProductDataRepository newInstance(ProductDataStoreFactory dataStoreFactory, ProductEntityDataMapper productEntityDataMapper){
         if(INSTANCE==null)INSTANCE = new ProductDataRepository(productEntityDataMapper, dataStoreFactory);
         return INSTANCE;
@@ -39,10 +41,10 @@ public class ProductDataRepository implements ProductRepository {
 
         productDataStore.getProductsEntityList(new ProductDataStore.ProductListCallback() {
             @Override
-            public void onProductListLoaded(Collection<ProductEntity> productEntities) {
-                Collection<Product> products = ProductDataRepository.this.productEntityDataMapper.transform(productEntities);
+            public void onProductListLoaded(Collection<ListProductEntity> productEntities) {
+                Collection<ListProduct> listProducts = ProductDataRepository.this.productEntityDataMapper.transform(productEntities);
 
-                callback.onProductListLoaded(products);
+                callback.onProductListLoaded(listProducts);
             }
 
             @Override
@@ -62,9 +64,9 @@ public class ProductDataRepository implements ProductRepository {
 
         productDataStore.getProductEntityDetails(productId, new ProductDataStore.ProductDetailsCallback() {
             @Override
-            public void onProductDetailsLoaded(ProductEntity productEntity) {
-                Product product = ProductDataRepository.this.productEntityDataMapper.transform(productEntity);
-                callback.onProductDetailsLoaded(product);
+            public void onProductDetailsLoaded(ListProductEntity listProductEntity) {
+                ListProduct listProduct = ProductDataRepository.this.productEntityDataMapper.transform(listProductEntity);
+                callback.onProductDetailsLoaded(listProduct);
             }
 
             @Override

@@ -1,4 +1,4 @@
-package numan947.com.bizzybay.model;
+package com.example;
 
 import java.net.URL;
 
@@ -6,8 +6,7 @@ import java.net.URL;
  * Created by numan947 on 5/1/17.
  */
 
-public class ListProductModel {
-
+public class ListProduct {
     //needed IDs
     private String shopID;
     private String productID;
@@ -27,12 +26,12 @@ public class ListProductModel {
     private URL productImage;
 
 
-    public ListProductModel(String shopID, String productID, String productTitle, String shopDetails, String productPrice, boolean isLiked, URL productImage) {
+    public ListProduct(String shopID, String productID, String productTitle, String productPrice, String shopDetails, boolean isLiked, URL productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
-        this.shopDetails = shopDetails;
         this.productPrice = productPrice;
+        this.shopDetails = shopDetails;
         this.isLiked = isLiked;
         this.productImage = productImage;
     }
@@ -49,20 +48,16 @@ public class ListProductModel {
         return productTitle;
     }
 
-    public String getShopDetails() {
-        return shopDetails;
-    }
-
     public String getProductPrice() {
         return productPrice;
     }
 
-    public boolean isLiked() {
-        return isLiked;
+    public String getShopDetails() {
+        return shopDetails;
     }
 
-    public void setLiked(boolean liked) {
-        isLiked = liked;
+    public boolean isLiked() {
+        return isLiked;
     }
 
     public URL getProductImage() {

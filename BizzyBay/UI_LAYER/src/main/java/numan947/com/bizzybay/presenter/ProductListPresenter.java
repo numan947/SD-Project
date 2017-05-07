@@ -1,6 +1,6 @@
 package numan947.com.bizzybay.presenter;
 
-import com.example.Product;
+import com.example.ListProduct;
 import com.example.exception.ErrorBundle;
 import com.example.interactor.GetProductListUseCase;
 
@@ -49,8 +49,8 @@ public class ProductListPresenter implements Presenter {
 
     private final GetProductListUseCase.Callback productListCallback = new GetProductListUseCase.Callback() {
         @Override
-        public void onProductsListLoaded(Collection<Product> products) {
-            ProductListPresenter.this.showProductsCollectionInView(products);
+        public void onProductsListLoaded(Collection<ListProduct> listProducts) {
+            ProductListPresenter.this.showProductsCollectionInView(listProducts);
             ProductListPresenter.this.hideLoadingView();
         }
 
@@ -69,13 +69,9 @@ public class ProductListPresenter implements Presenter {
     private void hideLoadingView() {
         this.productListView.hideLoading();
     }
+
     private void hideRetryView() {
         this.productListView.hideRetry();
-    }
-
-    private void showProductsCollectionInView(Collection<Product> products) {
-        final ArrayList<ListProductModel> productModelCollection = this.productModelDataMapper.transform(products);
-        this.productListView.renderProductList(productModelCollection);
     }
 
     private void showLoadingView() {
@@ -87,11 +83,24 @@ public class ProductListPresenter implements Presenter {
     }
 
 
-    @Override
-    public void onResume() {}
+    private void showProductsCollectionInView(Collection<ListProduct> listProducts) {
+        final ArrayList<ListProductModel> productModelCollection = this.productModelDataMapper.transform(listProducts);
+        this.productListView.renderProductList(productModelCollection);
+    }
+
+
+
 
     @Override
-    public void onPause() {}
+    public void onResume() {
+        //todo restore saves here
+
+    }
+
+    @Override
+    public void onPause() {
+        //todo do saves here
+    }
 
     public void viewProduct(ListProductModel product) {
         //todo implement
@@ -99,7 +108,9 @@ public class ProductListPresenter implements Presenter {
     }
 
     public void likeProduct(ListProductModel model, int position) {
-        //todo implement
+        //todo send server data about the like
+
+        model.setLiked(true);
         productListView.showProductLiked(model,position);
     }
 }

@@ -1,6 +1,6 @@
 package numan947.com.bizzybay.mapper;
 
-import com.example.Product;
+import com.example.ListProduct;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +12,17 @@ import numan947.com.bizzybay.model.ListProductModel;
  */
 
 public class ProductModelDataMapper {
-    public ArrayList<ListProductModel> transform(Collection<Product> products) {
-        return null;
+    public ArrayList<ListProductModel> transform(Collection<ListProduct> listProducts) {
+        ArrayList<ListProductModel>listProductModels = new ArrayList<>();
+        for(ListProduct product:listProducts){
+            //todo do conversion here, like html tag adding and what not
+
+            ListProductModel listProductModel = new ListProductModel(product.getShopID(),product.getProductID(),product.getProductTitle(),
+                    product.getShopDetails(),product.getProductPrice(),product.isLiked(),product.getProductImage());
+
+            listProductModels.add(listProductModel);
+        }
+
+        return listProductModels;
     }
 }

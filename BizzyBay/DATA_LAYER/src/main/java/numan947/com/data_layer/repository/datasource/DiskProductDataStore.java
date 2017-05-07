@@ -3,7 +3,7 @@ package numan947.com.data_layer.repository.datasource;
 import java.util.Collection;
 
 import numan947.com.data_layer.cache.ProductCache;
-import numan947.com.data_layer.entity.ProductEntity;
+import numan947.com.data_layer.entity.ListProductEntity;
 
 /**
  * Created by numan947 on 5/1/17.
@@ -11,7 +11,7 @@ import numan947.com.data_layer.entity.ProductEntity;
 
 public class DiskProductDataStore implements ProductDataStore {
 
-    ProductCache productCache;
+    private ProductCache productCache;
 
     public DiskProductDataStore(ProductCache productCache) {
         this.productCache = productCache;
@@ -22,7 +22,7 @@ public class DiskProductDataStore implements ProductDataStore {
 
         productCache.get(new ProductCache.ProductEntityListCacheCallback() {
             @Override
-            public void onProductEntityListLoaded(Collection<ProductEntity> productEntities) {
+            public void onProductEntityListLoaded(Collection<ListProductEntity> productEntities) {
                 callback.onProductListLoaded(productEntities);
             }
 
@@ -38,8 +38,8 @@ public class DiskProductDataStore implements ProductDataStore {
     public void getProductEntityDetails(int productId, final ProductDetailsCallback callback) {
         productCache.get(productId, new ProductCache.ProductEntityCacheCallback() {
             @Override
-            public void onProductEntityLoaded(ProductEntity productEntity) {
-                callback.onProductDetailsLoaded(productEntity);
+            public void onProductEntityLoaded(ListProductEntity listProductEntity) {
+                callback.onProductDetailsLoaded(listProductEntity);
             }
 
             @Override

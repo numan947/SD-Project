@@ -1,6 +1,6 @@
 package com.example.repository;
 
-import com.example.Product;
+import com.example.ListProduct;
 import com.example.exception.ErrorBundle;
 
 import java.util.Collection;
@@ -12,12 +12,12 @@ import java.util.Collection;
 public interface ProductRepository {
 
     interface ProductListCallback{
-        void onProductListLoaded(Collection<Product>products);
+        void onProductListLoaded(Collection<ListProduct> listProducts);
         void onError(ErrorBundle errorBundle);
     }
 
     interface ProductDetailsCallback{
-        void onProductDetailsLoaded(Product product);
+        void onProductDetailsLoaded(ListProduct listProduct);
         void onError(ErrorBundle errorBundle);
     }
 

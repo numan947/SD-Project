@@ -18,6 +18,7 @@ import android.widget.Toast;
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.navigation.DrawerNavigator;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,ProductListFragment.ProductListListener {
@@ -96,6 +97,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
         //setting up the initial fragment
+        DrawerNavigator drawerNavigator = new DrawerNavigator(this);
+        drawerNavigator.navigateToProductListFragment(R.id.frame,getSupportFragmentManager());
+        navigationView.setCheckedItem(R.id.browse_products);
 
 
 
@@ -136,7 +140,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setCheckedItem(item.getItemId());
 
         if(item.getItemId()==R.id.browse_products){
-
+            //todo implement other cases
         }
 
 
@@ -148,6 +152,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onBackPressed() {
 
+        //todo gracefully handle all the cases
         if(drawerLayout.isDrawerOpen(navigationDrawerGravity))drawerLayout.closeDrawer(navigationDrawerGravity);
 
         else
@@ -156,7 +161,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onClick(View v) {
-        //for both profile image and profile name
+        //todo show profile details, for both profile image and profile name
         Toast.makeText(this,"Showing profile of owner",Toast.LENGTH_SHORT).show();
         drawerLayout.closeDrawer(navigationDrawerGravity);
     }
@@ -165,7 +170,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onProductClicked(ListProductModel model) {
-        //todo
+        //todo show product details Activity
+        Toast.makeText(this,"SHowing details activity",Toast.LENGTH_SHORT).show();
     }
 
 

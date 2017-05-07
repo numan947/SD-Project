@@ -21,7 +21,7 @@ public class ProductDataStoreFactory {
     }
 
 
-    //for test only, replace with Cloud and Cached data store later
+    //todo for test only, replace with Cloud and Cached data store later
     public ProductDataStore createTestDataStore()
     {
 

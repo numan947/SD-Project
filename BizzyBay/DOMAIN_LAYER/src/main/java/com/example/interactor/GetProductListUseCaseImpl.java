@@ -1,6 +1,6 @@
 package com.example.interactor;
 
-import com.example.Product;
+import com.example.ListProduct;
 import com.example.exception.ErrorBundle;
 import com.example.executor.PostExecutionThread;
 import com.example.executor.ThreadExecutor;
@@ -48,8 +48,8 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
 
     private final ProductRepository.ProductListCallback repositoryCallback = new ProductRepository.ProductListCallback() {
         @Override
-        public void onProductListLoaded(Collection<Product> products) {
-            GetProductListUseCaseImpl.this.notifyGetProductListSucceccsufully(products);
+        public void onProductListLoaded(Collection<ListProduct> listProducts) {
+            GetProductListUseCaseImpl.this.notifyGetProductListSucceccsufully(listProducts);
         }
 
         @Override
@@ -67,12 +67,12 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
         });
     }
 
-    private void notifyGetProductListSucceccsufully(final Collection<Product> products)
+    private void notifyGetProductListSucceccsufully(final Collection<ListProduct> listProducts)
     {
         this.postExecutionThread.post(new Runnable() {
             @Override
             public void run() {
-                GetProductListUseCaseImpl.this.callback.onProductsListLoaded(products);
+                GetProductListUseCaseImpl.this.callback.onProductsListLoaded(listProducts);
             }
         });
     }

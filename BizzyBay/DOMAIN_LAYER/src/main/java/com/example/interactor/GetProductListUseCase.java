@@ -1,6 +1,6 @@
 package com.example.interactor;
 
-import com.example.Product;
+import com.example.ListProduct;
 import com.example.exception.ErrorBundle;
 
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public interface GetProductListUseCase extends BaseUseCase {
     interface Callback{
-        void onProductsListLoaded(Collection<Product>products);
+        void onProductsListLoaded(Collection<ListProduct> listProducts);
         void onError(ErrorBundle errorBundle);
     }
 

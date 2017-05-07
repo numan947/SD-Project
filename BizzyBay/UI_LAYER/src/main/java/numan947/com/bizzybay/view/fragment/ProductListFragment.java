@@ -40,7 +40,7 @@ import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 public class ProductListFragment extends BaseFragment implements View.OnClickListener,ProductListView {
 
 
-    //this is the interface to send data to Activity so that it can change fragment
+    //this is the interface to send data to Activity so that it can change fragment or switch Activity
     public interface ProductListListener{
         void onProductClicked(final ListProductModel model);
     }
@@ -60,10 +60,18 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
 
 
+    public static ProductListFragment newInstance()
+    {
+        ProductListFragment fragment = new ProductListFragment();
+
+        return fragment;
+    }
+
+
+
     private final ListProductAdapter.Callback adapterCallback = new ListProductAdapter.Callback() {
         @Override
         public void OnLikedButtonClicked(ListProductModel model,int position) {
-            //todo
             productListPresenter.likeProduct(model,position);
         }
 
@@ -78,7 +86,8 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.bt_retry){
-            //todo retry load
+            // retry load
+            this.productListPresenter.initialize();
         }
     }
 
@@ -112,6 +121,9 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         super.onActivityCreated(savedInstanceState);
 
         //this is where presenter tries to load data
+        if(productListPresenter==null)
+            initializePresenter();
+
         productListPresenter.initialize();
     }
 
@@ -125,7 +137,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         //todo add JSON Serializer
         //todo add ProductCache just like shown in the example
 
-        ProductCache productCache = new TestProductCacheImpl();
+        ProductCache productCache = TestProductCacheImpl.newInstance();
 
 
         ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(getContext(),productCache);
@@ -191,28 +203,28 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void showLoading() {
-
-
+        rl_progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        rl_progress.setVisibility(View.GONE);
     }
 
     @Override
     public void showRetry() {
-
+        rl_retry.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideRetry() {
-
+        rl_retry.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String message) {
-
+        //todo do error handle later
+        this.showToastMessage(message);
     }
 
 

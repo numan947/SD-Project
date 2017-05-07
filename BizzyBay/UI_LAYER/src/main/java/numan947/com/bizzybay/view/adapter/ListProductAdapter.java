@@ -72,7 +72,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof ListProductViewHolder)
-            ((ListProductViewHolder)holder).bindModel(items.get(position));
+            ((ListProductViewHolder)holder).bindModel(items.get(position),position);
     }
 
     @Override
@@ -89,6 +89,10 @@ public class ListProductAdapter extends RecyclerView.Adapter {
     public void clearAll()
     {
         this.items.clear();
+    }
+
+    public ArrayList<ListProductModel> getItems(){
+        return items;
     }
 
     @Override
@@ -111,6 +115,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
         private Button likeButton;
         private CardView cardView;
         private ListProductModel model;
+        private int position;
 
 
         public ListProductViewHolder(View itemView) {
@@ -132,10 +137,10 @@ public class ListProductAdapter extends RecyclerView.Adapter {
 
         }
 
-        public void bindModel(ListProductModel model)
+        public void bindModel(ListProductModel model, int position)
         {
             this.model = model;
-
+            this.position = position;
             //setup image
             try {
                 Glide.with(context).load(model.getProductImage().toURI())
@@ -175,9 +180,14 @@ public class ListProductAdapter extends RecyclerView.Adapter {
             switch (v.getId()){
                 case R.id.list_product_cardView:
                     Toast.makeText(context,"SHOULD GO TO DETAILS VIEW",Toast.LENGTH_SHORT).show();
+
+                    callback.OnCardViewClicked(model,position);
+
                     break;
                 case R.id.list_product_button_like:
                     Toast.makeText(context,"SHOULD ADD TO LIKED LIST",Toast.LENGTH_SHORT).show();
+                    callback.OnLikedButtonClicked(model,position);
+
                     break;
             }
         }
