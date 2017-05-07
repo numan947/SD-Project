@@ -28,17 +28,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
                 <include
-                    layout="@layout/details_product_view_viewpager"
-                    android:layout_height="350dp"
-                    android:layout_width="wrap_content"/>
-
+                    layout="@layout/generic_retry_view"/>
+                <include
+                    layout="@layout/generic_progress_view"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginBottom="20dp">
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/details_product_main_LL"
+                    >
+                    <include
+                        layout="@layout/details_product_view_viewpager"
+                        android:layout_height="350dp"
+                        android:layout_width="wrap_content"/>
 
                     <TextView
                         android:layout_width="match_parent"

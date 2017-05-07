@@ -1,5 +1,7 @@
 package numan947.com.bizzybay.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,16 +26,18 @@ import numan947.com.bizzybay.view.fragment.ProductListFragment;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,ProductListFragment.ProductListListener {
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
-    NavigationView navigationView;
-
+    private NavigationView navigationView;
+    private DrawerNavigator drawerNavigator;
 
     private ImageView settingsImageNavDrawer;
     private CircleImageView profileImageNavDrawer;
     private TextView userNameNavDrawer;
     private int navigationDrawerGravity = GravityCompat.START;
 
-
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
+    private static final String USER_ID="numan947.com.bizzybay.view.activity.MainActivity.USER_ID";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
         //setting up the initial fragment
-        DrawerNavigator drawerNavigator = new DrawerNavigator(this);
+        drawerNavigator = new DrawerNavigator(this);
         drawerNavigator.navigateToProductListFragment(R.id.frame,getSupportFragmentManager());
         navigationView.setCheckedItem(R.id.browse_products);
 
@@ -140,7 +144,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setCheckedItem(item.getItemId());
 
         if(item.getItemId()==R.id.browse_products){
-            //todo implement other cases
+            drawerNavigator.navigateToProductListFragment(R.id.frame,getSupportFragmentManager());
         }
 
 
@@ -172,6 +176,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onProductClicked(ListProductModel model) {
         //todo show product details Activity
         Toast.makeText(this,"SHowing details activity",Toast.LENGTH_SHORT).show();
+    }
+
+
+    public static Intent getCallingIntent(Context context,int userid)
+    {
+        Intent callingIntent = new Intent(context,MainActivity.class);
+        callingIntent.putExtra(USER_ID,userid);
+        return callingIntent;
     }
 
 

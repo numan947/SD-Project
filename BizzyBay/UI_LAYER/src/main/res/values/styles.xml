@@ -1,3 +1,13 @@
+<!DOCTYPE resources [
+    <!ELEMENT resources (style)*>
+    <!ELEMENT style (item)*>
+    <!ATTLIST style
+        name CDATA #REQUIRED
+        parent CDATA #IMPLIED>
+    <!ELEMENT item (#PCDATA)>
+    <!ATTLIST item
+        name CDATA #REQUIRED>
+    ]>
 <resources>
 
     <!-- Base application theme. -->
