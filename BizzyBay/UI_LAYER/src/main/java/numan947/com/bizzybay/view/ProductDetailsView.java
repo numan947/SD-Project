@@ -8,11 +8,11 @@ import numan947.com.bizzybay.model.DetailsProductModel;
 
 public interface ProductDetailsView extends DataToLoad {
     void renderProduct(DetailsProductModel model);
-    void viewShop(DetailsProductModel model);
-    void showProductLiked(DetailsProductModel model);
-    void showProductAddedToCart(DetailsProductModel model);
-    void buyProduct(DetailsProductModel model);
-    void viewShopLocation(DetailsProductModel model);
+    void viewShop(int shopId);
+    void showProductLiked(int productId,int shopId);
+    void showProductAddedToCart(int productId, int shopId);
+    void buyProduct(int productId, int shopId);
+    void viewShopLocation(int shopId);
     void viewProductsByCategory(String category);
     void showDetailsView();
     void hideDetailsView();

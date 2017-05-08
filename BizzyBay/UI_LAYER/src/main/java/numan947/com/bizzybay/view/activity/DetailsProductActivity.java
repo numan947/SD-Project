@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
-import numan947.com.bizzybay.model.DetailsProductModel;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
 
@@ -43,16 +43,31 @@ public class DetailsProductActivity extends BaseActivity implements ProductDetai
 
     @Override
     public void OnCategorySelected(String category) {
-        //todo
+        //todo redirect to activity so that it can show search activity with that category search
+
+        Toast.makeText(this,"THIS WILL SHOW search by category activity",Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void OnShopLocationClicked(DetailsProductModel model) {
-        //todo
+    public void OnShopLocationClicked(int shopId) {
+        //todo redirect to activity so that it can show shop location activity
+
+        Toast.makeText(this,"THIS WILL SHOW Shop location activity",Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void OnShopNameClicked(DetailsProductModel model) {
-        //todo
+    public void OnShopNameClicked(int shopId) {
+
+        //todo redirect to activity so that it can show the shopActivity
+        Toast.makeText(this,"THIS WILL SHOW SHOP ACTIVITY",Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void OnBuyProduct(int productId, int shopId) {
+        //todo redirect to activity so that it can show buy product activity
+
+        Toast.makeText(this,"THIS WILL SHOW buy product ACTIVITY",Toast.LENGTH_SHORT).show();
+    }
+
+
 }

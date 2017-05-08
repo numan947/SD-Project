@@ -31,4 +31,12 @@ public class ProductDetailsViewPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return images.size();
     }
+
+    public void addAll(ArrayList<String>items){
+        this.images.addAll(items);
+    }
+    public void clear()
+    {
+        this.images.clear();
+    }
 }

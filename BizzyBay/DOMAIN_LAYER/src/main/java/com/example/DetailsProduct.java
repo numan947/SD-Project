@@ -1,12 +1,12 @@
-package numan947.com.bizzybay.model;
+package com.example;
 
 import java.util.ArrayList;
 
 /**
- * Created by numan947 on 5/3/17.
+ * Created by numan947 on 5/8/17.
  */
 
-public class DetailsProductModel {
+public class DetailsProduct {
     private int productId;
     private int shopId;
     private String productTitle;
@@ -20,9 +20,9 @@ public class DetailsProductModel {
     private ArrayList<String> productImages;
 
 
-    public DetailsProductModel(int productId, int shopId, String productTitle, String shopName, String productPrice,
-                               String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
-                               ArrayList<String> productCategory, ArrayList<String> productImages) {
+    public DetailsProduct(int productId, int shopId, String productTitle, String shopName, String productPrice,
+                          String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
+                          ArrayList<String> productCategory, ArrayList<String> productImages) {
         this.productId = productId;
         this.shopId = shopId;
         this.productTitle = productTitle;

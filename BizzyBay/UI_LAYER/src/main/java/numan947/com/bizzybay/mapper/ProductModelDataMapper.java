@@ -1,10 +1,12 @@
 package numan947.com.bizzybay.mapper;
 
+import com.example.DetailsProduct;
 import com.example.ListProduct;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import numan947.com.bizzybay.model.DetailsProductModel;
 import numan947.com.bizzybay.model.ListProductModel;
 
 /**
@@ -24,5 +26,16 @@ public class ProductModelDataMapper {
         }
 
         return listProductModels;
+    }
+
+    public DetailsProductModel transform(DetailsProduct product) {
+        //todo do conversion here, like html tag adding and what not
+
+        DetailsProductModel model = new DetailsProductModel(product.getProductId(), product.getShopId(), product.getProductTitle(),
+                product.getShopName(),
+                product.getProductPrice(),product.getShopLocation(),
+                product.isCarted(),product.isLiked(),product.getProductDetails(),
+                product.getProductCategory(),product.getProductImages());
+        return model;
     }
 }

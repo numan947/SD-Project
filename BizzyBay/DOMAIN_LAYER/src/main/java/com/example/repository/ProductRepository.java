@@ -1,5 +1,6 @@
 package com.example.repository;
 
+import com.example.DetailsProduct;
 import com.example.ListProduct;
 import com.example.exception.ErrorBundle;
 
@@ -17,14 +18,14 @@ public interface ProductRepository {
     }
 
     interface ProductDetailsCallback{
-        void onProductDetailsLoaded(ListProduct listProduct);
+        void onProductDetailsLoaded(DetailsProduct detailsProduct);
         void onError(ErrorBundle errorBundle);
     }
 
 
     void getProductList(final ProductListCallback callback);
 
-    void getProductById(final int productId,final ProductDetailsCallback callback);
+    void getProductById(final int productId,final int shopId,final ProductDetailsCallback callback);
 
 
 }

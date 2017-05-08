@@ -1,5 +1,6 @@
 package numan947.com.data_layer.entity.mapper;
 
+import com.example.DetailsProduct;
 import com.example.ListProduct;
 
 import java.net.MalformedURLException;
@@ -7,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import numan947.com.data_layer.entity.DetailsProductEntity;
 import numan947.com.data_layer.entity.ListProductEntity;
 
 /**
@@ -15,6 +17,7 @@ import numan947.com.data_layer.entity.ListProductEntity;
 
 public class ProductEntityDataMapper {
     public Collection<ListProduct> transform(Collection<ListProductEntity> productEntities) {
+        //todo transform here if necessary
 
         Collection<ListProduct>collection =new ArrayList<>();
 
@@ -36,7 +39,15 @@ public class ProductEntityDataMapper {
         return collection;
     }
 
-    public ListProduct transform(ListProductEntity listProductEntity) {
-        return null;
+    public DetailsProduct transform(DetailsProductEntity detailProductEntity) {
+
+        //todo transform here
+
+        DetailsProduct detailsProduct = new DetailsProduct(detailProductEntity.getProductId(),detailProductEntity.getShopId(),
+                detailProductEntity.getProductTitle(),detailProductEntity.getShopName(),detailProductEntity.getProductPrice()+"",
+                detailProductEntity.getShopLocation(),detailProductEntity.isCarted(),detailProductEntity.isLiked(),detailProductEntity.getProductDetails(),detailProductEntity.getProductCategory(),
+                detailProductEntity.getProductImages());
+
+        return detailsProduct;
     }
 }

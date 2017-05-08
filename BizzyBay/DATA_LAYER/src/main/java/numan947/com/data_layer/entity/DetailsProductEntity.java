@@ -1,17 +1,17 @@
-package numan947.com.bizzybay.model;
+package numan947.com.data_layer.entity;
 
 import java.util.ArrayList;
 
 /**
- * Created by numan947 on 5/3/17.
+ * Created by numan947 on 5/8/17.
  */
 
-public class DetailsProductModel {
+public class DetailsProductEntity {
     private int productId;
     private int shopId;
     private String productTitle;
     private String shopName;
-    private String productPrice;
+    private int productPrice;
     private String shopLocation;
     private boolean isCarted;
     private boolean isLiked;
@@ -20,9 +20,9 @@ public class DetailsProductModel {
     private ArrayList<String> productImages;
 
 
-    public DetailsProductModel(int productId, int shopId, String productTitle, String shopName, String productPrice,
-                               String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
-                               ArrayList<String> productCategory, ArrayList<String> productImages) {
+    public DetailsProductEntity(int productId, int shopId, String productTitle, String shopName, int productPrice,
+                                String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
+                                ArrayList<String> productCategory, ArrayList<String> productImages) {
         this.productId = productId;
         this.shopId = shopId;
         this.productTitle = productTitle;
@@ -34,9 +34,8 @@ public class DetailsProductModel {
         this.productDetails = productDetails;
         this.productCategory = productCategory;
         this.productImages = productImages;
-
-
     }
+
 
     public int getProductId() {
         return productId;
@@ -58,7 +57,7 @@ public class DetailsProductModel {
         return shopName;
     }
 
-    public String getProductPrice() {
+    public int getProductPrice() {
         return productPrice;
     }
 

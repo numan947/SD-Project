@@ -1,9 +1,9 @@
 package numan947.com.bizzybay.view.fragment;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -27,6 +27,8 @@ import com.example.interactor.GetProductDetailsUseCaseImpl;
 import com.example.repository.ProductRepository;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
 import numan947.com.bizzybay.MainThread;
@@ -58,14 +60,19 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     //implemented by the activity to respond to fragment's different needs
     public interface ProductDetailsListener{
         void OnCategorySelected(String category);
-        void OnShopLocationClicked(DetailsProductModel model);
-        void OnShopNameClicked(DetailsProductModel model);
+        void OnShopLocationClicked(int shopId);
+        void OnShopNameClicked(int shopId);
+        void OnBuyProduct(int productId,int shopId);
     }
 
     //native elements //todo may be we need to add user id here as well
     private int productId;
     private int shopId;
     private ProductDetailsPresenter productDetailsPresenter;
+    private ProductDetailsListener activityListener;
+    private boolean cartButtonLocalStatus;
+    private boolean likeButtonLocalStatus;
+    private ProductDetailsViewPagerAdapter adapter;
 
 
     //ui elements
@@ -89,10 +96,26 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private Button pagerLeft;
     private Button pagerRight;
     private CircleIndicator pagerIndicator;
+    private Button retryButton;
 
-    private Handler pagerHandler; //handles page changing //todo add it
+    //viewpager page changer
+    private MainThread mainThread = MainThread.getInstance();
+    private Runnable viewPagerUpdater = new Runnable() {
+        @Override
+        public void run() {
+            if(viewPager.getAdapter()!=null){
 
+                int cur = viewPager.getCurrentItem();
 
+                if(cur==viewPager.getAdapter().getCount()-1)
+                    viewPager.setCurrentItem(0,true);
+                else
+                    viewPager.setCurrentItem(++cur,true);
+            }
+        }
+    };
+    private final Timer viewPagerTimer = new Timer();
+    private final long TIME_BEFORE_PAGE_CHANGE = 3000;
 
 
 
@@ -105,6 +128,12 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         ProductDetailsFragment fragment = new ProductDetailsFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.activityListener = (ProductDetailsListener)context;
     }
 
     @Override
@@ -146,7 +175,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private void setupToolbar() {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-        //todo add handler for toolbars
+        //todo add handler for toolbar elements
     }
 
     //method for binding view elements
@@ -162,6 +191,8 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         mainLinearLayout = (LinearLayout) returnView.findViewById(R.id.details_product_main_LL);
         retryLayout = (RelativeLayout) returnView.findViewById(R.id.rl_retry);
         loadingLayout = (RelativeLayout) returnView.findViewById(R.id.rl_progress);
+        retryButton =(Button) returnView.findViewById(R.id.bt_retry);
+        retryButton.setOnClickListener(this);
 
 
         productTitle = (TextView) returnView.findViewById(R.id.details_product_view_product_title);
@@ -184,8 +215,6 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
     //method for initially setting up the viewpager and click events
     private void setupViewPager() {
-        //todo setup viewpager adapter when data is loaded
-        //todo setup viewpager indicator when adapter is initialized
 
         viewPager.setOffscreenPageLimit(3);
 
@@ -228,8 +257,15 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     public void renderProduct(DetailsProductModel model) {
 
         //setupViewpager
-        ProductDetailsViewPagerAdapter adapter = new ProductDetailsViewPagerAdapter(
-                getActivity().getSupportFragmentManager(),model.getProductImages());
+
+        if(adapter==null) {
+            adapter = new ProductDetailsViewPagerAdapter(
+                    getActivity().getSupportFragmentManager(), model.getProductImages());
+        }
+        else{
+            adapter.clear();
+            adapter.addAll(model.getProductImages());
+        }
         setupViewPagerAdapter(adapter);
 
 
@@ -245,6 +281,9 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         //setup product categories
         setupProductCategories(model.getProductCategory());
 
+        cartButtonLocalStatus = model.isCarted();
+        likeButtonLocalStatus = model.isLiked();
+
         //setup drawables for the buttons
         Drawable cartDrawable;
         Drawable likeDrawable;
@@ -259,14 +298,9 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
             likeDrawable = ContextCompat.getDrawable(getContext(),R.drawable.not_liked);
 
 
-        if(Build.VERSION.SDK_INT>=16) {
-            likeButton.setBackground(likeDrawable);
-            addToCartButton.setBackground(cartDrawable);
-        }
-        else {
-            likeButton.setBackgroundDrawable(likeDrawable);
-            addToCartButton.setBackgroundDrawable(cartDrawable);
-        }
+        this.addDrawableToButton(likeButton,likeDrawable);
+        this.addDrawableToButton(addToCartButton,cartDrawable);
+
 
 
         likeButton.setOnClickListener(this);
@@ -276,10 +310,41 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         shopName.setOnClickListener(this);
     }
 
+    @SuppressWarnings("deprecation")
+    private void addDrawableToButton(Button b, Drawable drawable)
+    {
+        if(Build.VERSION.SDK_INT>=16) {
+            b.setBackground(drawable);
+        }
+        else {
+            b.setBackgroundDrawable(drawable);
+        }
+    }
+
     @Override
     public void onClick(View v) {
 
-        //todo handle different click events here
+        //handle click events here
+        switch (v.getId()){
+            case R.id.details_product_view_like_button:
+                this.productDetailsPresenter.onLikeButtonClicked(productId,shopId);
+                break;
+            case R.id.details_product_view_cart_button:
+                this.productDetailsPresenter.onAddToCartButtonClicked(productId,shopId);
+                break;
+            case R.id.details_product_view_buy_button:
+                this.productDetailsPresenter.onBuyButtonClicked(productId,shopId);
+                break;
+            case R.id.details_product_view_shop_location:
+                this.productDetailsPresenter.onShopLocationClicked(shopId);
+                break;
+            case R.id.details_product_view_product_shopname:
+                this.productDetailsPresenter.onShopNameClicked(shopId);
+                break;
+            case R.id.rl_retry:
+                this.productDetailsPresenter.initialize(productId,shopId);
+                break;
+        }
 
     }
 
@@ -320,33 +385,55 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
 
     @Override
-    public void viewShop(DetailsProductModel model) {
-        //todo redirect to
+    public void viewShop(int shopId) {
+        this.activityListener.OnShopNameClicked(shopId);
     }
 
     @Override
-    public void showProductLiked(DetailsProductModel model) {
+    public void showProductLiked(int productId, int shopId) {
+        //todo update button state to the repository
+
+
+        //changing button state
+        Drawable drawable;
+        if(likeButtonLocalStatus)
+            drawable = ContextCompat.getDrawable(getContext(),R.drawable.not_liked);
+        else
+            drawable = ContextCompat.getDrawable(getContext(),R.drawable.liked);
+
+        addDrawableToButton(likeButton,drawable);
+        likeButtonLocalStatus=(!likeButtonLocalStatus);
+    }
+
+    @Override
+    public void showProductAddedToCart(int productId,int shopId) {
+        //todo update button state to the repository
+
+        //changing button state
+        Drawable drawable;
+        if(cartButtonLocalStatus)
+            drawable = ContextCompat.getDrawable(getContext(),R.drawable.cart);
+        else
+            drawable = ContextCompat.getDrawable(getContext(),R.drawable.carted);
+
+        addDrawableToButton(addToCartButton,drawable);
+        cartButtonLocalStatus=(!cartButtonLocalStatus);
 
     }
 
     @Override
-    public void showProductAddedToCart(DetailsProductModel model) {
-
+    public void buyProduct(int productId, int shopId) {
+       activityListener.OnBuyProduct(productId,shopId);
     }
 
     @Override
-    public void buyProduct(DetailsProductModel model) {
-
-    }
-
-    @Override
-    public void viewShopLocation(DetailsProductModel model) {
-
+    public void viewShopLocation(int shopId) {
+     activityListener.OnShopLocationClicked(shopId);
     }
 
     @Override
     public void viewProductsByCategory(String category) {
-
+        activityListener.OnCategorySelected(category);
     }
 
 
@@ -390,13 +477,21 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     public void onResume() {
         super.onResume();
         productDetailsPresenter.onResume();
-        //todo add handler for viewpager
+
+
+        viewPagerTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mainThread.post(viewPagerUpdater);
+            }
+        },TIME_BEFORE_PAGE_CHANGE,TIME_BEFORE_PAGE_CHANGE);
     }
 
     @Override
     public void onPause() {
         productDetailsPresenter.onPause();
+        viewPagerTimer.cancel();
+        viewPagerTimer.purge();
         super.onPause();
-        //todo remove handler for viewpager
     }
 }

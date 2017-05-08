@@ -2,6 +2,7 @@ package numan947.com.data_layer.repository.datasource;
 
 import java.util.Collection;
 
+import numan947.com.data_layer.entity.DetailsProductEntity;
 import numan947.com.data_layer.entity.ListProductEntity;
 
 /**
@@ -16,12 +17,12 @@ public interface ProductDataStore {
     }
 
     interface ProductDetailsCallback{
-        void onProductDetailsLoaded(ListProductEntity listProductEntity);
+        void onProductDetailsLoaded(DetailsProductEntity detailsProductEntity);
         void onError(Exception exception);
     }
 
     void getProductsEntityList(final ProductListCallback callback);
 
-    void getProductEntityDetails(final int productId,final ProductDetailsCallback callback);
+    void getProductEntityDetails(final int productId,final int shopId,final ProductDetailsCallback callback);
 
 }
