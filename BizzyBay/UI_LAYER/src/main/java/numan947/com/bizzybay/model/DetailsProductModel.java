@@ -2,7 +2,6 @@ package numan947.com.bizzybay.model;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -13,21 +12,23 @@ public class DetailsProductModel {
     private String productTitle;
     private String shopName;
     private String productPrice;
+    private String shopLocation;
     private boolean isCarted;
     private boolean isLiked;
     private String productDetails;
     private ArrayList<String> productCategory;
-    private ArrayList<URL> productImages;
+    private ArrayList<String> productImages;
     private double shopLat;
     private double shopLng;
 
     public DetailsProductModel(String productTitle, String shopName, String productPrice,
-                               boolean isCarted, boolean isLiked, String productDetails,
-                               ArrayList<String> productCategory, ArrayList<URL> productImages,
+                               String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
+                               ArrayList<String> productCategory, ArrayList<String> productImages,
                                double shopLat, double shopLng) {
         this.productTitle = productTitle;
         this.shopName = shopName;
         this.productPrice = productPrice;
+        this.shopLocation = shopLocation;
         this.isCarted = isCarted;
         this.isLiked = isLiked;
         this.productDetails = productDetails;
@@ -35,6 +36,10 @@ public class DetailsProductModel {
         this.productImages = productImages;
         this.shopLat = shopLat;
         this.shopLng = shopLng;
+    }
+
+    public String getShopLocation() {
+        return shopLocation;
     }
 
     public LatLng getShopPosition(){
@@ -77,7 +82,7 @@ public class DetailsProductModel {
         return productCategory;
     }
 
-    public ArrayList<URL> getProductImages() {
+    public ArrayList<String> getProductImages() {
         return productImages;
     }
 }

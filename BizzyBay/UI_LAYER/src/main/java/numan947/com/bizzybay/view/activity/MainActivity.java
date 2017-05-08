@@ -48,6 +48,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         //setting up the toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //todo add listeners for toolbar items
 
         //setting up the Navigation Drawer
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer);

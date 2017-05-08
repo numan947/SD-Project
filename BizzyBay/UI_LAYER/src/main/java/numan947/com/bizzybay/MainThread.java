@@ -18,7 +18,7 @@ public class MainThread implements PostExecutionThread {
         private static final MainThread MAIN_THREAD = new MainThread();
     }
 
-    public static MainThread newInstance()
+    public static MainThread getInstance()
     {
         return LazyHolderClass.MAIN_THREAD;
     }

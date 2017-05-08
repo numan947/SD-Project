@@ -18,7 +18,7 @@ public class BackgroundExecutor implements ThreadExecutor {
         private static final BackgroundExecutor BACKGROUND_EXECUTOR = new BackgroundExecutor();
     }
 
-    public static BackgroundExecutor newInstance()
+    public static BackgroundExecutor getInstance()
     {
         return LazyHolderClass.BACKGROUND_EXECUTOR;
     }

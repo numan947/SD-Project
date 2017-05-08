@@ -14,5 +14,7 @@ public interface ProductDetailsView extends DataToLoad {
     void buyProduct(DetailsProductModel model);
     void viewShopLocation(DetailsProductModel model);
     void viewProductsByCategory(String category);
+    void showDetailsView();
+    void hideDetailsView();
 
 }

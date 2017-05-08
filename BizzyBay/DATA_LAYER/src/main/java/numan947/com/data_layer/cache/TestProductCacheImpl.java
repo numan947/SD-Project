@@ -25,7 +25,7 @@ public class TestProductCacheImpl implements ProductCache {
         public static final TestProductCacheImpl INSTANCE = new TestProductCacheImpl();
     }
 
-    public static synchronized TestProductCacheImpl newInstance(){return LAZYHOLDER.INSTANCE;}
+    public static synchronized TestProductCacheImpl getInstance(){return LAZYHOLDER.INSTANCE;}
 
 
 

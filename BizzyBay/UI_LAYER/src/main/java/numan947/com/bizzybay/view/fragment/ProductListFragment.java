@@ -133,18 +133,18 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     protected void initializePresenter() {
         //initializing the presenter
 
-        ThreadExecutor threadExecutor = BackgroundExecutor.newInstance();
-        PostExecutionThread postExecutionThread = MainThread.newInstance();
+        ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
+        PostExecutionThread postExecutionThread = MainThread.getInstance();
 
         //todo add JSON Serializer
         //todo add ProductCache just like shown in the example
 
-        ProductCache productCache = TestProductCacheImpl.newInstance();
+        ProductCache productCache = TestProductCacheImpl.getInstance();
 
 
         ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(getContext(),productCache);
         ProductEntityDataMapper productEntityDataMapper = new ProductEntityDataMapper();
-        ProductRepository productRepository = ProductDataRepository.newInstance(productDataStoreFactory,productEntityDataMapper);
+        ProductRepository productRepository = ProductDataRepository.getInstance(productDataStoreFactory,productEntityDataMapper);
 
         GetProductListUseCase getProductListUseCase = new GetProductListUseCaseImpl(productRepository,threadExecutor,postExecutionThread);
         ProductModelDataMapper productModelDataMapper = new ProductModelDataMapper();

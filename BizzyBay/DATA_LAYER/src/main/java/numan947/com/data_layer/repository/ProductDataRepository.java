@@ -19,7 +19,7 @@ public class ProductDataRepository implements ProductRepository {
 
     private static ProductDataRepository INSTANCE;
 
-    public static synchronized ProductDataRepository newInstance(ProductDataStoreFactory dataStoreFactory, ProductEntityDataMapper productEntityDataMapper){
+    public static synchronized ProductDataRepository getInstance(ProductDataStoreFactory dataStoreFactory, ProductEntityDataMapper productEntityDataMapper){
         if(INSTANCE==null)INSTANCE = new ProductDataRepository(productEntityDataMapper, dataStoreFactory);
         return INSTANCE;
     }

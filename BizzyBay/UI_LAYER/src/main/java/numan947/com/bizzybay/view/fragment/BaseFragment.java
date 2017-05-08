@@ -16,8 +16,6 @@ public abstract class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         initializePresenter();
-
-
     }
 
     protected abstract void initializePresenter();
@@ -25,4 +23,6 @@ public abstract class BaseFragment extends Fragment {
     protected void showToastMessage(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
+
 }

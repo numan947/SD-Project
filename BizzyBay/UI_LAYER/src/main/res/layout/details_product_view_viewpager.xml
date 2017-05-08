@@ -12,16 +12,16 @@
         android:id="@+id/details_product_viewpager"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/rightarrow"
         android:id="@+id/details_product_viewpager_rightarrow"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"/>
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/leftarrow"
         android:id="@+id/details_product_viewpager_leftarrow"
         android:layout_centerInParent="true"
