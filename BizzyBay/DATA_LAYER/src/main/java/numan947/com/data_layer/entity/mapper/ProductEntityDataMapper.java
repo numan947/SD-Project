@@ -24,7 +24,7 @@ public class ProductEntityDataMapper {
         for(ListProductEntity a:productEntities){
 
             try {
-                ListProduct b = new ListProduct(a.getShopID()+"",a.getProductID()+""
+                ListProduct b = new ListProduct(a.getShopID(),a.getProductID()
                         ,a.getProductTitle(),a.getProductPrice()+"",a.getShopDetails(),a.isLiked(),new URL(a.getProductImage()));
 
 

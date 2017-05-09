@@ -9,8 +9,8 @@ import java.net.URL;
 public class ListProductModel {
 
     //needed IDs
-    private String shopID;
-    private String productID;
+    private int shopID;
+    private int productID;
 
 
     //product info
@@ -27,7 +27,7 @@ public class ListProductModel {
     private URL productImage;
 
 
-    public ListProductModel(String shopID, String productID, String productTitle, String shopDetails, String productPrice, boolean isLiked, URL productImage) {
+    public ListProductModel(int shopID, int productID, String productTitle, String shopDetails, String productPrice, boolean isLiked, URL productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
@@ -37,11 +37,11 @@ public class ListProductModel {
         this.productImage = productImage;
     }
 
-    public String getShopID() {
+    public int getShopID() {
         return shopID;
     }
 
-    public String getProductID() {
+    public int getProductID() {
         return productID;
     }
 

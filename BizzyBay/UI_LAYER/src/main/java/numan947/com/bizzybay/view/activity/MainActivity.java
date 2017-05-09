@@ -20,24 +20,28 @@ import android.widget.Toast;
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.DrawerNavigator;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,ProductListFragment.ProductListListener {
-    private DrawerLayout drawerLayout;
-    private Toolbar toolbar;
-    private NavigationView navigationView;
-    private DrawerNavigator drawerNavigator;
 
-    private ImageView settingsImageNavDrawer;
-    private CircleImageView profileImageNavDrawer;
-    private TextView userNameNavDrawer;
-    private int navigationDrawerGravity = GravityCompat.START;
-
-    private ActionBarDrawerToggle actionBarDrawerToggle;
+    private final int navigationDrawerGravity = GravityCompat.START;
 
     private static final String USER_ID="numan947.com.bizzybay.view.activity.MainActivity.USER_ID";
 
+
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private ImageView settingsImageNavDrawer;
+    private CircleImageView profileImageNavDrawer;
+    private TextView userNameNavDrawer;
+
+
+    private DrawerNavigator drawerNavigator;
+    private ActivityNavigator activityNavigator;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         });
 
 
+        //setup the activity navigator
+        activityNavigator = new ActivityNavigator(this);
 
 
 
@@ -175,8 +181,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onProductClicked(ListProductModel model) {
-        //todo show product details Activity
-        Toast.makeText(this,"SHowing details activity",Toast.LENGTH_SHORT).show();
+        //go to product details
+        activityNavigator.navigateToDetailsProductActivity(model.getProductID(),model.getShopID());
     }
 
 

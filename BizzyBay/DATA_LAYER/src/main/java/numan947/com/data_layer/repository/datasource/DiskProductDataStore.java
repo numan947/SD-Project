@@ -1,7 +1,5 @@
 package numan947.com.data_layer.repository.datasource;
 
-import com.example.DetailsProduct;
-
 import java.util.Collection;
 
 import numan947.com.data_layer.cache.ProductCache;
@@ -39,10 +37,11 @@ public class DiskProductDataStore implements ProductDataStore {
 
     @Override
     public void getProductEntityDetails(int productId,int shopID, final ProductDetailsCallback callback) {
-        productCache.get(productId, new ProductCache.ProductEntityCacheCallback() {
+
+        productCache.get(productId,shopID, new ProductCache.ProductEntityCacheCallback() {
             @Override
             public void onProductEntityLoaded(DetailsProductEntity detailsProductEntity) {
-                callback.onProductDetailsLoaded(listProductEntity);
+                callback.onProductDetailsLoaded(detailsProductEntity);
             }
 
             @Override

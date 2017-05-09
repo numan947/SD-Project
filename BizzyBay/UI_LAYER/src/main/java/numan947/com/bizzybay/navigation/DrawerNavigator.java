@@ -11,6 +11,7 @@ import numan947.com.bizzybay.view.fragment.ProductListFragment;
 
 public class DrawerNavigator {
     private Context context;
+    private final String PRODUCT_LIST_FRAGMENT = "numan947.com.bizzybay.navigation.DrawerNavigator.PRODUCT_LIST_FRAGMENT";
 
     public DrawerNavigator(Context context){
         this.context = context;
@@ -18,15 +19,16 @@ public class DrawerNavigator {
 
     public void navigateToProductListFragment(int container, FragmentManager fragmentManager)
     {
-        ProductListFragment fragment = ProductListFragment.newInstance();
+        ProductListFragment fragment;
 
-        fragmentManager.beginTransaction().replace(container,fragment).commit();
+        fragment = (ProductListFragment) fragmentManager.findFragmentByTag(PRODUCT_LIST_FRAGMENT);
+
+        if(fragment==null)
+            fragment = ProductListFragment.newInstance();
+
+        fragmentManager.beginTransaction().replace(container,fragment,PRODUCT_LIST_FRAGMENT).commit();
 
     }
-
-
-
-
 
 
 }

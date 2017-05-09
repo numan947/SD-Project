@@ -8,8 +8,8 @@ import java.net.URL;
 
 public class ListProduct {
     //needed IDs
-    private String shopID;
-    private String productID;
+    private int shopID;
+    private int productID;
 
 
     //product info
@@ -26,7 +26,7 @@ public class ListProduct {
     private URL productImage;
 
 
-    public ListProduct(String shopID, String productID, String productTitle, String productPrice, String shopDetails, boolean isLiked, URL productImage) {
+    public ListProduct(int shopID, int productID, String productTitle, String productPrice, String shopDetails, boolean isLiked, URL productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
@@ -36,11 +36,11 @@ public class ListProduct {
         this.productImage = productImage;
     }
 
-    public String getShopID() {
+    public int getShopID() {
         return shopID;
     }
 
-    public String getProductID() {
+    public int getProductID() {
         return productID;
     }
 

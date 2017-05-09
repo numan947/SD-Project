@@ -19,6 +19,7 @@ import com.example.repository.ProductRepository;
 
 import java.util.ArrayList;
 
+import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
@@ -26,7 +27,7 @@ import numan947.com.bizzybay.model.ListProductModel;
 import numan947.com.bizzybay.presenter.ProductListPresenter;
 import numan947.com.bizzybay.view.ProductListView;
 import numan947.com.bizzybay.view.activity.MainActivity;
-import numan947.com.bizzybay.view.adapter.ListProductAdapter;
+import numan947.com.bizzybay.view.adapter.ProductListAdapter;
 import numan947.com.data_layer.cache.ProductCache;
 import numan947.com.data_layer.cache.TestProductCacheImpl;
 import numan947.com.data_layer.entity.mapper.ProductEntityDataMapper;
@@ -50,7 +51,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     //the mandatory presenter and related listener to pass data to presenter
     private ProductListPresenter productListPresenter;
     private ProductListListener productListListener;
-    private ListProductAdapter adapter;
+    private ProductListAdapter adapter;
 
 
     //the views related to the view
@@ -70,7 +71,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
 
 
-    private final ListProductAdapter.Callback adapterCallback = new ListProductAdapter.Callback() {
+    private final ProductListAdapter.Callback adapterCallback = new ProductListAdapter.Callback() {
         @Override
         public void OnLikedButtonClicked(ListProductModel model,int position) {
             productListPresenter.likeProduct(model,position);
@@ -114,7 +115,17 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         rl_retry = (RelativeLayout)v.findViewById(R.id.rl_retry);
 
         rl_retry.setOnClickListener(this);
+
+        this.setupRecyclerView();
         return v;
+    }
+
+    private void setupRecyclerView() {
+        //initialize the adapter with dummy list, that'll act as container for the product models
+        adapter = new ProductListAdapter(getContext(), adapterCallback,new ArrayList<ListProductModel>());
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        this.recyclerView.setAdapter(adapter);
+
     }
 
 
@@ -142,7 +153,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         ProductCache productCache = TestProductCacheImpl.getInstance();
 
 
-        ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(getContext(),productCache);
+        ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),productCache);
         ProductEntityDataMapper productEntityDataMapper = new ProductEntityDataMapper();
         ProductRepository productRepository = ProductDataRepository.getInstance(productDataStoreFactory,productEntityDataMapper);
 
@@ -177,18 +188,8 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void renderProductList(ArrayList<ListProductModel> products) {
         if(products!=null){
-            if(this.adapter==null) {
-                //first load
-                adapter = new ListProductAdapter(getContext(), adapterCallback,products);
-                this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                this.recyclerView.setAdapter(adapter);
-            }
-            else{
-                //reload
-                adapter.clearAll();
-                adapter.addAll(products);
-                adapter.notifyDataSetChanged();
-            }
+            adapter.addAll(products);
+            adapter.notifyDataSetChanged();
         }
     }
 

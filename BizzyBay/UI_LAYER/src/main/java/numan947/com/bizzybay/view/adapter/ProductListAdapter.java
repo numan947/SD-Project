@@ -26,7 +26,8 @@ import numan947.com.bizzybay.view.component.SquareImageView;
  * Created by numan947 on 5/6/17.
  */
 
-public class ListProductAdapter extends RecyclerView.Adapter {
+@SuppressWarnings("unused")
+public class ProductListAdapter extends RecyclerView.Adapter {
 
     //should be implemented by the class using this Adapter
     public interface Callback{
@@ -39,29 +40,32 @@ public class ListProductAdapter extends RecyclerView.Adapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private Callback callback;
+    @SuppressWarnings("FieldCanBeLocal")
     private final int VIEW_TYPE_LOADING=0;
     private final int VIEW_TYPE_NORMAL=1;
 
-    public ListProductAdapter(Context context,Callback callback, ArrayList<ListProductModel> items) {
+    public ProductListAdapter(Context context, Callback callback, ArrayList<ListProductModel> items) {
         this.items = items;
         this.context = context;
         this.callback = callback;
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(context!=null)
+            this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=null;
-        RecyclerView.ViewHolder vh;
+        View view;
+        RecyclerView.ViewHolder vh = null;
 
-
-        if(viewType==VIEW_TYPE_NORMAL){
-            view=layoutInflater.inflate(R.layout.list_product_view,parent,false);
-            vh = new ListProductViewHolder(view);
-        }
-        else{
-            view = layoutInflater.inflate(R.layout.generic_progress_view,parent,false);
-            vh = new LoadingViewHolder(view);
+        if(layoutInflater!=null){
+            if(viewType==VIEW_TYPE_NORMAL){
+                view=layoutInflater.inflate(R.layout.list_product_view,parent,false);
+                vh = new ListProductViewHolder(view);
+            }
+            else{
+                view = layoutInflater.inflate(R.layout.generic_progress_view,parent,false);
+                vh = new LoadingViewHolder(view);
+            }
         }
 
         return vh;
@@ -69,8 +73,11 @@ public class ListProductAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof ListProductViewHolder)
-            ((ListProductViewHolder)holder).bindModel(items.get(position),position);
+        if (context != null) {
+            if (holder instanceof ListProductViewHolder)
+                ((ListProductViewHolder) holder).bindModel(items.get(position), position);
+
+        }
     }
 
     @Override
@@ -104,7 +111,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
 
 
     //view holder class for the view
-    class ListProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ListProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private SquareImageView productImage;
         private TextView productTitle;
@@ -116,7 +123,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
         private int position;
 
 
-        public ListProductViewHolder(View itemView) {
+        ListProductViewHolder(View itemView) {
             super(itemView);
 
             //bind the views
@@ -135,7 +142,8 @@ public class ListProductAdapter extends RecyclerView.Adapter {
 
         }
 
-        public void bindModel(ListProductModel model, int position)
+        @SuppressWarnings("deprecation")
+        void bindModel(ListProductModel model, int position)
         {
             this.model = model;
             this.position = position;
@@ -155,7 +163,7 @@ public class ListProductAdapter extends RecyclerView.Adapter {
 
 
             //setup button
-            Drawable buttonBackgroundImage=null;
+            Drawable buttonBackgroundImage;
             if(model.isLiked()){
                buttonBackgroundImage = ContextCompat.getDrawable(context,R.drawable.liked);
             }
@@ -190,10 +198,10 @@ public class ListProductAdapter extends RecyclerView.Adapter {
 
 
     //view holder for the last item, which is the last view
-    class LoadingViewHolder extends RecyclerView.ViewHolder{
+    private class LoadingViewHolder extends RecyclerView.ViewHolder{
         private RelativeLayout layout;
 
-        public LoadingViewHolder(View itemView) {
+        LoadingViewHolder(View itemView) {
             super(itemView);
 
             layout = (RelativeLayout) itemView.findViewById(R.id.rl_progress);

@@ -31,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import me.relex.circleindicator.CircleIndicator;
+import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
@@ -72,7 +73,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private ProductDetailsListener activityListener;
     private boolean cartButtonLocalStatus;
     private boolean likeButtonLocalStatus;
-    private ProductDetailsViewPagerAdapter adapter;
+    private ProductDetailsViewPagerAdapter viewPagerAdapter;
 
 
     //ui elements
@@ -98,6 +99,15 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private CircleIndicator pagerIndicator;
     private Button retryButton;
 
+    //needed drawables
+     private Drawable isCartedDrawable;
+     private Drawable notCartedDrawable ;
+     private Drawable isLikedDrawable;
+     private Drawable notLikedDrawable;
+
+
+
+
     //viewpager page changer
     private MainThread mainThread = MainThread.getInstance();
     private Runnable viewPagerUpdater = new Runnable() {
@@ -114,7 +124,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
             }
         }
     };
-    private final Timer viewPagerTimer = new Timer();
+    private Timer viewPagerTimer;
     private final long TIME_BEFORE_PAGE_CHANGE = 3000;
 
 
@@ -139,7 +149,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(false);
 
         setHasOptionsMenu(true);
 
@@ -167,8 +177,15 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        this.initializeDrawables();
         this.productDetailsPresenter.initialize(this.productId,this.shopId);
+    }
+
+    private void initializeDrawables() {
+        notLikedDrawable = ContextCompat.getDrawable(getContext(),R.drawable.not_liked);
+        isLikedDrawable  = ContextCompat.getDrawable(getContext(),R.drawable.liked);
+        notCartedDrawable = ContextCompat.getDrawable(getContext(),R.drawable.cart);
+        isCartedDrawable  = ContextCompat.getDrawable(getContext(),R.drawable.carted);
     }
 
     //method for setting up the toolbar
@@ -218,6 +235,12 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
         viewPager.setOffscreenPageLimit(3);
 
+        //initiating the adapter with container
+        viewPagerAdapter = new ProductDetailsViewPagerAdapter(getActivity().getSupportFragmentManager(),new ArrayList<String>());
+        viewPager.setAdapter(viewPagerAdapter);
+        pagerIndicator.setViewPager(viewPager);
+        viewPagerAdapter.registerDataSetObserver(pagerIndicator.getDataSetObserver());
+
         //setup
         pagerRight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -242,31 +265,18 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
                 }
             }
         });
+
     }
 
-    //method for setting the viewpager after data is loaded
-    private void setupViewPagerAdapter(ProductDetailsViewPagerAdapter adapter)
-    {
-        viewPager.setAdapter(adapter);
-        pagerIndicator.setViewPager(viewPager);
-        adapter.registerDataSetObserver(pagerIndicator.getDataSetObserver());
-    }
 
     @SuppressWarnings("deprecation")
     @Override
     public void renderProduct(DetailsProductModel model) {
 
-        //setupViewpager
-
-        if(adapter==null) {
-            adapter = new ProductDetailsViewPagerAdapter(
-                    getActivity().getSupportFragmentManager(), model.getProductImages());
-        }
-        else{
-            adapter.clear();
-            adapter.addAll(model.getProductImages());
-        }
-        setupViewPagerAdapter(adapter);
+        //add images to the viewpager
+        viewPagerAdapter.clear();
+        viewPagerAdapter.addAll(model.getProductImages());
+        viewPagerAdapter.notifyDataSetChanged();
 
 
         //setup trivial data
@@ -285,21 +295,17 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         likeButtonLocalStatus = model.isLiked();
 
         //setup drawables for the buttons
-        Drawable cartDrawable;
-        Drawable likeDrawable;
+
         if(model.isCarted())
-                cartDrawable = ContextCompat.getDrawable(getContext(),R.drawable.carted);
+            this.addDrawableToButton(addToCartButton,isCartedDrawable);
         else
-            cartDrawable = ContextCompat.getDrawable(getContext(),R.drawable.cart);
+            this.addDrawableToButton(addToCartButton,notCartedDrawable);
 
         if(model.isLiked())
-            likeDrawable = ContextCompat.getDrawable(getContext(),R.drawable.liked);
+            this.addDrawableToButton(likeButton,isLikedDrawable);
         else
-            likeDrawable = ContextCompat.getDrawable(getContext(),R.drawable.not_liked);
+            this.addDrawableToButton(likeButton,notLikedDrawable);
 
-
-        this.addDrawableToButton(likeButton,likeDrawable);
-        this.addDrawableToButton(addToCartButton,cartDrawable);
 
 
 
@@ -370,7 +376,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         //todo add real cache instead of test
         ProductCache productCache = TestProductCacheImpl.getInstance();
 
-        ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(getContext(),productCache);
+        ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),productCache);
 
         ProductEntityDataMapper productEntityDataMapper = new ProductEntityDataMapper();
 
@@ -394,14 +400,12 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         //todo update button state to the repository
 
 
-        //changing button state
-        Drawable drawable;
-        if(likeButtonLocalStatus)
-            drawable = ContextCompat.getDrawable(getContext(),R.drawable.not_liked);
-        else
-            drawable = ContextCompat.getDrawable(getContext(),R.drawable.liked);
 
-        addDrawableToButton(likeButton,drawable);
+        if(likeButtonLocalStatus)
+            addDrawableToButton(likeButton,notLikedDrawable);
+        else
+            addDrawableToButton(likeButton,isLikedDrawable);
+
         likeButtonLocalStatus=(!likeButtonLocalStatus);
     }
 
@@ -409,14 +413,12 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     public void showProductAddedToCart(int productId,int shopId) {
         //todo update button state to the repository
 
-        //changing button state
-        Drawable drawable;
-        if(cartButtonLocalStatus)
-            drawable = ContextCompat.getDrawable(getContext(),R.drawable.cart);
-        else
-            drawable = ContextCompat.getDrawable(getContext(),R.drawable.carted);
 
-        addDrawableToButton(addToCartButton,drawable);
+        //changing button state
+        if(cartButtonLocalStatus)
+            addDrawableToButton(likeButton,notCartedDrawable);
+        else
+            addDrawableToButton(likeButton,isCartedDrawable);
         cartButtonLocalStatus=(!cartButtonLocalStatus);
 
     }
@@ -478,7 +480,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         super.onResume();
         productDetailsPresenter.onResume();
 
-
+        viewPagerTimer = new Timer();
         viewPagerTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -493,5 +495,13 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         viewPagerTimer.cancel();
         viewPagerTimer.purge();
         super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+//        pagerIndicator.setViewPager(null);
+//        viewPagerAdapter.unregisterDataSetObserver(pagerIndicator.getDataSetObserver());
+        super.onDestroyView();
+
     }
 }

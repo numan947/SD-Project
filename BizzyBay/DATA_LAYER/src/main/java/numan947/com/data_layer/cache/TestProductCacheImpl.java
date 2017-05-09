@@ -1,8 +1,11 @@
 package numan947.com.data_layer.cache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Random;
 
+import numan947.com.data_layer.entity.DetailsProductEntity;
 import numan947.com.data_layer.entity.ListProductEntity;
 
 /**
@@ -11,6 +14,7 @@ import numan947.com.data_layer.entity.ListProductEntity;
 
 public class TestProductCacheImpl implements ProductCache {
     private Collection<ListProductEntity>productEntities;
+    Random random = new Random();
 
     private String[] placeHolders =  new String[]{
             "http://placeimg.com/640/480/animals",
@@ -35,8 +39,45 @@ public class TestProductCacheImpl implements ProductCache {
     }
 
     @Override
-    public void get(int productId, ProductEntityCacheCallback callback) {
+    public void get(final int productId,final int shopId, ProductEntityCacheCallback callback) {
         //todo load demo details here
+        DetailsProductEntity detailsProductEntity = new DetailsProductEntity();
+
+        ArrayList<String>cat = new ArrayList<>();
+        cat.add("Sale1");
+        cat.add("Sale2");
+        cat.add("Sale3");
+        cat.add("Sale4");
+        cat.add("Sale5");
+
+
+        detailsProductEntity.setCarted((productId+shopId)%2==0);
+        detailsProductEntity.setLiked((productId+shopId)%2==0&&productId%2==0&&shopId%2==0);
+        detailsProductEntity.setProductCategory(cat);
+        detailsProductEntity.setProductDetails("Lorem Ipsum is simply dummy text of the printing and " +
+                "typesetting industry. Lorem Ipsum has been the industry's " +
+                "standard dummy text ever since the 1500s, when an unknown printer t" +
+                "ook a galley of type and scrambled it to make a type specimen book. " +
+                "It has survived not only five centuries, but also the leap into electronic " +
+                "typesetting, remaining essentially unchanged. It was popularised in the" +
+                " 1960s with the release of Letraset sheets containing Lorem Ipsum passages, a" +
+                "nd more recently with desktop publishing " +
+                "software like Aldus PageMaker including versions of Lorem Ipsum");
+
+        detailsProductEntity.setProductId(productId+shopId+random.nextInt(1234));
+        detailsProductEntity.setShopId(productId+shopId+random.nextInt(1234));
+        detailsProductEntity.setProductPrice(random.nextInt(3000));
+        detailsProductEntity.setProductTitle("What is Lorem Ipsum?");
+        detailsProductEntity.setProductImages(new ArrayList<>(Arrays.asList(placeHolders)));
+
+        //give the illusion of loading
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        callback.onProductEntityLoaded(detailsProductEntity);
     }
 
     @Override
