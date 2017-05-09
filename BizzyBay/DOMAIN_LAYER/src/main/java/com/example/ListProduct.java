@@ -1,7 +1,5 @@
 package com.example;
 
-import java.net.URL;
-
 /**
  *
  * @author numan947
@@ -27,10 +25,10 @@ public class ListProduct {
     private boolean isLiked;
 
     //productImage
-    private URL productImage;
+    private String productImage;
 
 
-    public ListProduct(int shopID, int productID, String productTitle, String productPrice, String shopDetails, boolean isLiked, URL productImage) {
+    public ListProduct(int shopID, int productID, String productTitle, String productPrice, String shopDetails, boolean isLiked, String productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
@@ -64,7 +62,7 @@ public class ListProduct {
         return isLiked;
     }
 
-    public URL getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 }

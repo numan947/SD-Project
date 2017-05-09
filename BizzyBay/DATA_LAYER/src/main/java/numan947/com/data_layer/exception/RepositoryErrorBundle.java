@@ -3,8 +3,14 @@ package numan947.com.data_layer.exception;
 import com.example.exception.ErrorBundle;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Class implementing {@link ErrorBundle} defined in the domain layer.
+ * The errors happened in the data layer are passed as an instance of this
+ * to the domain layer.
+ **/
 
 public class RepositoryErrorBundle implements ErrorBundle {
 

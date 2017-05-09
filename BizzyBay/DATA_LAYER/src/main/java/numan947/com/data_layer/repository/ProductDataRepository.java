@@ -14,8 +14,16 @@ import numan947.com.data_layer.repository.datasource.ProductDataStore;
 import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Class represents implementation of the {@link ProductRepository}
+ * It's a singleton. It holds a {@link ProductEntityDataMapper} and
+ * {@link ProductDataStoreFactory}.
+ * It creates {@link ProductDataStore} using the {@link ProductDataStoreFactory}
+ * and loads data.
+ **/
 
 public class ProductDataRepository implements ProductRepository {
 
@@ -71,7 +79,7 @@ public class ProductDataRepository implements ProductRepository {
     }
 
     @Override
-    public void getProductById(int productId,int shopId,final ProductDetailsCallback providedCallback) {
+    public void getSingleProduct(int productId, int shopId, final ProductDetailsCallback providedCallback) {
 
         //todo create real data store and load
 

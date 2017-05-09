@@ -7,16 +7,22 @@ import numan947.com.data_layer.entity.DetailsProductEntity;
 import numan947.com.data_layer.entity.ListProductEntity;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Class represents one of the several implementations of {@link ProductDataStore}
+ * As the class represent disk caching, it holds a {@link ProductCache} and loads data using that cache.
+ *
+ **/
 
-public class DiskProductDataStore implements ProductDataStore {
+class DiskProductDataStore implements ProductDataStore {
 
     private ProductCache productCache;
 
     //ProductCache is needed for loading the data from disk
     
-    public DiskProductDataStore(ProductCache productCache) {
+    DiskProductDataStore(ProductCache productCache) {
         this.productCache = productCache;
     }
 

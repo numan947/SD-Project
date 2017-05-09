@@ -8,8 +8,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by numan947 on 4/29/17.
- */
+ *
+ * @author numan947
+ * @since 4/29/17.<br>
+ *
+ * Class implementing the {@link ThreadExecutor} defined in the domain layer.
+ * This class is implemented as Singleton and executes the runnable provided in
+ * the background threads.
+ **/
 
 public class BackgroundExecutor implements ThreadExecutor {
 
@@ -32,6 +38,7 @@ public class BackgroundExecutor implements ThreadExecutor {
     private static final TimeUnit KEEP_ALIVE_TIME_UNIT=TimeUnit.MILLISECONDS;
 
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final BlockingQueue<Runnable>mainWorkingQueue;
     private final ThreadPoolExecutor threadPoolExecutor;
 

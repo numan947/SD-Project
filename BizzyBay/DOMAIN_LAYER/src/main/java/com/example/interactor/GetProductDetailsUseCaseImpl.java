@@ -48,7 +48,7 @@ public class GetProductDetailsUseCaseImpl implements GetProductDetailsUseCase {
     //this is where the actual 'fetch' of details happens and the usecase hands the control over to data layer
     @Override
     public void run() {
-        productRepository.getProductById(productId,shopId,createdCallback);
+        productRepository.getSingleProduct(productId,shopId,createdCallback);
     }
 
 

@@ -3,8 +3,12 @@ package numan947.com.data_layer.entity;
 import java.util.ArrayList;
 
 /**
- * Created by numan947 on 5/8/17.
- */
+ *
+ * @author numan947
+ * @since 5/8/17.<br>
+ *
+ * Class representing Details Product in the Data Layer
+ **/
 
 public class DetailsProductEntity {
     private int productId;

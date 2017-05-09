@@ -9,8 +9,12 @@ import numan947.com.data_layer.entity.DetailsProductEntity;
 import numan947.com.data_layer.entity.ListProductEntity;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Test Product Cache, //todo replace with actual cache
+ **/
 
 public class TestProductCacheImpl implements ProductCache {
     private Collection<ListProductEntity>productEntities;
@@ -83,7 +87,7 @@ public class TestProductCacheImpl implements ProductCache {
     }
 
     @Override
-    public void put(int productId) {
+    public void put(final int productId,final int shopId) {
         //todo cache here
     }
 

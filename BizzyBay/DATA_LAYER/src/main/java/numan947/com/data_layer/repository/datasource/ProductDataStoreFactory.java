@@ -5,8 +5,14 @@ import android.content.Context;
 import numan947.com.data_layer.cache.ProductCache;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Class represents a data store factory.
+ * Depending on different conditions, it selects data repository
+ * without letting the repository know which of the data store is being selected.
+ **/
 
 
 //product data store factory will create/provide a data store depending on the data being cached or not

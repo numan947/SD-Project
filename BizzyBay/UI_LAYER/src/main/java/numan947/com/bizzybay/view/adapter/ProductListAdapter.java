@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 import numan947.com.bizzybay.R;
@@ -214,16 +213,19 @@ public class ProductListAdapter extends RecyclerView.Adapter {
             this.setupTextualResources();
 
             //setup button
+            this.setupButton();
+
+        }
+
+        private void setupButton() {
             Drawable buttonBackgroundImage;
             if(model.isLiked()){
-               buttonBackgroundImage = ContextCompat.getDrawable(context,R.drawable.liked);
+                buttonBackgroundImage = ContextCompat.getDrawable(context,R.drawable.liked);
             }
             else{
                 buttonBackgroundImage = ContextCompat.getDrawable(context,R.drawable.not_liked);
             }
-
             this.setupButtonBackground(likeButton,buttonBackgroundImage);
-
         }
 
         private void setupTextualResources() {
@@ -242,7 +244,7 @@ public class ProductListAdapter extends RecyclerView.Adapter {
 
         }
 
-        private void loadImage(URL imageUrl) {
+        private void loadImage(String imageUrl) {
 
             Glide.with(context).load(imageUrl.toString())
                     .error(R.drawable.error)

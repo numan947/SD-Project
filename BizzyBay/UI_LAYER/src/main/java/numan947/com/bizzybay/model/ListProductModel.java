@@ -1,7 +1,5 @@
 package numan947.com.bizzybay.model;
 
-import java.net.URL;
-
 /**
  *
  * @author numan947
@@ -28,10 +26,10 @@ public class ListProductModel {
     private boolean isLiked;
 
     //productImage
-    private URL productImage;
+    private String productImage;
 
 
-    public ListProductModel(int shopID, int productID, String productTitle, String shopDetails, String productPrice, boolean isLiked, URL productImage) {
+    public ListProductModel(int shopID, int productID, String productTitle, String shopDetails, String productPrice, boolean isLiked, String productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
@@ -69,7 +67,7 @@ public class ListProductModel {
         isLiked = liked;
     }
 
-    public URL getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 }
