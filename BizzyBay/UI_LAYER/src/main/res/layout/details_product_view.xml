@@ -19,7 +19,8 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:id="@+id/details_product_view_CTL">
             <include
                 layout="@layout/details_product_view_viewpager"
                 android:layout_height="350dp"
@@ -50,7 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:fitsSystemWindows="true">
+                android:fitsSystemWindows="true"
+                android:clickable="true">
                 <include
                     layout="@layout/generic_retry_view"/>
                 <include

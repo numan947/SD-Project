@@ -5,20 +5,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id = "@+id/list_product_fragment_CL">
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/list_product_fragment_recycler_view"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/list_product_fragment_SRL"
+        android:fitsSystemWindows="true">
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/list_product_fragment_recycler_view"/>
 
-    <include
-        layout="@layout/generic_progress_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <include
-        layout="@layout/generic_retry_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <include
+            layout="@layout/generic_progress_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <include
+            layout="@layout/generic_retry_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

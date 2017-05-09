@@ -17,6 +17,7 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
     private final ThreadExecutor threadExecutor;
     private final PostExecutionThread postExecutionThread;
 
+    private int pageNumber;
     private Callback callback;
 
     public GetProductListUseCaseImpl(ProductRepository productRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
@@ -32,11 +33,11 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
 
 
     @Override
-    public void execute(Callback callback) {
+    public void execute(int pageNumber, Callback callback) {
         if(callback == null)
             throw new IllegalArgumentException("Interactor Callback MUST NOT BE NULL");
 
-
+        this.pageNumber = pageNumber;
         this.callback = callback;
         this.threadExecutor.execute(this);
     }
@@ -44,13 +45,13 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
 
     @Override
     public void run() {
-        this.productRepository.getProductList(this.repositoryCallback);
+        this.productRepository.getProductList(pageNumber,this.repositoryCallback);
     }
 
     private final ProductRepository.ProductListCallback repositoryCallback = new ProductRepository.ProductListCallback() {
         @Override
-        public void onProductListLoaded(Collection<ListProduct> listProducts) {
-            GetProductListUseCaseImpl.this.notifyGetProductListSucceccsufully(listProducts);
+        public void onProductListLoaded(int pageNumber, Collection<ListProduct> listProducts) {
+            GetProductListUseCaseImpl.this.notifyGetProductListSucceccsufully(pageNumber,listProducts);
         }
 
         @Override
@@ -68,12 +69,12 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
         });
     }
 
-    private void notifyGetProductListSucceccsufully(final Collection<ListProduct> listProducts)
+    private void notifyGetProductListSucceccsufully(final int pageNumber, final Collection<ListProduct> listProducts)
     {
         this.postExecutionThread.post(new Runnable() {
             @Override
             public void run() {
-                GetProductListUseCaseImpl.this.callback.onProductsListLoaded(listProducts);
+                GetProductListUseCaseImpl.this.callback.onProductsListLoaded(pageNumber,listProducts);
             }
         });
     }

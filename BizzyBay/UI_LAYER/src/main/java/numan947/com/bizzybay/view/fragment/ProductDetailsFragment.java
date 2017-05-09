@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -107,6 +108,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private AppBarLayout appBarLayout;
     private CoordinatorLayout coordinatorLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
     private LinearLayout mainLinearLayout;
     private RelativeLayout retryLayout;
     private RelativeLayout loadingLayout;
@@ -126,10 +128,11 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private Button retryButton;
 
     //needed drawables
-     private Drawable isCartedDrawable;
-     private Drawable notCartedDrawable ;
-     private Drawable isLikedDrawable;
-     private Drawable notLikedDrawable;
+    private Drawable isCartedDrawable;
+    private Drawable notCartedDrawable ;
+    private Drawable isLikedDrawable;
+    private Drawable notLikedDrawable;
+    private Drawable viewPagerBackground;
 
 
 
@@ -213,8 +216,33 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         this.bindAll(returnView);
         this.setupToolbar();
         this.setupViewPager();
+        this.setupSwipeRefreshLayout();
+        this.addListenersToViews();
 
         return returnView;
+    }
+
+    /**
+     * Method for adding listeners to the views available.
+     * */
+    private void addListenersToViews() {
+        likeButton.setOnClickListener(this);
+        addToCartButton.setOnClickListener(this);
+        buyButton.setOnClickListener(this);
+        shopLocation.setOnClickListener(this);
+        shopName.setOnClickListener(this);
+    }
+
+    /**
+     * Method setting up the swipe refresh layout's refreshing.
+     * */
+    private void setupSwipeRefreshLayout() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ProductDetailsFragment.this.productDetailsPresenter.initialize(productId,shopId);
+            }
+        });
     }
 
     /**
@@ -251,6 +279,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         isLikedDrawable  = ContextCompat.getDrawable(getContext(),R.drawable.liked);
         notCartedDrawable = ContextCompat.getDrawable(getContext(),R.drawable.cart);
         isCartedDrawable  = ContextCompat.getDrawable(getContext(),R.drawable.carted);
+        viewPagerBackground = ContextCompat.getDrawable(getContext(),R.drawable.placeholder);
     }
 
     //method for setting up the toolbar
@@ -292,7 +321,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         appBarLayout = (AppBarLayout) returnView.findViewById(R.id.details_product_view_ABL);
         coordinatorLayout = (CoordinatorLayout) returnView.findViewById(R.id.details_product_view_CL);
         swipeRefreshLayout = (SwipeRefreshLayout) returnView.findViewById(R.id.details_product_view_SRL);
-
+        collapsingToolbarLayout = (CollapsingToolbarLayout) returnView.findViewById(R.id.details_product_view_CTL);
 
         mainLinearLayout = (LinearLayout) returnView.findViewById(R.id.details_product_main_LL);
         retryLayout = (RelativeLayout) returnView.findViewById(R.id.rl_retry);
@@ -366,23 +395,22 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     public void renderProduct(DetailsProductModel model) {
 
         //add images to the viewpager
-        viewPagerAdapter.clear();
-        viewPagerAdapter.addAll(model.getProductImages());
-        viewPagerAdapter.notifyDataSetChanged();
+        this.renderViewPagerItems(model);
 
-
-        //setup trivial data
-        productDetails.setText(model.getProductDetails());
-        productPrice.setText(model.getProductPrice());
-        productTitle.setText(model.getProductTitle());
-
-        //setup shop details
-        shopName.setText(model.getShopName());
-        shopLocation.setText(model.getShopLocation());
+        this.renderTextualData(model);
 
         //setup product categories
-        setupProductCategories(model.getProductCategory());
+        this.renderProductCategories(model.getProductCategories());
 
+        this.renderButtonData(model);
+
+
+    }
+
+    /**
+     * Method for rendering button data.
+     * */
+    private void renderButtonData(DetailsProductModel model) {
         cartButtonLocalStatus = model.isCarted();
         likeButtonLocalStatus = model.isLiked();
 
@@ -397,15 +425,32 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
             this.addDrawableToButton(likeButton,isLikedDrawable);
         else
             this.addDrawableToButton(likeButton,notLikedDrawable);
+    }
 
+    /**
+     * Method for rendering basic textual data to the textviews.
+     * */
+    private void renderTextualData(DetailsProductModel model) {
+        //setup trivial data
+        productDetails.setText(model.getProductDetails());
+        productPrice.setText(model.getProductPrice());
+        productTitle.setText(model.getProductTitle());
 
+        //setup shop details
+        shopName.setText(model.getShopName());
+        shopLocation.setText(model.getShopLocation());
 
+    }
 
-        likeButton.setOnClickListener(this);
-        addToCartButton.setOnClickListener(this);
-        buyButton.setOnClickListener(this);
-        shopLocation.setOnClickListener(this);
-        shopName.setOnClickListener(this);
+    /**
+     * Method for rendering data to viewpager.
+     * */
+    private void renderViewPagerItems(DetailsProductModel model) {
+        viewPagerAdapter.clear();
+        viewPagerAdapter.addAll(model.getProductImages());
+        viewPagerAdapter.notifyDataSetChanged();
+
+        viewPager.setCurrentItem(0);
     }
 
     /**
@@ -458,7 +503,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * Method for setting up the productCategories.
      * Handled specially as we need to use {@link android.text.Spannable} text.
      * */
-    private void setupProductCategories(ArrayList<String> categories) {
+    private void renderProductCategories(ArrayList<String> categories) {
         //todo use span for setting up this plus setup categories' click listener separately
 
         //for demo purpose only
@@ -559,12 +604,19 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
     @Override
     public void showLoading() {
-        this.loadingLayout.setVisibility(View.VISIBLE);
+        //this.loadingLayout.setVisibility(View.VISIBLE);
+        this.viewPager.setVisibility(View.GONE);
+        this.pagerIndicator.setVisibility(View.GONE);
+        this.swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        this.loadingLayout.setVisibility(View.GONE);
+
+        //this.loadingLayout.setVisibility(View.GONE);
+        this.viewPager.setVisibility(View.VISIBLE);
+        this.pagerIndicator.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

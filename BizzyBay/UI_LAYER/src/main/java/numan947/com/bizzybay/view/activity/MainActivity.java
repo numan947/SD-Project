@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * Method for showing the first fragment.
      * */
     private void showProductListFragment() {
-        drawerNavigator.navigateToProductListFragment(R.id.frame,getSupportFragmentManager());
+        drawerNavigator.navigateToProductListFragment(R.id.main_activity_frame,getSupportFragmentManager());
         navigationView.setCheckedItem(R.id.browse_products);
     }
 

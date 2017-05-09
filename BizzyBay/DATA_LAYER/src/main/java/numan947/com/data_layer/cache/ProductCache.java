@@ -33,7 +33,7 @@ public interface ProductCache {
      * Callback for List product entity loading.
      * */
     interface ProductEntityListCacheCallback{
-        void onProductEntityListLoaded(Collection<ListProductEntity>productEntities);
+        void onProductEntityListLoaded(int pageNumber, Collection<ListProductEntity> productEntities);
         void onError(Exception exception);
     }
 
@@ -51,7 +51,7 @@ public interface ProductCache {
     /**
      * Loader method for list product.
      * */
-    void get(ProductEntityListCacheCallback callback);
+    void get(int pageNumber, ProductEntityListCacheCallback callback);
 
     /**
      * updater/persistence maker method for list product.

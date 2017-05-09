@@ -50,7 +50,7 @@ public class ProductDataRepository implements ProductRepository {
     }
 
     @Override
-    public void getProductList(final ProductListCallback providedCallback) {
+    public void getProductList(int pageNumber, final ProductListCallback providedCallback) {
         //todo create a real data store and load
 
 
@@ -59,10 +59,10 @@ public class ProductDataRepository implements ProductRepository {
 
         final ProductDataStore.ProductListCallback createdCallback = new ProductDataStore.ProductListCallback() {
             @Override
-            public void onProductListLoaded(Collection<ListProductEntity> productEntities) {
+            public void onProductListLoaded(int pageNumber, Collection<ListProductEntity> productEntities) {
                 Collection<ListProduct> listProducts = ProductDataRepository.this.productEntityDataMapper.transform(productEntities);
 
-                providedCallback.onProductListLoaded(listProducts);
+                providedCallback.onProductListLoaded(pageNumber,listProducts);
             }
 
             @Override
@@ -72,7 +72,7 @@ public class ProductDataRepository implements ProductRepository {
         };
 
 
-        productDataStore.getProductsEntityList(createdCallback);
+        productDataStore.getProductsEntityList(pageNumber,createdCallback);
 
 
 

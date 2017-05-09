@@ -25,7 +25,14 @@ public class TestProductCacheImpl implements ProductCache {
             "http://placeimg.com/640/480/arch",
             "http://placeimg.com/640/480/nature",
             "http://placeimg.com/640/480/people",
-            "http://placeimg.com/640/480/tech"
+            "http://placeimg.com/640/480/tech",
+            "https://placebear.com/640/480",
+            "https://placebear.com/200/300",
+            "http://placekitten.com/640/400",
+            "http://placekitten.com/300/400",
+            "http://placekitten.com/400/500",
+            "http://placekitten.com/400/400"
+
     };
 
 
@@ -92,22 +99,27 @@ public class TestProductCacheImpl implements ProductCache {
     }
 
     @Override
-    public void get(ProductEntityListCacheCallback callback) {
+    public void get(int pageNumber,ProductEntityListCacheCallback callback) {
 
         //loading
 
         productEntities.clear();
-
+        if (pageNumber==0) try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         for(int i=0;i<20;i++){
-            ListProductEntity a= new ListProductEntity(i+1,
-                    i+1,"ProductTitle"+i,(i+1)*100,
+            int pos = 20*(pageNumber+1);
+            ListProductEntity a= new ListProductEntity(pos+i+1,
+                    pos+i+1,"ProductTitle"+pos+" "+i,(pos+i+1)*100,
                     "SHOP details here",
-                    (i%2)==1,placeHolders[i%5]);
+                    ((pos+i)%2)==1,placeHolders[(pos+i)%5]);
 
             productEntities.add(a);
         }
 
-        callback.onProductEntityListLoaded(this.productEntities);
+        callback.onProductEntityListLoaded(pageNumber,this.productEntities);
     }
 
 

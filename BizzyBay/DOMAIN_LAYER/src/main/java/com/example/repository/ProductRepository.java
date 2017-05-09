@@ -28,7 +28,7 @@ public interface ProductRepository {
         /**
          * What to do when product list is loaded successfully.
          * */
-        void onProductListLoaded(Collection<ListProduct> listProducts);
+        void onProductListLoaded(int pageNumber, Collection<ListProduct> listProducts);
 
         /**
          * What to do when there's error in loading.
@@ -58,7 +58,7 @@ public interface ProductRepository {
     /**
      * loader method for the product list.
      * */
-    void getProductList(final ProductListCallback callback);
+    void getProductList(int pageNumber, final ProductListCallback callback);
 
     /**
      * loader method for single product.

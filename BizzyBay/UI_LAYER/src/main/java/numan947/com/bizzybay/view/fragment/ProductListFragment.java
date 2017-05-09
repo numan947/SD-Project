@@ -3,6 +3,8 @@ package numan947.com.bizzybay.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -72,6 +74,8 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     private Button retry_button;
     private RelativeLayout rl_retry;
     private RelativeLayout rl_progress;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private CoordinatorLayout coordinatorLayout;
 
 
 
@@ -111,7 +115,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_retry:
-                productListPresenter.initialize();
+                productListPresenter.initialize(0);
                 break;
             //todo handle other cases
         }
@@ -139,8 +143,22 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         this.bindAll(v);
         this.addListenersToViews();
         this.setupRecyclerView();
+        this.setupSwipeRefreshLayout();
 
         return v;
+    }
+
+    /**
+     * Method for setting up the swipe refresh layout's refreshing.
+     * */
+    private void setupSwipeRefreshLayout() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //todo should be called with page number 0
+                ProductListFragment.this.productListPresenter.initialize(0);
+            }
+        });
     }
 
     /**
@@ -158,6 +176,8 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         retry_button = (Button)v.findViewById(R.id.bt_retry);
         rl_progress = (RelativeLayout)v.findViewById(R.id.rl_progress);
         rl_retry = (RelativeLayout)v.findViewById(R.id.rl_retry);
+        swipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.list_product_fragment_SRL);
+        coordinatorLayout = (CoordinatorLayout)v.findViewById(R.id.list_product_fragment_CL);
     }
 
     /**
@@ -185,7 +205,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         if(productListPresenter==null)
             initializePresenter();
 
-        productListPresenter.initialize();
+        productListPresenter.initialize(0);
     }
 
     private void getParameters() {
@@ -262,10 +282,20 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
 
     @Override
-    public void renderProductList(ArrayList<ListProductModel> products) {
+    public void renderProductList(int pageNumber, ArrayList<ListProductModel> products) {
         if(products!=null){
-            adapter.addAll(products);
-            adapter.notifyDataSetChanged();
+            if(pageNumber==0) {
+                adapter.clearAll();
+                adapter.addAll(products);
+                adapter.notifyDataSetChanged();
+            }
+            else{
+                int before = adapter.getItemCount();
+                adapter.addAll(products);
+                int after = adapter.getItemCount();
+                adapter.notifyItemRangeInserted(before,after-before);
+
+            }
         }
     }
 
@@ -283,12 +313,16 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void showLoading() {
-        rl_progress.setVisibility(View.VISIBLE);
+        //rl_progress.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        rl_progress.setVisibility(View.GONE);
+        //rl_progress.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

@@ -21,13 +21,13 @@ public class DetailsProductModel {
     private boolean isCarted;
     private boolean isLiked;
     private String productDetails;
-    private ArrayList<String> productCategory;
+    private ArrayList<String> productCategories;
     private ArrayList<String> productImages;
 
 
     public DetailsProductModel(int productId, int shopId, String productTitle, String shopName, String productPrice,
                                String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
-                               ArrayList<String> productCategory, ArrayList<String> productImages) {
+                               ArrayList<String> productCategories, ArrayList<String> productImages) {
         this.productId = productId;
         this.shopId = shopId;
         this.productTitle = productTitle;
@@ -37,7 +37,7 @@ public class DetailsProductModel {
         this.isCarted = isCarted;
         this.isLiked = isLiked;
         this.productDetails = productDetails;
-        this.productCategory = productCategory;
+        this.productCategories = productCategories;
         this.productImages = productImages;
 
 
@@ -79,8 +79,8 @@ public class DetailsProductModel {
         return productDetails;
     }
 
-    public ArrayList<String> getProductCategory() {
-        return productCategory;
+    public ArrayList<String> getProductCategories() {
+        return productCategories;
     }
 
     public ArrayList<String> getProductImages() {

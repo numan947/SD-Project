@@ -19,7 +19,7 @@ public interface ProductListView extends DataToLoad {
     /**
      * Renders the list in the view.
      * */
-    void renderProductList(ArrayList<ListProductModel>products);
+    void renderProductList(int pageNumber, ArrayList<ListProductModel> products);
 
     /**
      * This is called by Presenter when a product of the list is clicked.

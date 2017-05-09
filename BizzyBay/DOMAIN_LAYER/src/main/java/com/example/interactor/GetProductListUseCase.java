@@ -23,7 +23,7 @@ public interface GetProductListUseCase extends BaseUseCase {
         /**
          * What to do when the use case is successfully executed.
          * */
-        void onProductsListLoaded(Collection<ListProduct> listProducts);
+        void onProductsListLoaded(int pageNumber, Collection<ListProduct> listProducts);
 
         /**
          * what to do when the use case couldn't complete successfully.
@@ -33,5 +33,5 @@ public interface GetProductListUseCase extends BaseUseCase {
     /**
      *  executes the use case.
      * */
-    void execute(Callback callback);
+    void execute(int pageNumber, Callback callback);
 }

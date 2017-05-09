@@ -43,28 +43,34 @@ public class ProductListPresenter implements Presenter {
     }
 
     /**
-     * The method available to the view to use the UseCase
+     * The method available to the view to use the UseCase.
+     * Takes a pageNumber and returns the content of the page
      * */
-    public void initialize()
+    public void initialize(int pageNumber)
     {
-        this.loadProductList();
+        this.loadProductList(pageNumber);
     }
 
     /**
      * Method for performing data loading
+     *
+     * @param pageNumber The Page to load
+     *
      * */
-    private void loadProductList() {
+    private void loadProductList(int pageNumber) {
         this.hideRetryView();
         this.showLoadingView();
-        this.getProductsList();
+        this.getProductsList(pageNumber);
     }
 
 
     /**
      * Method for executing the use case from inside the presenter
+     *
+     * @param pageNumber The page to load
      * */
-    private void getProductsList() {
-        this.getProductListUseCaseUseCase.execute(productListCallback);
+    private void getProductsList(int pageNumber) {
+        this.getProductListUseCaseUseCase.execute(pageNumber,productListCallback);
     }
 
     /**
@@ -72,8 +78,8 @@ public class ProductListPresenter implements Presenter {
      * */
     private final GetProductListUseCase.Callback productListCallback = new GetProductListUseCase.Callback() {
         @Override
-        public void onProductsListLoaded(Collection<ListProduct> listProducts) {
-            ProductListPresenter.this.showProductsCollectionInView(listProducts);
+        public void onProductsListLoaded(int pageNumber, Collection<ListProduct> listProducts) {
+            ProductListPresenter.this.showProductsCollectionInView(pageNumber,listProducts);
             ProductListPresenter.this.hideLoadingView();
             ProductListPresenter.this.hideRetryView();
         }
@@ -111,10 +117,10 @@ public class ProductListPresenter implements Presenter {
 
     /**Shows the loaded data to the view using one
      *  of the methods in the {@link ProductListView}*/
-    private void showProductsCollectionInView(Collection<ListProduct> listProducts) {
+    private void showProductsCollectionInView(int pageNumber, Collection<ListProduct> listProducts) {
 
         final ArrayList<ListProductModel> productModelCollection = this.productModelDataMapper.transform(listProducts);
-        this.productListView.renderProductList(productModelCollection);
+        this.productListView.renderProductList(pageNumber,productModelCollection);
     }
 
 

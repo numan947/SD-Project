@@ -20,7 +20,7 @@ public interface ProductDataStore {
      * Callbacks for loading product list.
      * */
     interface ProductListCallback{
-        void onProductListLoaded(Collection<ListProductEntity>productEntities);
+        void onProductListLoaded(int pageNumber, Collection<ListProductEntity> productEntities);
         void onError(Exception exception);
     }
 
@@ -36,7 +36,7 @@ public interface ProductDataStore {
     /**
      * loader method for product entity list.
      * */
-    void getProductsEntityList(final ProductListCallback callback);
+    void getProductsEntityList(int pageNumber, final ProductListCallback callback);
 
     /**
      * loader method for product entity details.
