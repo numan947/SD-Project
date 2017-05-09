@@ -1,9 +1,16 @@
 package com.example.interactor;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Base for all of the use case.
+ **/
 
-public interface BaseUseCase extends Runnable {
+interface BaseUseCase extends Runnable {
+    /**
+     * Runs the Usecase in the background thread.
+     * */
     void run();
 }

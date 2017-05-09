@@ -14,6 +14,8 @@ public class DiskProductDataStore implements ProductDataStore {
 
     private ProductCache productCache;
 
+    //ProductCache is needed for loading the data from disk
+    
     public DiskProductDataStore(ProductCache productCache) {
         this.productCache = productCache;
     }

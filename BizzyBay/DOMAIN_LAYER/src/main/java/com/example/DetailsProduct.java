@@ -3,8 +3,12 @@ package com.example;
 import java.util.ArrayList;
 
 /**
- * Created by numan947 on 5/8/17.
- */
+ *
+ * @author numan947
+ * @since 5/8/17.<br>
+ *
+ * Representation of Details Product in the domain layer
+ **/
 
 public class DetailsProduct {
     private int productId;

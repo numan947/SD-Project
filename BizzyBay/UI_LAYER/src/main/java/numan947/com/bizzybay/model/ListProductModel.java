@@ -3,8 +3,12 @@ package numan947.com.bizzybay.model;
 import java.net.URL;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Product Model of the list element in the UI layer.
+ **/
 
 public class ListProductModel {
 

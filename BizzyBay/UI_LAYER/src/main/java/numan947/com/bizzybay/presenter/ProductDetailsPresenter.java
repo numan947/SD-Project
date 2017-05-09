@@ -9,12 +9,18 @@ import numan947.com.bizzybay.model.DetailsProductModel;
 import numan947.com.bizzybay.view.ProductDetailsView;
 
 /**
- * Created by numan947 on 5/7/17.
- */
+ *
+ * @author numan947
+ * @since 5/7/17.<br>
+ *
+ * Presenter implementation for the Product Details View.
+ * It holds the View as a interface.
+ *
+ **/
 
 public class ProductDetailsPresenter implements Presenter {
 
-    //initializing parameters
+    //native elements that need to be maintained in the Presenter
     private GetProductDetailsUseCase getProductDetailsUseCase;
     private ProductModelDataMapper productModelDataMapper;
     private ProductDetailsView productDetailsView;
@@ -24,7 +30,9 @@ public class ProductDetailsPresenter implements Presenter {
     private int productId;
     private int shopId;
 
-    //layer control parameters
+    /**
+     * Callback provided to the use case so that it can callback once execution is finished.
+     * */
     private final GetProductDetailsUseCase.Callback productDetailsCallback = new GetProductDetailsUseCase.Callback() {
         @Override
         public void onProductDetailsLoaded(DetailsProduct product) {
@@ -38,7 +46,9 @@ public class ProductDetailsPresenter implements Presenter {
         }
     };
 
-    //method for rendering error to view
+    /**
+     * Method for rendering error when the data loading is failed.
+     * */
     private void renderError(ErrorBundle errorBundle) {
         productDetailsView.hideLoading();
         productDetailsView.hideDetailsView();
@@ -46,7 +56,9 @@ public class ProductDetailsPresenter implements Presenter {
         productDetailsView.showError(errorBundle.getErrorMessage());
     }
 
-    //method for rendering the loaded product to view
+    /**
+     * Method for rendering Details when the data loading is OK.
+     * */
     private void renderProductDetails(DetailsProductModel product) {
         productDetailsView.hideRetry();
         productDetailsView.hideLoading();
@@ -55,6 +67,9 @@ public class ProductDetailsPresenter implements Presenter {
     }
 
 
+    /**needs the view, the usecases related to
+     * the view and the data-mapper reltated to
+     * the result of the usecases*/
     public ProductDetailsPresenter(ProductDetailsView productDetailsView, GetProductDetailsUseCase getProductDetailsUseCase, ProductModelDataMapper productModelDataMapper) {
         if(productDetailsView==null||getProductDetailsUseCase==null||productModelDataMapper==null)
             throw new IllegalArgumentException("Constructor parameters can't be NULL");
@@ -64,7 +79,9 @@ public class ProductDetailsPresenter implements Presenter {
         this.productDetailsView = productDetailsView;
     }
 
-    //method for initialize loading of products
+    /**
+     * Method for initializing the data load inside the presenter.
+     * */
     public void initialize(int productId, int shopId) {
         this.shopId = shopId;
         this.productId = productId;
@@ -110,7 +127,8 @@ public class ProductDetailsPresenter implements Presenter {
         //todo restore states
     }
 
-    //self explanatory, method called from the view to pass control to controller
+    /** method called from
+     * the view to pass control to controller*/
     public void onLikeButtonClicked(int productId, int shopId) {
         //todo some data layer action to save the product being liked
 
@@ -118,7 +136,8 @@ public class ProductDetailsPresenter implements Presenter {
         productDetailsView.showProductLiked(productId,shopId);
     }
 
-    //self explanatory, method called from the view to pass control to controller
+    /** method called from
+     * the view to pass control to controller*/
     public void onAddToCartButtonClicked(int productId, int shopId) {
         //todo some data layer action to save the product being liked
 
@@ -127,19 +146,22 @@ public class ProductDetailsPresenter implements Presenter {
         productDetailsView.showProductAddedToCart(productId,shopId);
     }
 
-    //self explanatory, method called from the view to pass control to controller
+    /** method called from
+     * the view to pass control to controller*/
     public void onBuyButtonClicked(int productId, int shopId) {
         //chain it to the view for update
         productDetailsView.buyProduct(productId,shopId);
     }
 
-    //self explanatory, method called from the view to pass control to controller
+    /**method called from
+     * the view to pass control to controller*/
     public void onShopLocationClicked(int shopId) {
         //chain it to the view for update
         productDetailsView.viewShopLocation(shopId);
     }
 
-    //self explanatory, method called from the view to pass control to controller
+    /**method called from
+     * the view to pass control to controller*/
     public void onShopNameClicked(int shopId) {
         //chain it to the view for update
         productDetailsView.viewShop(shopId);

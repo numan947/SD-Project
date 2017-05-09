@@ -13,6 +13,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,28 +50,51 @@ import numan947.com.data_layer.repository.ProductDataRepository;
 import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 /**
- * Created by numan947 on 5/7/17.
- */
+ *
+ * @author numan947
+ * @since 5/7/17.<br>
+ *
+ * This is the View for the Product Details.
+ * This implement the {@link ProductDetailsView} interface and provides implementation.
+ **/
 
-@SuppressWarnings("FieldCanBeLocal")
+@SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class ProductDetailsFragment extends BaseFragment implements ProductDetailsView, View.OnClickListener {
 
     //elements for sharing information between activities/fragments
     private static final String PRODUCT_ID="numan947.com.bizzybay.view.activity.DetailsProductFragment.PRODUCT_ID";
     private static final String SHOP_ID="numan947.com.bizzybay.view.activity.DetailsProductFragment.SHOP_ID";
 
+    private int productId;//todo may be we need to add user id here as well
+    private int shopId;
 
     //implemented by the activity to respond to fragment's different needs
+    /**
+     * This interface is to be implemented by the activity holding the Fragment so that the fragment can
+     * send "Activity Change" requests.
+     * */
     public interface ProductDetailsListener{
+        /**
+         * Method to call when one of the Category is clicked.
+         * */
         void OnCategorySelected(String category);
+        /**
+         * Method to call when the Shop Location is clicked.
+         * */
         void OnShopLocationClicked(int shopId);
+        /**
+         * Method to call when the Shop Name is clicked.
+         * */
         void OnShopNameClicked(int shopId);
+        /**
+         * Method to call when Buy Product button is clicked.
+         * */
         void OnBuyProduct(int productId,int shopId);
     }
 
-    //native elements //todo may be we need to add user id here as well
-    private int productId;
-    private int shopId;
+
+
+    //native elements
     private ProductDetailsPresenter productDetailsPresenter;
     private ProductDetailsListener activityListener;
     private boolean cartButtonLocalStatus;
@@ -128,7 +154,16 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private final long TIME_BEFORE_PAGE_CHANGE = 3000;
 
 
+    public ProductDetailsFragment(){
+        //empty constructor
+    }
 
+    /**
+     * Initializer for the Fragment.
+     * Fragment is initialized with the needed parameters.
+     * The parameters are to be put into a {@link Bundle} and
+     * the {@link Bundle} to be set as argument to the {@link android.support.v4.app.Fragment}
+     * */
     public static ProductDetailsFragment newInstance(int productId,int shopId)
     {
         Bundle bundle  = new Bundle();
@@ -140,6 +175,9 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         return fragment;
     }
 
+    /**
+     * Get the data passing listener to the activity.
+     * */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -150,9 +188,13 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(false);
-
         setHasOptionsMenu(true);
+    }
 
+    /**
+     * Method for getting parameters from the {@link Bundle} passed to the Fragment
+     * */
+    private void getParameters() {
         //get the arguments passed to the fragment
         Bundle b = getArguments();
 
@@ -161,6 +203,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
             shopId = b.getInt(SHOP_ID);
         }
     }
+
 
     @Nullable
     @Override
@@ -174,13 +217,35 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         return returnView;
     }
 
+    /**
+     * The parameters passed to the activity / the parameters saved while configuration changed are restored here.
+     * The drawables for this view is initialized here.
+     * Also he presenter's main work is started here.
+     * */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState!=null)this.restoreStates(savedInstanceState);
+
+        this.getParameters();
         this.initializeDrawables();
         this.productDetailsPresenter.initialize(this.productId,this.shopId);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //todo save fragment specific states here
+    }
+
+    private void restoreStates(Bundle savedInstanceState) {
+        //todo restore fragment specific states here
+    }
+
+    /**
+     * Loads the {@link Drawable}s for this view from the {@link android.content.res.Resources}
+     * */
     private void initializeDrawables() {
         notLikedDrawable = ContextCompat.getDrawable(getContext(),R.drawable.not_liked);
         isLikedDrawable  = ContextCompat.getDrawable(getContext(),R.drawable.liked);
@@ -189,13 +254,37 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     }
 
     //method for setting up the toolbar
+    /**
+     * Sets up the toolbar and the related things.
+     * */
     private void setupToolbar() {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
         //todo add handler for toolbar elements
     }
 
+    /**
+     * Creates Options Menu.
+     * */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        //todo create options menu here
+    }
+
+    /**
+     * Handles Options Menu Item click.
+     * */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+        //todo handle options menu item click here
+    }
+
     //method for binding view elements
+    /**
+     * Binds all the XML views with their java counterparts.
+     * */
     private void bindAll(View returnView) {
         toolbar = (Toolbar) returnView.findViewById(R.id.toolbar);
 
@@ -231,6 +320,9 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
 
     //method for initially setting up the viewpager and click events
+    /**
+     * Sets up the viewpager as well as the related buttons.
+     * */
     private void setupViewPager() {
 
         viewPager.setOffscreenPageLimit(3);
@@ -316,6 +408,9 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         shopName.setOnClickListener(this);
     }
 
+    /**
+     * Method for adding a {@link Drawable} as the background of a {@link Button}
+     * */
     @SuppressWarnings("deprecation")
     private void addDrawableToButton(Button b, Drawable drawable)
     {
@@ -327,6 +422,11 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         }
     }
 
+    /**
+     * Events are passed to presenter for handling.
+     * The view holds a reference to the Presenter.
+     * So, it can call the related method when needed.
+     * */
     @Override
     public void onClick(View v) {
 
@@ -354,6 +454,10 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
     }
 
+    /**
+     * Method for setting up the productCategories.
+     * Handled specially as we need to use {@link android.text.Spannable} text.
+     * */
     private void setupProductCategories(ArrayList<String> categories) {
         //todo use span for setting up this plus setup categories' click listener separately
 
@@ -368,23 +472,36 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
     @Override
     protected void initializePresenter() {
+
+        //needed by GetProductDetailsUseCase for working in the background.
         ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
+
+        //needed by GetProductDetailsUseCase for posting result in the UI thread.
         PostExecutionThread postExecutionThread = MainThread.getInstance();
 
         //todo initialize serializer
 
         //todo add real cache instead of test
+        //needed by the productDataStoreFactory
         ProductCache productCache = TestProductCacheImpl.getInstance();
 
+        //needed by ProductRepository
         ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),productCache);
 
+        //needed by ProductRepository
         ProductEntityDataMapper productEntityDataMapper = new ProductEntityDataMapper();
 
+
+        //needed by GetProductDetailsUseCase
         ProductRepository productRepository = ProductDataRepository.getInstance(productDataStoreFactory,productEntityDataMapper);
 
+        //needed by the Presenter.
         GetProductDetailsUseCase getProductDetailsUseCase = new GetProductDetailsUseCaseImpl(productRepository,threadExecutor,postExecutionThread);
+
+        //needed by the Presenter
         ProductModelDataMapper productModelDataMapper = new ProductModelDataMapper();
 
+        //needed by the View
         this.productDetailsPresenter = new ProductDetailsPresenter(this,getProductDetailsUseCase,productModelDataMapper);
     }
 
@@ -416,9 +533,9 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
         //changing button state
         if(cartButtonLocalStatus)
-            addDrawableToButton(likeButton,notCartedDrawable);
+            addDrawableToButton(addToCartButton,notCartedDrawable);
         else
-            addDrawableToButton(likeButton,isCartedDrawable);
+            addDrawableToButton(addToCartButton,isCartedDrawable);
         cartButtonLocalStatus=(!cartButtonLocalStatus);
 
     }
@@ -479,7 +596,13 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     public void onResume() {
         super.onResume();
         productDetailsPresenter.onResume();
+        this.setupViewPagerTimer();
+    }
 
+    /**
+     * Method to initiate the {@link ViewPager} {@link Timer}.
+     * */
+    private void setupViewPagerTimer() {
         viewPagerTimer = new Timer();
         viewPagerTimer.schedule(new TimerTask() {
             @Override
@@ -492,16 +615,16 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     @Override
     public void onPause() {
         productDetailsPresenter.onPause();
-        viewPagerTimer.cancel();
-        viewPagerTimer.purge();
+        this.cancelViewPagerTimer();
         super.onPause();
     }
 
-    @Override
-    public void onDestroyView() {
-//        pagerIndicator.setViewPager(null);
-//        viewPagerAdapter.unregisterDataSetObserver(pagerIndicator.getDataSetObserver());
-        super.onDestroyView();
-
+    /**
+     * Cancels {@link ViewPager} {@link Timer}.
+     * */
+    private void cancelViewPagerTimer() {
+        viewPagerTimer.cancel();
+        viewPagerTimer.purge();
     }
+
 }

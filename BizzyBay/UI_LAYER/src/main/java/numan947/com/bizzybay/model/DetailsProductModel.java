@@ -3,8 +3,13 @@ package numan947.com.bizzybay.model;
 import java.util.ArrayList;
 
 /**
- * Created by numan947 on 5/3/17.
- */
+ *
+ * @author numan947
+ * @since 5/3/17.<br>
+ *
+ *
+ * Model element for the Product Details in the UI Layer
+ **/
 
 public class DetailsProductModel {
     private int productId;

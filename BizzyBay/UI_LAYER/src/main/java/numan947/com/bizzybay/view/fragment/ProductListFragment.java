@@ -26,7 +26,6 @@ import numan947.com.bizzybay.mapper.ProductModelDataMapper;
 import numan947.com.bizzybay.model.ListProductModel;
 import numan947.com.bizzybay.presenter.ProductListPresenter;
 import numan947.com.bizzybay.view.ProductListView;
-import numan947.com.bizzybay.view.activity.MainActivity;
 import numan947.com.bizzybay.view.adapter.ProductListAdapter;
 import numan947.com.data_layer.cache.ProductCache;
 import numan947.com.data_layer.cache.TestProductCacheImpl;
@@ -36,14 +35,27 @@ import numan947.com.data_layer.repository.ProductDataRepository;
 import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 /**
- * Created by numan947 on 5/6/17.
- */
+ *
+ * @author numan947
+ * @since 5/6/17.<br>
+ *
+ * Fragment that shows Product List.
+ * It implements {@link ProductListView} interface.
+ *
+ **/
+
 
 public class ProductListFragment extends BaseFragment implements View.OnClickListener,ProductListView {
 
 
     //this is the interface to send data to Activity so that it can change fragment or switch Activity
+    /**
+     * Interface to be implemented by the Parent Activity, so that the fragment can send data to the activity.
+     * */
     public interface ProductListListener{
+        /**
+         * Called when a Product in the list is clicked.
+         * */
         void onProductClicked(final ListProductModel model);
     }
 
@@ -56,21 +68,27 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     //the views related to the view
     private RecyclerView recyclerView;
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private Button retry_button;
     private RelativeLayout rl_retry;
     private RelativeLayout rl_progress;
 
 
 
+    /**
+     * Initializer for the Fragment.
+     * */
     public static ProductListFragment newInstance()
     {
-        ProductListFragment fragment = new ProductListFragment();
 
-        return fragment;
+        return new ProductListFragment();
     }
 
 
-
+    /**
+     * This is the callback implementation provided to the adapter of the
+     * {@link RecyclerView}, so that it can chain the event handling to this fragment.
+     * */
     private final ProductListAdapter.Callback adapterCallback = new ProductListAdapter.Callback() {
         @Override
         public void OnLikedButtonClicked(ListProductModel model,int position) {
@@ -85,20 +103,29 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
 
 
+
+    /**
+     * Handles different click events.
+     * */
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.bt_retry){
-            // retry load
-            this.productListPresenter.initialize();
+        switch (v.getId()){
+            case R.id.bt_retry:
+                productListPresenter.initialize();
+                break;
+            //todo handle other cases
         }
     }
 
+    /**
+     * Acquires the listener to the activity here.
+     * */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         //MainActivity should implement this one
-        if(context instanceof MainActivity)
+        if(context instanceof ProductListListener)
             this.productListListener=((ProductListListener) context);
 
     }
@@ -109,17 +136,33 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
         View v = inflater.inflate(R.layout.list_product_fragment,container,false);
 
+        this.bindAll(v);
+        this.addListenersToViews();
+        this.setupRecyclerView();
+
+        return v;
+    }
+
+    /**
+     *Adds listeners to the needed views.
+     * */
+    private void addListenersToViews() {
+        rl_retry.setOnClickListener(this);
+    }
+
+    /**
+     * Binds all views with their java counter parts.
+     * */
+    private void bindAll(View v) {
         recyclerView = (RecyclerView) v.findViewById(R.id.list_product_fragment_recycler_view);
         retry_button = (Button)v.findViewById(R.id.bt_retry);
         rl_progress = (RelativeLayout)v.findViewById(R.id.rl_progress);
         rl_retry = (RelativeLayout)v.findViewById(R.id.rl_retry);
-
-        rl_retry.setOnClickListener(this);
-
-        this.setupRecyclerView();
-        return v;
     }
 
+    /**
+     * sets up the recycler view.
+     * */
     private void setupRecyclerView() {
         //initialize the adapter with dummy list, that'll act as container for the product models
         adapter = new ProductListAdapter(getContext(), adapterCallback,new ArrayList<ListProductModel>());
@@ -128,10 +171,15 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-
+    /**
+     * This is where presenter start to load data.
+     * */
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState!=null)this.restoreStates(savedInstanceState);
+        this.getParameters();
 
         //this is where presenter tries to load data
         if(productListPresenter==null)
@@ -140,30 +188,62 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         productListPresenter.initialize();
     }
 
+    private void getParameters() {
+        Bundle bundle  = getArguments();
+        if(bundle!=null){
+            //todo get the parameters passed to the fragment here
+
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //todo save states here
+    }
+
+    private void restoreStates(Bundle savedInstanceState) {
+        //todo restore saved states here
+        if(savedInstanceState!=null){
+
+        }
+    }
+
+
     @Override
     protected void initializePresenter() {
         //initializing the presenter
 
+        //needed by usecase
         ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
         PostExecutionThread postExecutionThread = MainThread.getInstance();
 
         //todo add JSON Serializer
         //todo add ProductCache just like shown in the example
 
+        //needed bby productDataStoreFactory
         ProductCache productCache = TestProductCacheImpl.getInstance();
 
 
+        //needed by productDataRepository
         ProductDataStoreFactory productDataStoreFactory = new ProductDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),productCache);
+        //needed by productDataRepository
         ProductEntityDataMapper productEntityDataMapper = new ProductEntityDataMapper();
+
+        //needed by usecase
         ProductRepository productRepository = ProductDataRepository.getInstance(productDataStoreFactory,productEntityDataMapper);
 
+        //needed by the presenter
         GetProductListUseCase getProductListUseCase = new GetProductListUseCaseImpl(productRepository,threadExecutor,postExecutionThread);
+        //needed by the presenter
         ProductModelDataMapper productModelDataMapper = new ProductModelDataMapper();
 
-
+        //needed by the view
         this.productListPresenter = new ProductListPresenter(this,getProductListUseCase,productModelDataMapper);
 
     }
+
 
 
     @Override
@@ -172,11 +252,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         productListPresenter.onResume();
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //todo save instance
-    }
+
 
     @Override
     public void onPause() {

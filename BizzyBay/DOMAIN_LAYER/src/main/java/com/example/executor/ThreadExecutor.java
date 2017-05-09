@@ -1,11 +1,19 @@
 package com.example.executor;
 
 /**
- * Created by numan947 on 4/29/17.
- */
+ *
+ * @author numan947
+ * @since 4/29/17.<br>
+ *
+ * Base for a thread executor, that the usecases use to execute their operations
+ * in the freaking background thread.
+ **/
 
-//a thread executor that can be used to execute a runnable in a separate thread
+
 public interface ThreadExecutor {
 
+    /**
+     * method for executing a freaking runnable
+     * */
     void execute(Runnable runnable);
 }

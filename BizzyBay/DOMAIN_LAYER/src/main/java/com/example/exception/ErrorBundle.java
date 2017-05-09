@@ -1,10 +1,16 @@
 package com.example.exception;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Exception that could be generated in the domain layer.
+ **/
 
 public interface ErrorBundle {
+
     Exception getException();
+
     String getErrorMessage();
 }

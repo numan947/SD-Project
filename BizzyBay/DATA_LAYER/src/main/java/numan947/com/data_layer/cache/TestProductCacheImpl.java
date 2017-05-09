@@ -66,6 +66,8 @@ public class TestProductCacheImpl implements ProductCache {
 
         detailsProductEntity.setProductId(productId+shopId+random.nextInt(1234));
         detailsProductEntity.setShopId(productId+shopId+random.nextInt(1234));
+        detailsProductEntity.setShopName("THIS IS SPARTA");
+        detailsProductEntity.setShopLocation("SPARTA,SPAIN");
         detailsProductEntity.setProductPrice(random.nextInt(3000));
         detailsProductEntity.setProductTitle("What is Lorem Ipsum?");
         detailsProductEntity.setProductImages(new ArrayList<>(Arrays.asList(placeHolders)));

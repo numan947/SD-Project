@@ -3,8 +3,12 @@ package com.example;
 import java.net.URL;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ * Representation of List Product in the domain layer.
+ **/
 
 public class ListProduct {
     //needed IDs

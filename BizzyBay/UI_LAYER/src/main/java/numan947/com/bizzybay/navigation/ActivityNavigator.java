@@ -7,8 +7,12 @@ import numan947.com.bizzybay.view.activity.DetailsProductActivity;
 import numan947.com.bizzybay.view.activity.MainActivity;
 
 /**
- * Created by numan947 on 5/7/17.
- */
+ *
+ * @author numan947
+ * @since 5/7/17.<br>
+ *
+ * This class provides navgation from one activity to another.
+ **/
 
 public class ActivityNavigator {
     private Context context;
@@ -18,12 +22,18 @@ public class ActivityNavigator {
         this.context = context;
     }
 
+    /**
+     * Navigation to {@link MainActivity}
+     * */
     public void navigateToMainActivity(int userid)
     {
         Intent callingIntent = MainActivity.getCallingIntent(context,userid);
         context.startActivity(callingIntent);
     }
 
+    /**
+     * Navigation to {@link DetailsProductActivity}
+     * */
     public void navigateToDetailsProductActivity(int productid,int shopid)
     {
         Intent callingIntent = DetailsProductActivity.getCallingIntent(context,productid,shopid);

@@ -6,8 +6,12 @@ import android.support.v4.app.FragmentManager;
 import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
 
 /**
- * Created by numan947 on 5/9/17.
- */
+ *
+ * @author numan947
+ * @since 5/9/17.<br>
+ *
+ * Provides navigation for fragments not in the {@link android.support.v4.widget.DrawerLayout}
+ **/
 
 public class FragmentNavigator {
     private Context context;
@@ -19,6 +23,9 @@ public class FragmentNavigator {
         this.context = context;
     }
 
+    /**
+     * Navigation to the {@link ProductDetailsFragment} which is inside the {@link numan947.com.bizzybay.view.activity.DetailsProductActivity}
+     * */
     public void navigateToDetailsFragment(FragmentManager fragmentManager,int container,int productId,int shopId)
     {
         ProductDetailsFragment fragment = (ProductDetailsFragment) fragmentManager.findFragmentByTag(DETAILS_FRAGMENT);

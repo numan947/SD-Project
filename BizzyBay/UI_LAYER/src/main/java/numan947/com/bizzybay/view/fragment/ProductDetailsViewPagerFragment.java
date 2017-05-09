@@ -14,8 +14,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import numan947.com.bizzybay.R;
 
 /**
- * Created by numan947 on 5/7/17.
- */
+ *
+ * @author numan947
+ * @since 5/7/17.<br>
+ *
+ * Fragment for the {@link android.support.v4.view.ViewPager} element of the
+ * {@link ProductDetailsFragment}
+ *
+ **/
 
 public class ProductDetailsViewPagerFragment extends Fragment {
     private static final String KEY = "numan947.com.bizzybay.view.fragment.ProductDetailsViewPagerFragment.KEY";

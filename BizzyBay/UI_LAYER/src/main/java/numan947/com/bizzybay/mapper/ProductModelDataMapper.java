@@ -10,10 +10,19 @@ import numan947.com.bizzybay.model.DetailsProductModel;
 import numan947.com.bizzybay.model.ListProductModel;
 
 /**
- * Created by numan947 on 5/1/17.
- */
+ *
+ * @author numan947
+ * @since 5/1/17.<br>
+ *
+ *
+ * This class provides mapping from Domain Layer models to UI Layer models for the Products.
+ **/
 
 public class ProductModelDataMapper {
+
+    /**
+     * Maps {@link ListProduct} to {@link ListProductModel}
+     * */
     public ArrayList<ListProductModel> transform(Collection<ListProduct> listProducts) {
         ArrayList<ListProductModel>listProductModels = new ArrayList<>();
         for(ListProduct product:listProducts){
@@ -28,6 +37,9 @@ public class ProductModelDataMapper {
         return listProductModels;
     }
 
+    /**
+     * Maps {@link DetailsProduct} to {@link DetailsProductModel}
+     * */
     public DetailsProductModel transform(DetailsProduct product) {
         //todo do conversion here, like html tag adding and what not
 
