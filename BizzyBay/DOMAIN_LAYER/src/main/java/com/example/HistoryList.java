@@ -10,18 +10,18 @@ import java.util.ArrayList;
 public class HistoryList {
 
     private String Date;
-    private ArrayList<HistoryPerShop> historyPerShopModel;
+    private ArrayList<HistoryPerShop> historyPerShop;
 
-    public HistoryList(String date, ArrayList<HistoryPerShop> historyPerShopModel) {
+    public HistoryList(String date, ArrayList<HistoryPerShop> historyPerShop) {
         Date = date;
-        this.historyPerShopModel = historyPerShopModel;
+        this.historyPerShop = historyPerShop;
     }
 
     public String getDate() {
         return Date;
     }
 
-    public ArrayList<HistoryPerShop> getHistoryPerShopModel() {
-        return historyPerShopModel;
+    public ArrayList<HistoryPerShop> getHistoryPerShop() {
+        return historyPerShop;
     }
 }

@@ -93,7 +93,8 @@ public class TestHistoryCacheImpl implements HistoryCache {
         cal.set(Calendar.YEAR,year);
         cal.set(Calendar.DAY_OF_YEAR,randBetween(1,cal.getActualMaximum(Calendar.DAY_OF_YEAR)));
 
-        return cal.toString();
+        return  (cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+
 
     }
     private int randBetween(int start, int end) {

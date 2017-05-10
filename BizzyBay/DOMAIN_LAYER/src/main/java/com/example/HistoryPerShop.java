@@ -11,19 +11,19 @@ public class HistoryPerShop {
 
     private String shopName;
 
-    private ArrayList<HistoryPerProduct> historyPerProductModel;
+    private ArrayList<HistoryPerProduct> historyPerProduct;
 
 
-    public HistoryPerShop(String shopName, ArrayList<HistoryPerProduct> historyPerProductModel) {
+    public HistoryPerShop(String shopName, ArrayList<HistoryPerProduct> historyPerProduct) {
         this.shopName = shopName;
-        this.historyPerProductModel = historyPerProductModel;
+        this.historyPerProduct = historyPerProduct;
     }
 
     public String getShopName() {
         return shopName;
     }
 
-    public ArrayList<HistoryPerProduct> getHistoryPerProductModel() {
-        return historyPerProductModel;
+    public ArrayList<HistoryPerProduct> getHistoryPerProduct() {
+        return historyPerProduct;
     }
 }

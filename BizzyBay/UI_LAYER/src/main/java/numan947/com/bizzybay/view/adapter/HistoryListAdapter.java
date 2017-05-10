@@ -1,7 +1,6 @@
 package numan947.com.bizzybay.view.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,13 +133,16 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
 
     private class HistoryListViewHolder extends RecyclerView.ViewHolder{
 
+
         private HistoryListModel model;
 
         private TextView historyDate;
-        private CardView historyPageShopHolder;
+        private LinearLayout historyPageShopHolder;
+        LinearLayout.LayoutParams historyPageShopHolderParams;
 
         private TextView shopName;
         private LinearLayout historyPageProductHolder;
+        LinearLayout.LayoutParams historyPageProductHolderParams;
 
 
         private TextView productName;
@@ -153,15 +155,22 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
             super(itemView);
 
             this.bindSingleDateView(itemView);
+
+            historyPageShopHolderParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            historyPageShopHolderParams.setMargins(10,10,10,10);
+
+            historyPageProductHolderParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            historyPageProductHolderParams.setMargins(10,10,10,10);
         }
 
         private void bindSingleDateView(View itemView) {
             historyDate = (TextView)itemView.findViewById(R.id.history_page_date);
-            historyPageShopHolder = (CardView)itemView.findViewById(R.id.history_page_shop_holder);
+            historyPageShopHolder = (LinearLayout) itemView.findViewById(R.id.history_page_shop_holder);
         }
 
         public void bindModel(HistoryListModel model)
         {
+            this.model = model;
             //setting up date
             historyDate.setText(model.getDate());
 
@@ -174,7 +183,9 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
 
                 v = this.bindHistoryPerShop(historyPerShopModel.get(i));
 
-                if (v!=null) historyPageShopHolder.addView(v,i);
+                if (v!=null){
+                    historyPageShopHolder.addView(v,historyPageShopHolderParams);
+                }
             }
         }
 
@@ -202,10 +213,12 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
             int size = historyPerProductModel.size();
 
             View v;
-            for(int i = 0 ; i<size ; i++){
+            for(int i = 0 ; i<size ; i++) {
                 v = this.bindHistoryPerProduct(historyPerProductModel.get(i));
 
-                if(v!=null)historyPageProductHolder.addView(v,i);
+                if (v != null) {
+                    historyPageProductHolder.addView(v,historyPageProductHolderParams);
+                }
             }
         }
 

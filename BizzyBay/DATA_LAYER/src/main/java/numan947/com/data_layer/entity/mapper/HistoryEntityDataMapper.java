@@ -22,8 +22,9 @@ public class HistoryEntityDataMapper {
     public HistoryEntityDataMapper() {
     }
 
-    public ArrayList<HistoryList> transform(ArrayList<HistoryListEntity> historyListEntities) {
+    public ArrayList<HistoryList> transform(ArrayList<HistoryListEntity> historyListEntities1) {
 
+        ArrayList<HistoryListEntity>historyListEntities = new ArrayList<>(historyListEntities1);
         ArrayList<HistoryList>historyList = new ArrayList<>();
 
 

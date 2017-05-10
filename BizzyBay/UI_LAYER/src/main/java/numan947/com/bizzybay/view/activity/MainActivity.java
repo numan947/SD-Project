@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     //fields passed as parameters to this activity
     private static final String USER_ID="numan947.com.bizzybay.view.activity.MainActivity.USER_ID";
+    private static final String CURRENT_FRAGMENT="numan947.com.bizzybay.view.activity.MainActivity.CURRENT_FRAGMENT";
     private int userId;//todo or should we use the whole user class
 
     //fields to bind the view
@@ -58,6 +59,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private DrawerNavigator drawerNavigator;
     private ActivityNavigator activityNavigator;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
+
+    private int currentFragment=-1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +84,42 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawerNavigator = new DrawerNavigator(this);
 
         //show the list by default
-        this.showProductListFragment();
+        if(currentFragment==-1)
+            this.showProductListFragment();
+        else
+            this.showSuitableFragment();
 
+
+    }
+
+    private void showSuitableFragment() {
+        switch (currentFragment){
+           case R.id.history:
+               showHistoryListFragment();
+               break;
+            case R.id.browse_products:
+                showProductListFragment();
+                break;
+            //todo handle rest
+            
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(outState!=null)
+            outState.putInt(CURRENT_FRAGMENT,currentFragment);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState !=null) {
+            currentFragment = savedInstanceState.getInt(CURRENT_FRAGMENT, -1);
+            this.showSuitableFragment();
+        }
     }
 
     /**
@@ -90,13 +129,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         userId = getIntent().getIntExtra(USER_ID,-1);
     }
 
-    /**
-     * Method for showing the first fragment.
-     * */
-    private void showProductListFragment() {
-        drawerNavigator.navigateToProductListFragment(R.id.main_activity_frame,getSupportFragmentManager());
-        navigationView.setCheckedItem(R.id.browse_products);
-    }
 
     /**
      * Binds the views related to this activity.
@@ -225,11 +257,33 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
            case R.id.browse_products:
                this.showProductListFragment();
                break;
+           case R.id.history:
+               this.showHistoryListFragment();
+               break;
            //todo handle other case here
 
        }
        drawerLayout.closeDrawer(navigationDrawerGravity);
         return true;
+    }
+    /**
+     * Method for showing the first fragment.
+     * */
+    private void showProductListFragment() {
+        drawerNavigator.navigateToProductListFragment(R.id.main_activity_frame,getSupportFragmentManager());
+        navigationView.setCheckedItem(R.id.browse_products);
+        currentFragment = R.id.browse_products;
+    }
+
+
+    /**
+     *
+     * Method for showing the history list fragment
+     * */
+    private void showHistoryListFragment() {
+        drawerNavigator.navigateToHistoryListFragment(R.id.main_activity_frame,getSupportFragmentManager());
+        navigationView.setCheckedItem(R.id.history);
+        currentFragment = R.id.history;
     }
 
     /**

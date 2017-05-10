@@ -3,6 +3,7 @@ package numan947.com.bizzybay.navigation;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
+import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 
 
@@ -18,6 +19,7 @@ import numan947.com.bizzybay.view.fragment.ProductListFragment;
 public class DrawerNavigator {
     private Context context;
     private final String PRODUCT_LIST_FRAGMENT = "numan947.com.bizzybay.navigation.DrawerNavigator.PRODUCT_LIST_FRAGMENT";
+    private final String HISTORY_LIST_FRAGMENT = "numan947.com.bizzybay.navigation.DrawerNavigator.HISTORY_LIST_FRAGMENT";
 
 
     public DrawerNavigator(Context context){
@@ -41,4 +43,14 @@ public class DrawerNavigator {
     }
 
 
+    public void navigateToHistoryListFragment(int container,FragmentManager fragmentManager) {
+        HistoryListFragment fragment;
+        fragment = (HistoryListFragment) fragmentManager.findFragmentByTag(HISTORY_LIST_FRAGMENT);
+
+        if(fragment==null)
+            fragment  = HistoryListFragment.newInstance();
+
+        fragmentManager.beginTransaction().replace(container,fragment,HISTORY_LIST_FRAGMENT).commit();
+
+    }
 }

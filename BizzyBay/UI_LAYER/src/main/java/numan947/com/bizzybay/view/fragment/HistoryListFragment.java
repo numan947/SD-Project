@@ -168,7 +168,7 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                //todo implement later
+                historyListPresenter.initialize(page);
             }
         };
 

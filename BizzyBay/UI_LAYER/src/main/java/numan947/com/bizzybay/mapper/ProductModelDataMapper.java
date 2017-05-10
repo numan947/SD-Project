@@ -23,7 +23,9 @@ public class ProductModelDataMapper {
     /**
      * Maps {@link ProductList} to {@link ProductListModel}
      * */
-    public ArrayList<ProductListModel> transform(Collection<ProductList> productLists) {
+    public ArrayList<ProductListModel> transform(Collection<ProductList> productLists1) {
+
+        ArrayList<ProductList>productLists = new ArrayList<>(productLists1);
         ArrayList<ProductListModel> productListModels = new ArrayList<>();
         for(ProductList product: productLists){
             //todo do conversion here, like html tag adding and what not
