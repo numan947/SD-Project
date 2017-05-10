@@ -29,6 +29,7 @@ import numan947.com.bizzybay.model.ListProductModel;
 import numan947.com.bizzybay.presenter.ProductListPresenter;
 import numan947.com.bizzybay.view.ProductListView;
 import numan947.com.bizzybay.view.adapter.ProductListAdapter;
+import numan947.com.bizzybay.view.component.EndlessRecyclerViewScrollListener;
 import numan947.com.data_layer.cache.ProductCache;
 import numan947.com.data_layer.cache.TestProductCacheImpl;
 import numan947.com.data_layer.entity.mapper.ProductEntityDataMapper;
@@ -66,6 +67,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     private ProductListPresenter productListPresenter;
     private ProductListListener productListListener;
     private ProductListAdapter adapter;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 
 
     //the views related to the view
@@ -104,8 +106,6 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
             productListPresenter.viewProduct(model);
         }
     };
-
-
 
 
     /**
@@ -186,9 +186,23 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     private void setupRecyclerView() {
         //initialize the adapter with dummy list, that'll act as container for the product models
         adapter = new ProductListAdapter(getContext(), adapterCallback,new ArrayList<ListProductModel>());
-        this.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        this.recyclerView.setAdapter(adapter);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
+         // Endless Recycler View Scroll listener, this, listener gives the illusion of endless recycler
+         //view by loading data before the recycler view reaches the end
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                productListPresenter.initialize(page);
+            }
+        };
+
+
+
+        this.recyclerView.setLayoutManager(linearLayoutManager);
+        this.recyclerView.setAdapter(adapter);
+        this.recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
     }
 
     /**
@@ -205,7 +219,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         if(productListPresenter==null)
             initializePresenter();
 
-        productListPresenter.initialize(0);
+        //productListPresenter.initialize(0); //this is called automatically by endless scroller
     }
 
     private void getParameters() {
@@ -285,9 +299,15 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     public void renderProductList(int pageNumber, ArrayList<ListProductModel> products) {
         if(products!=null){
             if(pageNumber==0) {
+                int cnt = adapter.getItemCount();
                 adapter.clearAll();
+                adapter.notifyItemRangeRemoved(0,cnt);
+
+                //reset endless scroll listener
+                endlessRecyclerViewScrollListener.resetState();
+
                 adapter.addAll(products);
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemRangeInserted(0,products.size());
             }
             else{
                 int before = adapter.getItemCount();

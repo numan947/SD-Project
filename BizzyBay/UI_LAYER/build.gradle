@@ -85,4 +85,6 @@ dependencies {
 
     //circle indicator
     compile 'me.relex:circleindicator:1.2.2@aar'
+    //recyclerview fast scroller
+    compile 'xyz.danoz:recyclerviewfastscroller:0.1.3'
 }

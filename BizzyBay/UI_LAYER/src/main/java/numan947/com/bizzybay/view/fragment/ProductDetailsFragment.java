@@ -43,6 +43,7 @@ import numan947.com.bizzybay.model.DetailsProductModel;
 import numan947.com.bizzybay.presenter.ProductDetailsPresenter;
 import numan947.com.bizzybay.view.ProductDetailsView;
 import numan947.com.bizzybay.view.adapter.ProductDetailsViewPagerAdapter;
+import numan947.com.bizzybay.view.component.CircularViewPagerHandler;
 import numan947.com.data_layer.cache.ProductCache;
 import numan947.com.data_layer.cache.TestProductCacheImpl;
 import numan947.com.data_layer.entity.mapper.ProductEntityDataMapper;
@@ -147,14 +148,14 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
                 int cur = viewPager.getCurrentItem();
 
                 if(cur==viewPager.getAdapter().getCount()-1)
-                    viewPager.setCurrentItem(0,true);
+                    viewPager.setCurrentItem(0,false);
                 else
                     viewPager.setCurrentItem(++cur,true);
             }
         }
     };
     private Timer viewPagerTimer;
-    private final long TIME_BEFORE_PAGE_CHANGE = 3000;
+    private final long TIME_BEFORE_PAGE_CHANGE = 5000;
 
 
     public ProductDetailsFragment(){
@@ -211,7 +212,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View returnView = inflater.inflate(R.layout.details_product_view,container,false);
+        View returnView = inflater.inflate(R.layout.details_product_fragment,container,false);
 
         this.bindAll(returnView);
         this.setupToolbar();
@@ -362,14 +363,19 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         pagerIndicator.setViewPager(viewPager);
         viewPagerAdapter.registerDataSetObserver(pagerIndicator.getDataSetObserver());
 
+        //setting up circular viewpager
+        viewPager.addOnPageChangeListener(new CircularViewPagerHandler(viewPager));
+
+
+
         //setup
         pagerRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (viewPager.getAdapter() != null) {
                     if (viewPager.getCurrentItem() == viewPager.getAdapter().getCount() - 1)
-                        viewPager.setCurrentItem(0);
-                    else viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                        viewPager.setCurrentItem(0,false);
+                    else viewPager.setCurrentItem(viewPager.getCurrentItem() + 1,true);
 
                 }
             }
@@ -380,9 +386,9 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
             public void onClick(View v) {
                 if(viewPager.getAdapter()!=null){
                     if(viewPager.getCurrentItem()==0)
-                        viewPager.setCurrentItem(viewPager.getAdapter().getCount()-1);
+                        viewPager.setCurrentItem(viewPager.getAdapter().getCount()-1,false);
                     else
-                        viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
+                        viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
                 }
             }
         });

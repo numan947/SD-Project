@@ -11,20 +11,31 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/list_product_fragment_SRL"
         android:fitsSystemWindows="true">
-        <android.support.v7.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/list_product_fragment_recycler_view"/>
+            android:orientation="vertical"
+            android:clickable="true">
 
-        <include
-            layout="@layout/generic_progress_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <include
-            layout="@layout/generic_retry_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list_product_fragment_recycler_view"
+                android:scrollbarThumbVertical="@android:color/darker_gray"
+                android:scrollbars="vertical"
+                android:scrollbarSize="5dp"/>
+
+            <include
+                layout="@layout/generic_progress_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <include
+                layout="@layout/generic_retry_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

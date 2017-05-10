@@ -28,10 +28,10 @@ public class TestProductCacheImpl implements ProductCache {
             "http://placeimg.com/640/480/tech",
             "https://placebear.com/640/480",
             "https://placebear.com/200/300",
-            "http://placekitten.com/640/400",
-            "http://placekitten.com/300/400",
-            "http://placekitten.com/400/500",
-            "http://placekitten.com/400/400"
+            "http://placebear.com/640/400",
+            "http://placebear.com/300/400",
+            "http://placebear.com/400/500",
+            "http://placebear.com/400/400"
 
     };
 
@@ -114,7 +114,7 @@ public class TestProductCacheImpl implements ProductCache {
             ListProductEntity a= new ListProductEntity(pos+i+1,
                     pos+i+1,"ProductTitle"+pos+" "+i,(pos+i+1)*100,
                     "SHOP details here",
-                    ((pos+i)%2)==1,placeHolders[(pos+i)%5]);
+                    ((pos+i)%2)==1,placeHolders[(pos+i)%placeHolders.length]);
 
             productEntities.add(a);
         }
