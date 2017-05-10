@@ -200,9 +200,8 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setRetainInstance(false);
-        setRetainInstance(true);
         setHasOptionsMenu(true);
+
     }
 
     /**
@@ -314,6 +313,15 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private void setupToolbar() {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return onOptionsItemSelected(item);
+            }
+        });
         //todo add handler for toolbar elements
     }
 
@@ -323,6 +331,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.navigation_view_menu,menu);
         //todo create options menu here
     }
 

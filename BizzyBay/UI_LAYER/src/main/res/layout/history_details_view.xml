@@ -3,7 +3,8 @@
 <android.support.v4.widget.NestedScrollView
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/history_details_view_NSV">
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,6 +14,10 @@
                   android:layout_height="match_parent"
                   android:layout_margin="2dp"
         >
+        <include
+            layout="@layout/generic_retry_view"/>
+        <include
+            layout="@layout/generic_progress_view"/>
         <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
