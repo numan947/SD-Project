@@ -1,10 +1,14 @@
 package numan947.com.data_layer.cache;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
 import numan947.com.data_layer.entity.HistoryDetailsEntity;
 import numan947.com.data_layer.entity.HistoryListEntity;
+import numan947.com.data_layer.entity.HistoryPerProductEntity;
+import numan947.com.data_layer.entity.HistoryPerShopEntity;
 
 /**
  * @author numan947
@@ -14,6 +18,7 @@ import numan947.com.data_layer.entity.HistoryListEntity;
 public class TestHistoryCacheImpl implements HistoryCache {
 
     private ArrayList<HistoryListEntity> historyEntities;
+
     Random random = new Random();
 
     private String[] placeHolders =  new String[]{
@@ -40,6 +45,7 @@ public class TestHistoryCacheImpl implements HistoryCache {
     private TestHistoryCacheImpl()
     {
         this.historyEntities = new ArrayList<>();
+
     }
 
 
@@ -56,14 +62,42 @@ public class TestHistoryCacheImpl implements HistoryCache {
 
         for(int i=0;i<10;i++){
 
-            HistoryListEntity historyListEntity = new HistoryListEntity()
+            ArrayList<HistoryPerShopEntity>perShopEntities = new ArrayList<>();
+            for(int k=0;k<3;k++) {
 
 
+                ArrayList<HistoryPerProductEntity>perProductEntities = new ArrayList<>();
+                for (int j = 0; j < 5; j++) {
+                    HistoryPerProductEntity historyPerProductEntity = new HistoryPerProductEntity(j, j, j, "ProductName " + j,
+                            "ProductQuantity" + j, "ProductStatus" + j, "ProductPrice" + j, placeHolders[random.nextInt(3000) % placeHolders.length]);
+
+                    perProductEntities.add(historyPerProductEntity);
+                }
+                HistoryPerShopEntity historyPerShopEntity = new HistoryPerShopEntity("ShopName "+k,perProductEntities);
+
+                perShopEntities.add(historyPerShopEntity);
+            }
+            HistoryListEntity historyListEntity = new HistoryListEntity(this.getRandomDate(),perShopEntities);
+
+            historyEntities.add(historyListEntity);
         }
 
+        providedCallback.onHistoryListLoaded(pageNumber,historyEntities);
+    }
 
+    private String getRandomDate() {
 
+        GregorianCalendar cal = new GregorianCalendar();
+        int year = randBetween(1990,2016);
 
+        cal.set(Calendar.YEAR,year);
+        cal.set(Calendar.DAY_OF_YEAR,randBetween(1,cal.getActualMaximum(Calendar.DAY_OF_YEAR)));
+
+        return cal.toString();
+
+    }
+    private int randBetween(int start, int end) {
+        return start + (int)Math.round(Math.random() * (end - start));
     }
 
     @Override

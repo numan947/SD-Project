@@ -25,4 +25,16 @@ public interface HistoryListView extends DataToLoad {
      * */
     void viewProductHistory(int orderId,int shopId,int productId);
 
+
+    /**
+     *
+     * Hides the Recycler view
+     * */
+    void hideList();
+
+    /**
+     * Shows the recycler view
+     * */
+    void showList();
+
 }

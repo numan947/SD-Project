@@ -22,6 +22,7 @@ import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.DrawerNavigator;
+import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 
 
@@ -36,7 +37,7 @@ import numan947.com.bizzybay.view.fragment.ProductListFragment;
  *
  * */
 @SuppressWarnings("FieldCanBeLocal")
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,ProductListFragment.ProductListListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,ProductListFragment.ProductListListener,HistoryListFragment.HistoryListListener {
 
 
     private final int navigationDrawerGravity = GravityCompat.START;
@@ -274,4 +275,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
 
+    @Override
+    public void onHistoryItemClicked(int orderId, int shopId, int productId) {
+        //todo show single history activity here
+        Toast.makeText(this,"WILL SHOW THE HISTORY DETAILS",Toast.LENGTH_SHORT).show();
+    }
 }

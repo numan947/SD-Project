@@ -1,5 +1,6 @@
 package numan947.com.bizzybay.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -12,20 +13,36 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.executor.PostExecutionThread;
+import com.example.executor.ThreadExecutor;
+import com.example.interactor.GetHistoryListUseCase;
+import com.example.interactor.GetHistoryListUseCaseImpl;
+import com.example.repository.HistoryRepository;
+
 import java.util.ArrayList;
 
+import numan947.com.bizzybay.BizzyBay;
+import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.mapper.HistoryModelDataMapper;
 import numan947.com.bizzybay.model.HistoryListModel;
 import numan947.com.bizzybay.presenter.HistoryListPresenter;
 import numan947.com.bizzybay.view.HistoryListView;
 import numan947.com.bizzybay.view.adapter.HistoryListAdapter;
 import numan947.com.bizzybay.view.component.EndlessRecyclerViewScrollListener;
+import numan947.com.data_layer.cache.HistoryCache;
+import numan947.com.data_layer.cache.TestHistoryCacheImpl;
+import numan947.com.data_layer.entity.mapper.HistoryEntityDataMapper;
+import numan947.com.data_layer.executor.BackgroundExecutor;
+import numan947.com.data_layer.repository.HistoryDataRepository;
+import numan947.com.data_layer.repository.datasource.HistoryDataStoreFactory;
 
 /**
  * @author numan947
  * @since 5/10/17.<br>
  **/
 
+@SuppressWarnings("FieldCanBeLocal")
 public class HistoryListFragment extends BaseFragment implements HistoryListView {
 
     public interface HistoryListListener{
@@ -66,6 +83,14 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
     {
         //todo add viable parameters here
         return new HistoryListFragment();
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof HistoryListListener)
+            this.historyListListener = (HistoryListListener)context;
     }
 
     @Nullable
@@ -173,7 +198,28 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
 
     @Override
     protected void initializePresenter() {
-        //todo initialize presenter
+        //todo
+        PostExecutionThread postExecutionThread = MainThread.getInstance();
+        ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
+
+
+        //todo add JSON Parser here plus other things, like a real cache instead of a test one
+
+        HistoryCache historyCache = TestHistoryCacheImpl.getInstance();
+
+
+        HistoryDataStoreFactory historyDataStoreFactory = new HistoryDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),historyCache);
+        HistoryEntityDataMapper historyEntityDataMapper = new HistoryEntityDataMapper();
+
+        HistoryRepository historyRepository = HistoryDataRepository.getInstance(historyDataStoreFactory,historyEntityDataMapper);
+
+        GetHistoryListUseCase getHistoryListUseCase = new GetHistoryListUseCaseImpl(historyRepository,postExecutionThread,threadExecutor);
+
+        HistoryModelDataMapper historyModelDataMapper = new HistoryModelDataMapper();
+
+
+        this.historyListPresenter = new HistoryListPresenter(this,getHistoryListUseCase,historyModelDataMapper);
+
     }
 
     @Override
@@ -223,5 +269,31 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
     public void viewProductHistory(int orderId, int shopId,int productId) {
         //pass to the activity
         historyListListener.onHistoryItemClicked(orderId,shopId,productId);
+    }
+
+    @Override
+    public void hideList() {
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showList() {
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public void onResume() {
+        //todo do something here may be?
+        super.onResume();
+        historyListPresenter.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        //todo do something here may be?
+        historyListPresenter.onPause();
+        super.onPause();
+
     }
 }

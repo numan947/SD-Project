@@ -1,7 +1,5 @@
 package numan947.com.data_layer.entity;
 
-import com.example.HistoryPerShop;
-
 import java.util.ArrayList;
 
 /**
@@ -12,19 +10,19 @@ import java.util.ArrayList;
 public class HistoryListEntity {
 
     private String Date;
-    private ArrayList<HistoryPerShop> historyPerShopModel;
+    private ArrayList<HistoryPerShopEntity> historyPerShopEntities;
 
 
-    public HistoryListEntity(String date, ArrayList<HistoryPerShop> historyPerShopModel) {
+    public HistoryListEntity(String date, ArrayList<HistoryPerShopEntity> historyPerShopEntities) {
         Date = date;
-        this.historyPerShopModel = historyPerShopModel;
+        this.historyPerShopEntities = historyPerShopEntities;
     }
 
     public String getDate() {
         return Date;
     }
 
-    public ArrayList<HistoryPerShop> getHistoryPerShopModel() {
-        return historyPerShopModel;
+    public ArrayList<HistoryPerShopEntity> getHistoryPerShopEntities() {
+        return historyPerShopEntities;
     }
 }

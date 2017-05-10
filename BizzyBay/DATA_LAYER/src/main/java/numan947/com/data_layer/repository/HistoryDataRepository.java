@@ -7,6 +7,7 @@ import com.example.repository.HistoryRepository;
 import java.util.ArrayList;
 
 import numan947.com.data_layer.entity.HistoryDetailsEntity;
+import numan947.com.data_layer.entity.HistoryListEntity;
 import numan947.com.data_layer.entity.mapper.HistoryEntityDataMapper;
 import numan947.com.data_layer.exception.RepositoryErrorBundle;
 import numan947.com.data_layer.repository.datasource.HistoryDataStore;
@@ -50,8 +51,8 @@ public class HistoryDataRepository implements HistoryRepository {
 
         HistoryDataStore.HistoryListCallback createdCallback = new HistoryDataStore.HistoryListCallback() {
             @Override
-            public void onHistoryListLoaded(int pageNumber, ArrayList<HistoryDetailsEntity> historyDetails) {
-                ArrayList<HistoryList>historyList = historyEntityDataMapper.transform(historyDetails);
+            public void onHistoryListLoaded(int pageNumber, ArrayList<HistoryListEntity> listEntities) {
+                ArrayList<HistoryList>historyList = historyEntityDataMapper.transform(listEntities);
 
                 providedCallback.onHistoryListLoaded(pageNumber,historyList);
 
