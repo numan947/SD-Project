@@ -43,6 +43,50 @@ public class ProductDetailsModel {
 
     }
 
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public void setShopLocation(String shopLocation) {
+        this.shopLocation = shopLocation;
+    }
+
+    public void setCarted(boolean carted) {
+        isCarted = carted;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    public void setProductDetails(String productDetails) {
+        this.productDetails = productDetails;
+    }
+
+    public void setProductCategories(ArrayList<String> productCategories) {
+        this.productCategories = productCategories;
+    }
+
+    public void setProductImages(ArrayList<String> productImages) {
+        this.productImages = productImages;
+    }
+
     public int getProductId() {
         return productId;
     }

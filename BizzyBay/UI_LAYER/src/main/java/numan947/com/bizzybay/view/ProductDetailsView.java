@@ -22,13 +22,13 @@ public interface ProductDetailsView extends DataToLoad {
      * Called by the Presenter when the Like Button of the
      * product is clicked.
      * */
-    void showProductLiked(int productId,int shopId);
+    void showProductLiked(ProductDetailsModel model);
 
     /**
      * Called by the Presenter when the Add to Cart Button of the
      * product is clicked.
      * */
-    void showProductAddedToCart(int productId, int shopId);
+    void showProductAddedToCart(ProductDetailsModel model);
 
     /**
      * Called by the Presenter when the Buy Button of the

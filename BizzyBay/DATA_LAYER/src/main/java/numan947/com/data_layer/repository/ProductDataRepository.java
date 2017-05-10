@@ -27,6 +27,10 @@ import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 public class ProductDataRepository implements ProductRepository {
 
+    //todo remove these debug thingy
+    static int cnt=0;
+    static int cnt2=0;
+
 
     private static ProductDataRepository INSTANCE;
 
@@ -52,7 +56,8 @@ public class ProductDataRepository implements ProductRepository {
     @Override
     public void getProductList(int pageNumber, final ProductListCallback providedCallback) {
         //todo create a real data store and load
-
+        System.out.println("Product REQ....1  "+cnt);
+        cnt++;
 
         final ProductDataStore productDataStore = this.productDataStoreFactory.createTestDataStore();
 
@@ -80,7 +85,8 @@ public class ProductDataRepository implements ProductRepository {
 
     @Override
     public void getSingleProduct(int productId, int shopId, final ProductDetailsCallback providedCallback) {
-
+        System.out.println("Product REQ....2  "+cnt2);
+        cnt2++;
         //todo create real data store and load
 
         final ProductDataStore productDataStore = productDataStoreFactory.createTestDataStore();

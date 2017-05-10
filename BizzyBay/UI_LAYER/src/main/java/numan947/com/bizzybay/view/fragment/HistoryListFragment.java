@@ -44,6 +44,8 @@ import numan947.com.data_layer.repository.datasource.HistoryDataStoreFactory;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class HistoryListFragment extends BaseFragment implements HistoryListView {
+    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.HISTORY_LIST_FRAGMENT";
+
 
     public interface HistoryListListener{
         void onHistoryItemClicked(int orderId,int shopId,int productId);
@@ -58,11 +60,14 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
 
 
 
-    private HistoryListPresenter historyListPresenter;
-    private HistoryListListener historyListListener;
+    private HistoryListPresenter historyListPresenter; //will be retained & reused
+    private HistoryListListener historyListListener; //will be retained & reused
     private HistoryListAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+
+    private ArrayList<HistoryListModel>adapterItems; //will be retained & reused
+    private int pageNumber; //will be retained & reused
 
 
 
@@ -85,6 +90,13 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
         return new HistoryListFragment();
     }
 
+    public static String getFragmentID()
+    {
+        return  fragmentId;
+    }
+
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -103,20 +115,23 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
         this.addListenersToView();
         this.setupSwipeRefreshView();
 
+
+
         return v;
     }
 
+
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        if(savedInstanceState!=null)this.restoreSavedStates(savedInstanceState);
-        this.getParameters();
-
-        if(historyListPresenter==null)
-            initializePresenter();
-
-        historyListPresenter.initialize(0);
+        if(savedInstanceState==null){
+            this.getParameters();
+            if(historyListPresenter==null)
+                initializePresenter();
+            historyListPresenter.initialize(0);
+        }
+        //else do noting
     }
 
     private void getParameters() {
@@ -143,6 +158,7 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                HistoryListFragment.this.pageNumber = 0;
                 historyListPresenter.initialize(0);
             }
         });
@@ -163,18 +179,19 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
 
     private void setupRecyclerView() {
 
-        adapter = new HistoryListAdapter(getContext(),new ArrayList<HistoryListModel>(),adapterCallback);
+        adapter = new HistoryListAdapter(getContext(),adapterItems,adapterCallback);
+
         linearLayoutManager  = new LinearLayoutManager(getContext());
+
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                historyListPresenter.initialize(page);
+
+                //System.err.println("LOADING PAGE "+(pageNumber+1));
+
+                historyListPresenter.initialize(++pageNumber);
             }
         };
-
-
-        this.resetRecyclerViewAdapter();
-
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
@@ -182,7 +199,8 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
     }
 
     private void resetRecyclerViewAdapter() {
-        this.adapter.clearAll();
+        pageNumber = 0;
+        this.adapterItems.clear();
         adapter.notifyDataSetChanged();
         endlessRecyclerViewScrollListener.resetState();
     }
@@ -198,7 +216,11 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
 
     @Override
     protected void initializePresenter() {
+       // System.out.println("ON CRET");
         //todo
+
+        adapterItems = new ArrayList<>();//this should be always retained
+
         PostExecutionThread postExecutionThread = MainThread.getInstance();
         ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
 
@@ -254,10 +276,13 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
     public void renderHistoryList(int pageNumber, ArrayList<HistoryListModel> historyList) {
         if(pageNumber==0){
             resetRecyclerViewAdapter();
+
             adapter.addAll(historyList);
+
             adapter.notifyItemRangeInserted(0,historyList.size());
         }
         else{
+            this.pageNumber = pageNumber;
             int before = adapter.getModelSize();
             adapter.addAll(historyList);
             int after = adapter.getModelSize();

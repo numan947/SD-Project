@@ -1,6 +1,5 @@
 package numan947.com.bizzybay.navigation;
 
-import android.content.Context;
 import android.support.v4.app.FragmentManager;
 
 import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
@@ -14,27 +13,33 @@ import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
  **/
 
 public class FragmentNavigator {
-    private Context context;
 
-    private final String DETAILS_FRAGMENT = "numan947.com.bizzybay.navigation.FragmentNavigator.DETAILS_FRAGMENT";
+    //singleton
+    private static FragmentNavigator navigator;
 
+    public static FragmentNavigator getInstance()
+    {
+        if(navigator==null)navigator = new FragmentNavigator();
+        return navigator;
+    }
 
-    public FragmentNavigator(Context context) {
-        this.context = context;
+    private FragmentNavigator() {
+
     }
 
     /**
      * Navigation to the {@link ProductDetailsFragment} which is inside the {@link numan947.com.bizzybay.view.activity.DetailsProductActivity}
      * */
-    public void navigateToDetailsFragment(FragmentManager fragmentManager,int container,int productId,int shopId)
-    {
-        ProductDetailsFragment fragment = (ProductDetailsFragment) fragmentManager.findFragmentByTag(DETAILS_FRAGMENT);
-        if(fragment==null)
-            fragment = ProductDetailsFragment.newInstance(productId,shopId);
+    public void navigateToDetailsFragment(FragmentManager fragmentManager,int container,int productId,int shopId) {
 
-        fragmentManager.beginTransaction().replace(container,fragment,DETAILS_FRAGMENT).commit();
+        ProductDetailsFragment fragment = (ProductDetailsFragment) fragmentManager.findFragmentByTag(ProductDetailsFragment.getFragmentID());
+
+
+        if (fragment == null) {
+            fragment = ProductDetailsFragment.newInstance(productId, shopId);
+            fragmentManager.beginTransaction().add(container, fragment, ProductDetailsFragment.getFragmentID()).commit();
+        }
     }
-
 
 
 

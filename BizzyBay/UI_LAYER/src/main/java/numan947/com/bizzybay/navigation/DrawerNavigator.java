@@ -1,6 +1,6 @@
 package numan947.com.bizzybay.navigation;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
@@ -17,13 +17,21 @@ import numan947.com.bizzybay.view.fragment.ProductListFragment;
  **/
 
 public class DrawerNavigator {
-    private Context context;
-    private final String PRODUCT_LIST_FRAGMENT = "numan947.com.bizzybay.navigation.DrawerNavigator.PRODUCT_LIST_FRAGMENT";
-    private final String HISTORY_LIST_FRAGMENT = "numan947.com.bizzybay.navigation.DrawerNavigator.HISTORY_LIST_FRAGMENT";
 
 
-    public DrawerNavigator(Context context){
-        this.context = context;
+
+    private static DrawerNavigator navigator;
+
+    private static String currentFragment = null;
+
+    public static DrawerNavigator getInstance()
+    {
+        if(navigator==null)navigator = new DrawerNavigator();
+        return navigator;
+    }
+
+
+    private DrawerNavigator(){
     }
 
     /**
@@ -31,26 +39,58 @@ public class DrawerNavigator {
      * */
     public void navigateToProductListFragment(int container, FragmentManager fragmentManager)
     {
+
+        if(currentFragment!=null) {
+            Fragment f = fragmentManager.findFragmentByTag(currentFragment);
+
+            if(f!=null)
+                fragmentManager.beginTransaction().hide(f).commit();
+        }
+
+
         ProductListFragment fragment;
 
-        fragment = (ProductListFragment) fragmentManager.findFragmentByTag(PRODUCT_LIST_FRAGMENT);
+        fragment = (ProductListFragment) fragmentManager.findFragmentByTag(ProductListFragment.getFragmentID());
 
-        if(fragment==null)
+        if(fragment==null) {
             fragment = ProductListFragment.newInstance();
+            fragmentManager.beginTransaction().add(container, fragment, ProductListFragment.getFragmentID()).commit();
+        }
+        else
+            fragmentManager.beginTransaction().show(fragment).commit();
 
-        fragmentManager.beginTransaction().replace(container,fragment,PRODUCT_LIST_FRAGMENT).commit();
+
+//        fragmentManager.executePendingTransactions();
+        currentFragment = ProductListFragment.getFragmentID();
+
 
     }
 
 
     public void navigateToHistoryListFragment(int container,FragmentManager fragmentManager) {
+
+
+        if(currentFragment!=null) {
+            Fragment f = fragmentManager.findFragmentByTag(currentFragment);
+            if(f!=null)
+                fragmentManager.beginTransaction().hide(f).commit();
+        }
+
+
         HistoryListFragment fragment;
-        fragment = (HistoryListFragment) fragmentManager.findFragmentByTag(HISTORY_LIST_FRAGMENT);
 
-        if(fragment==null)
-            fragment  = HistoryListFragment.newInstance();
+        fragment = (HistoryListFragment) fragmentManager.findFragmentByTag(HistoryListFragment.getFragmentID());
 
-        fragmentManager.beginTransaction().replace(container,fragment,HISTORY_LIST_FRAGMENT).commit();
+        if(fragment==null) {
+            fragment = HistoryListFragment.newInstance();
+            fragmentManager.beginTransaction().add(container, fragment, HistoryListFragment.getFragmentID()).commit();
+        }
+        else
+            fragmentManager.beginTransaction().show(fragment).commit();
+
+
+        //fragmentManager.executePendingTransactions();
+        currentFragment = HistoryListFragment.getFragmentID();
 
     }
 }

@@ -129,21 +129,23 @@ public class ProductDetailsPresenter implements Presenter {
 
     /** method called from
      * the view to pass control to controller*/
-    public void onLikeButtonClicked(int productId, int shopId) {
+    public void onLikeButtonClicked(ProductDetailsModel model) {
         //todo some data layer action to save the product being liked
 
-        //chain it to the view for update
-        productDetailsView.showProductLiked(productId,shopId);
+        //changing button state
+        model.setLiked(!model.isLiked());
+        productDetailsView.showProductLiked(model);
     }
 
     /** method called from
      * the view to pass control to controller*/
-    public void onAddToCartButtonClicked(int productId, int shopId) {
+    public void onAddToCartButtonClicked(ProductDetailsModel model) {
         //todo some data layer action to save the product being liked
 
 
-        //chain it to the view for update
-        productDetailsView.showProductAddedToCart(productId,shopId);
+        //changing button state
+        model.setCarted(!model.isCarted());
+        productDetailsView.showProductAddedToCart(model);
     }
 
     /** method called from

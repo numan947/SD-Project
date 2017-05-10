@@ -49,7 +49,7 @@ import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 
 public class ProductListFragment extends BaseFragment implements View.OnClickListener,ProductListView {
-
+    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.PRODUCT_LIST_FRAGMENT";
 
     //this is the interface to send data to Activity so that it can change fragment or switch Activity
     /**
@@ -68,6 +68,9 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     private ProductListListener productListListener;
     private ProductListAdapter adapter;
     private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+
+    private ArrayList<ProductListModel>adapterItems;//will be retained
+    private int pageNumber; //will be retained
 
 
     //the views related to the view
@@ -90,6 +93,11 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         return new ProductListFragment();
     }
 
+    public static String getFragmentID()
+    {
+        return  fragmentId;
+
+    }
 
     /**
      * This is the callback implementation provided to the adapter of the
@@ -164,6 +172,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
      * Method for resetting recycler view adapter and the endless scroll listener
      * */
     private void resetRecyclerViewAdapter() {
+        pageNumber = 0;
         adapter.clearAll();
         adapter.notifyDataSetChanged();
         endlessRecyclerViewScrollListener.resetState();
@@ -193,7 +202,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
      * */
     private void setupRecyclerView() {
         //initialize the adapter with dummy list, that'll act as container for the product models
-        adapter = new ProductListAdapter(getContext(), adapterCallback,new ArrayList<ProductListModel>());
+        adapter = new ProductListAdapter(getContext(), adapterCallback,adapterItems);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
@@ -202,35 +211,36 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                productListPresenter.initialize(page);
+                productListPresenter.initialize(++pageNumber);
             }
         };
-
-        this.resetRecyclerViewAdapter();
 
         this.recyclerView.setLayoutManager(linearLayoutManager);
         this.recyclerView.setAdapter(adapter);
         this.recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if(savedInstanceState==null) {
+
+            this.getParameters();
+
+            //this is where presenter tries to load data
+            if (productListPresenter == null)
+                initializePresenter();
+
+            productListPresenter.initialize(0);
+        }
+        //else do nothing....everything should be saved
+    }
+
     /**
      * This is where presenter start to load data.
      * */
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
-        if(savedInstanceState!=null)
-            this.restoreStates(savedInstanceState);
-
-        this.getParameters();
-
-        //this is where presenter tries to load data
-        if(productListPresenter==null)
-            initializePresenter();
-
-        productListPresenter.initialize(0);
-    }
 
     private void getParameters() {
         Bundle bundle  = getArguments();
@@ -257,6 +267,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void initializePresenter() {
+        adapterItems = new ArrayList<>();
         //initializing the presenter
 
         //needed by usecase
@@ -314,6 +325,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
                 adapter.notifyItemRangeInserted(0,products.size());
             }
             else{
+                this.pageNumber = pageNumber;
                 int before = adapter.getModelSize();
                 adapter.addAll(products);
                 int after = adapter.getModelSize();

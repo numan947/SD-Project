@@ -14,6 +14,8 @@ import numan947.com.bizzybay.view.activity.MainActivity;
  * This class provides navgation from one activity to another.
  **/
 
+
+//todo change activity navigation and make it a singleton too
 public class ActivityNavigator {
     private Context context;
 

@@ -19,6 +19,9 @@ import numan947.com.data_layer.repository.datasource.HistoryDataStoreFactory;
  **/
 
 public class HistoryDataRepository implements HistoryRepository {
+    //todo remove these debug thingy
+    static int cnt=0;
+    static int cnt2=0;
 
 
     private static HistoryDataRepository INSTANCE;
@@ -47,6 +50,10 @@ public class HistoryDataRepository implements HistoryRepository {
 
     @Override
     public void getHistoryList(int pageNumber, final HistoryListCallback providedCallback) {
+
+        System.out.println("History REQ....1  "+cnt);
+        cnt++;
+
         HistoryDataStore dataStore = this.historyDataStoreFactory.createTestDataStore();
 
         HistoryDataStore.HistoryListCallback createdCallback = new HistoryDataStore.HistoryListCallback() {
@@ -70,6 +77,11 @@ public class HistoryDataRepository implements HistoryRepository {
 
     @Override
     public void getHistoryDetails(int orderId, int shopId, int productId, final HistoryDetailsCallback providedCallback) {
+
+        System.out.println("History REQ....2  "+cnt2);
+        cnt2++;
+
+
         HistoryDataStore dataStore = historyDataStoreFactory.createTestDataStore();
 
         HistoryDataStore.HistoryDetailsCallback createdCallback = new HistoryDataStore.HistoryDetailsCallback() {

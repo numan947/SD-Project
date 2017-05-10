@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
         //setting up the initial fragment
-        drawerNavigator = new DrawerNavigator(this);
+        drawerNavigator = DrawerNavigator.getInstance();
 
         //show the list by default
         if(currentFragment==-1)
@@ -109,6 +109,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
         if(outState!=null)
             outState.putInt(CURRENT_FRAGMENT,currentFragment);
     }
@@ -116,6 +117,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+
         if(savedInstanceState !=null) {
             currentFragment = savedInstanceState.getInt(CURRENT_FRAGMENT, -1);
             this.showSuitableFragment();

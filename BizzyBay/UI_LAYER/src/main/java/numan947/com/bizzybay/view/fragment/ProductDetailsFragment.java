@@ -66,6 +66,7 @@ import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused"})
 public class ProductDetailsFragment extends BaseFragment implements ProductDetailsView, View.OnClickListener {
+    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.DETAILS_FRAGMENT";
 
     //elements for sharing information between activities/fragments
     private static final String PRODUCT_ID="numan947.com.bizzybay.view.activity.DetailsProductFragment.PRODUCT_ID";
@@ -73,6 +74,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
     private int productId;//todo may be we need to add user id here as well
     private int shopId;
+    private ProductDetailsModel detailsProduct;
 
     //implemented by the activity to respond to fragment's different needs
     /**
@@ -103,8 +105,6 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     //native elements
     private ProductDetailsPresenter productDetailsPresenter;
     private ProductDetailsListener activityListener;
-    private boolean cartButtonLocalStatus;
-    private boolean likeButtonLocalStatus;
     private ProductDetailsViewPagerAdapter viewPagerAdapter;
 
 
@@ -183,6 +183,11 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         return fragment;
     }
 
+    public static String getFragmentID()
+    {
+        return fragmentId;
+    }
+
     /**
      * Get the data passing listener to the activity.
      * */
@@ -195,7 +200,8 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(false);
+        //setRetainInstance(false);
+        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
@@ -264,14 +270,20 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * Also he presenter's main work is started here.
      * */
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        if(savedInstanceState!=null)this.restoreStates(savedInstanceState);
 
-        this.getParameters();
-        this.initializeDrawables();
-        this.productDetailsPresenter.initialize(this.productId,this.shopId);
+        if(savedInstanceState==null) {
+//            this.restoreStates(savedInstanceState);
+            this.getParameters();
+            this.initializeDrawables();
+            this.productDetailsPresenter.initialize(this.productId, this.shopId);
+            System.err.println("THIS IS SPARTA");
+        }
+        else{
+            if(detailsProduct!=null)renderProduct(detailsProduct);
+        }
     }
 
     @Override
@@ -301,7 +313,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * */
     private void setupToolbar() {
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         //todo add handler for toolbar elements
     }
 
@@ -409,9 +421,11 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     }
 
 
-    @SuppressWarnings("deprecation")
+
     @Override
     public void renderProduct(ProductDetailsModel model) {
+
+        this.detailsProduct = model;
 
         //add images to the viewpager
         this.renderViewPagerItems(model);
@@ -430,17 +444,17 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * Method for rendering button data.
      * */
     private void renderButtonData(ProductDetailsModel model) {
-        cartButtonLocalStatus = model.isCarted();
-        likeButtonLocalStatus = model.isLiked();
+        boolean cartButtonLocalStatus = model.isCarted();
+        boolean likeButtonLocalStatus = model.isLiked();
 
         //setup drawables for the buttons
 
-        if(model.isCarted())
+        if(cartButtonLocalStatus)
             this.addDrawableToButton(addToCartButton,isCartedDrawable);
         else
             this.addDrawableToButton(addToCartButton,notCartedDrawable);
 
-        if(model.isLiked())
+        if(likeButtonLocalStatus)
             this.addDrawableToButton(likeButton,isLikedDrawable);
         else
             this.addDrawableToButton(likeButton,notLikedDrawable);
@@ -497,10 +511,10 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         //handle click events here
         switch (v.getId()){
             case R.id.details_product_view_like_button:
-                this.productDetailsPresenter.onLikeButtonClicked(productId,shopId);
+                this.productDetailsPresenter.onLikeButtonClicked(detailsProduct);
                 break;
             case R.id.details_product_view_cart_button:
-                this.productDetailsPresenter.onAddToCartButtonClicked(productId,shopId);
+                this.productDetailsPresenter.onAddToCartButtonClicked(detailsProduct);
                 break;
             case R.id.details_product_view_buy_button:
                 this.productDetailsPresenter.onBuyButtonClicked(productId,shopId);
@@ -588,30 +602,35 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     }
 
     @Override
-    public void showProductLiked(int productId, int shopId) {
+    public void showProductLiked(ProductDetailsModel model) {
         //todo update button state to the repository
 
 
 
-        if(likeButtonLocalStatus)
-            addDrawableToButton(likeButton,notLikedDrawable);
-        else
-            addDrawableToButton(likeButton,isLikedDrawable);
 
-        likeButtonLocalStatus=(!likeButtonLocalStatus);
+
+        boolean likeButtonLocalStatus = model.isLiked();
+
+        if(likeButtonLocalStatus)
+            addDrawableToButton(likeButton,isLikedDrawable);
+        else
+            addDrawableToButton(likeButton,notLikedDrawable);
+
+
     }
 
     @Override
-    public void showProductAddedToCart(int productId,int shopId) {
+    public void showProductAddedToCart(ProductDetailsModel model) {
         //todo update button state to the repository
 
 
-        //changing button state
+
+
+        boolean cartButtonLocalStatus = model.isCarted();
         if(cartButtonLocalStatus)
-            addDrawableToButton(addToCartButton,notCartedDrawable);
-        else
             addDrawableToButton(addToCartButton,isCartedDrawable);
-        cartButtonLocalStatus=(!cartButtonLocalStatus);
+        else
+            addDrawableToButton(addToCartButton,notCartedDrawable);
 
     }
 

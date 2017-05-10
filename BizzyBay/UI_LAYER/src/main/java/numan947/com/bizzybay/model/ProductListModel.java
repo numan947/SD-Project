@@ -39,6 +39,30 @@ public class ProductListModel {
         this.productImage = productImage;
     }
 
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
+    }
+
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public void setShopDetails(String shopDetails) {
+        this.shopDetails = shopDetails;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
     public int getShopID() {
         return shopID;
     }
