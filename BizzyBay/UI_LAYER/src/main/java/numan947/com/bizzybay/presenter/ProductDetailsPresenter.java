@@ -166,4 +166,11 @@ public class ProductDetailsPresenter implements Presenter {
         //chain it to the view for update
         productDetailsView.viewShop(shopId);
     }
+
+    /**
+     *Method called from the view to pass the control to controller
+     */
+    public void onCategorySelected(String category){
+        productDetailsView.viewProductsByCategory(category);
+    }
 }

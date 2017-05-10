@@ -1,6 +1,7 @@
 package numan947.com.bizzybay.view.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +47,7 @@ import numan947.com.bizzybay.presenter.ProductDetailsPresenter;
 import numan947.com.bizzybay.view.ProductDetailsView;
 import numan947.com.bizzybay.view.adapter.ProductDetailsViewPagerAdapter;
 import numan947.com.bizzybay.view.component.CircularViewPagerHandler;
+import numan947.com.bizzybay.view.component.StringDecorator;
 import numan947.com.data_layer.cache.ProductCache;
 import numan947.com.data_layer.cache.TestProductCacheImpl;
 import numan947.com.data_layer.entity.mapper.ProductEntityDataMapper;
@@ -227,11 +231,19 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * Method for adding listeners to the views available.
      * */
     private void addListenersToViews() {
+
         likeButton.setOnClickListener(this);
         addToCartButton.setOnClickListener(this);
         buyButton.setOnClickListener(this);
+
+
         shopLocation.setOnClickListener(this);
         shopName.setOnClickListener(this);
+
+
+        //setup productCategory to have spannable string
+        productCategory.setMovementMethod(LinkMovementMethod.getInstance());
+        productCategory.setHighlightColor(Color.TRANSPARENT);
     }
 
     /**
@@ -510,13 +522,24 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * Handled specially as we need to use {@link android.text.Spannable} text.
      * */
     private void renderProductCategories(ArrayList<String> categories) {
-        //todo use span for setting up this plus setup categories' click listener separately
 
-        //for demo purpose only
+        int size = categories.size();
         StringBuilder cat= new StringBuilder();
-        for(String a:categories)
-            cat.append(a).append(" ");
-        productCategory.setText(cat.toString());
+        cat.append(categories.get(0));
+
+        for(int i=1;i<size;i++)
+            cat.append(" ").append(categories.get(i));
+
+
+        SpannableStringBuilder styledString = StringDecorator.addClickablePart(cat.toString(), new StringDecorator.ClickableSpanDecoratorCallback() {
+            @Override
+            public void onDecoratedItemClicked(String decoratedString) {
+                productDetailsPresenter.onCategorySelected(decoratedString);
+            }
+        });
+
+        //todo add "Category" word
+        productCategory.setText(styledString);
 
     }
 

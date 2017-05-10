@@ -42,6 +42,8 @@
                 android:id="@+id/list_product_product_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Not your average title"
                 android:textSize="@dimen/list_product_product_title_size"/>
 
@@ -49,6 +51,8 @@
                 android:id="@+id/list_product_shop_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Shop Name,location and what not -_-"
                 android:textSize="@dimen/browse_products_product_shop_size"/>
 
@@ -64,6 +68,8 @@
                     android:layout_gravity="bottom|start"
                     android:gravity="center"
                     android:text="3000Tk"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:textSize="@dimen/browse_products_product_price_size"/>
                 <!--change button background with suitable background picture-->
                 <Button
