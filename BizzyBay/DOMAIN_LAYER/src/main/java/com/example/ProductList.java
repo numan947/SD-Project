@@ -1,15 +1,14 @@
-package numan947.com.bizzybay.model;
+package com.example;
 
 /**
  *
  * @author numan947
  * @since 5/1/17.<br>
  *
- * Product Model of the list element in the UI layer.
+ * Representation of List Product in the domain layer.
  **/
 
-public class ListProductModel {
-
+public class ProductList {
     //needed IDs
     private int shopID;
     private int productID;
@@ -29,12 +28,12 @@ public class ListProductModel {
     private String productImage;
 
 
-    public ListProductModel(int shopID, int productID, String productTitle, String shopDetails, String productPrice, boolean isLiked, String productImage) {
+    public ProductList(int shopID, int productID, String productTitle, String productPrice, String shopDetails, boolean isLiked, String productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
-        this.shopDetails = shopDetails;
         this.productPrice = productPrice;
+        this.shopDetails = shopDetails;
         this.isLiked = isLiked;
         this.productImage = productImage;
     }
@@ -51,20 +50,16 @@ public class ListProductModel {
         return productTitle;
     }
 
-    public String getShopDetails() {
-        return shopDetails;
-    }
-
     public String getProductPrice() {
         return productPrice;
     }
 
-    public boolean isLiked() {
-        return isLiked;
+    public String getShopDetails() {
+        return shopDetails;
     }
 
-    public void setLiked(boolean liked) {
-        isLiked = liked;
+    public boolean isLiked() {
+        return isLiked;
     }
 
     public String getProductImage() {

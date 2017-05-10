@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
-import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.DrawerNavigator;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
@@ -255,7 +255,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
 
     @Override
-    public void onProductClicked(ListProductModel model) {
+    public void onProductClicked(ProductListModel model) {
         //go to product details
         activityNavigator.navigateToDetailsProductActivity(model.getProductID(),model.getShopID());
     }

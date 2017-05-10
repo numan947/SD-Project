@@ -1,6 +1,6 @@
 package com.example.interactor;
 
-import com.example.DetailsProduct;
+import com.example.ProductDetails;
 import com.example.exception.ErrorBundle;
 import com.example.executor.PostExecutionThread;
 import com.example.executor.ThreadExecutor;
@@ -56,8 +56,8 @@ public class GetProductDetailsUseCaseImpl implements GetProductDetailsUseCase {
     //ui-layer, ui-layer logic should execute in the UI-Thread/Main thread
     private final ProductRepository.ProductDetailsCallback createdCallback = new ProductRepository.ProductDetailsCallback() {
         @Override
-        public void onProductDetailsLoaded(final DetailsProduct detailsProduct) {
-            notifyProductDetailsLoaded(detailsProduct);
+        public void onProductDetailsLoaded(final ProductDetails productDetails) {
+            notifyProductDetailsLoaded(productDetails);
         }
 
         @Override
@@ -77,11 +77,11 @@ public class GetProductDetailsUseCaseImpl implements GetProductDetailsUseCase {
     }
 
     //self explanatory
-    private void notifyProductDetailsLoaded(final DetailsProduct detailsProduct) {
+    private void notifyProductDetailsLoaded(final ProductDetails productDetails) {
         postExecutionThread.post(new Runnable() {
             @Override
             public void run() {
-                GetProductDetailsUseCaseImpl.this.providedCallback.onProductDetailsLoaded(detailsProduct);
+                GetProductDetailsUseCaseImpl.this.providedCallback.onProductDetailsLoaded(productDetails);
             }
         });
     }

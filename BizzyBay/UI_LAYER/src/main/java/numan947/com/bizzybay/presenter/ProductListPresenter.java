@@ -1,6 +1,6 @@
 package numan947.com.bizzybay.presenter;
 
-import com.example.ListProduct;
+import com.example.ProductList;
 import com.example.exception.ErrorBundle;
 import com.example.interactor.GetProductListUseCase;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
-import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.view.ProductListView;
 
 /**
@@ -78,8 +78,8 @@ public class ProductListPresenter implements Presenter {
      * */
     private final GetProductListUseCase.Callback productListCallback = new GetProductListUseCase.Callback() {
         @Override
-        public void onProductsListLoaded(int pageNumber, Collection<ListProduct> listProducts) {
-            ProductListPresenter.this.showProductsCollectionInView(pageNumber,listProducts);
+        public void onProductsListLoaded(int pageNumber, Collection<ProductList> productLists) {
+            ProductListPresenter.this.showProductsCollectionInView(pageNumber, productLists);
             ProductListPresenter.this.hideLoadingView();
             ProductListPresenter.this.hideRetryView();
         }
@@ -117,9 +117,9 @@ public class ProductListPresenter implements Presenter {
 
     /**Shows the loaded data to the view using one
      *  of the methods in the {@link ProductListView}*/
-    private void showProductsCollectionInView(int pageNumber, Collection<ListProduct> listProducts) {
+    private void showProductsCollectionInView(int pageNumber, Collection<ProductList> productLists) {
 
-        final ArrayList<ListProductModel> productModelCollection = this.productModelDataMapper.transform(listProducts);
+        final ArrayList<ProductListModel> productModelCollection = this.productModelDataMapper.transform(productLists);
         this.productListView.renderProductList(pageNumber,productModelCollection);
     }
 
@@ -140,11 +140,11 @@ public class ProductListPresenter implements Presenter {
     /**
      * Method is called from the View to signal the presenter that an item is clicked
      * */
-    public void viewProduct(ListProductModel product) {
+    public void viewProduct(ProductListModel product) {
         productListView.viewProduct(product);
     }
 
-    public void likeProduct(ListProductModel model, int position) {
+    public void likeProduct(ProductListModel model, int position) {
         //todo send server data about the like
 
         model.setLiked(!model.isLiked());

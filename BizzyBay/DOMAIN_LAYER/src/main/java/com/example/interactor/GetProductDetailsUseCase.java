@@ -1,6 +1,6 @@
 package com.example.interactor;
 
-import com.example.DetailsProduct;
+import com.example.ProductDetails;
 import com.example.exception.ErrorBundle;
 
 /**
@@ -21,7 +21,7 @@ public interface GetProductDetailsUseCase extends BaseUseCase {
         /**
          * What to do when the use case is successfully executed.
          * */
-        void onProductDetailsLoaded(DetailsProduct product);
+        void onProductDetailsLoaded(ProductDetails product);
 
         /**
          * what to do when the use case couldn't complete successfully.

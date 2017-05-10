@@ -42,7 +42,7 @@ import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
-import numan947.com.bizzybay.model.DetailsProductModel;
+import numan947.com.bizzybay.model.ProductDetailsModel;
 import numan947.com.bizzybay.presenter.ProductDetailsPresenter;
 import numan947.com.bizzybay.view.ProductDetailsView;
 import numan947.com.bizzybay.view.adapter.ProductDetailsViewPagerAdapter;
@@ -410,7 +410,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
     @SuppressWarnings("deprecation")
     @Override
-    public void renderProduct(DetailsProductModel model) {
+    public void renderProduct(ProductDetailsModel model) {
 
         //add images to the viewpager
         this.renderViewPagerItems(model);
@@ -428,7 +428,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     /**
      * Method for rendering button data.
      * */
-    private void renderButtonData(DetailsProductModel model) {
+    private void renderButtonData(ProductDetailsModel model) {
         cartButtonLocalStatus = model.isCarted();
         likeButtonLocalStatus = model.isLiked();
 
@@ -448,7 +448,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     /**
      * Method for rendering basic textual data to the textviews.
      * */
-    private void renderTextualData(DetailsProductModel model) {
+    private void renderTextualData(ProductDetailsModel model) {
         //setup trivial data
         productDetails.setText(model.getProductDetails());
         productPrice.setText(model.getProductPrice());
@@ -463,7 +463,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     /**
      * Method for rendering data to viewpager.
      * */
-    private void renderViewPagerItems(DetailsProductModel model) {
+    private void renderViewPagerItems(ProductDetailsModel model) {
         viewPagerAdapter.clear();
         viewPagerAdapter.addAll(model.getProductImages());
         viewPagerAdapter.notifyDataSetChanged();

@@ -1,16 +1,17 @@
-package com.example;
+package numan947.com.bizzybay.model;
 
 import java.util.ArrayList;
 
 /**
  *
  * @author numan947
- * @since 5/8/17.<br>
+ * @since 5/3/17.<br>
  *
- * Representation of Details Product in the domain layer
+ *
+ * Model element for the Product Details in the UI Layer
  **/
 
-public class DetailsProduct {
+public class ProductDetailsModel {
     private int productId;
     private int shopId;
     private String productTitle;
@@ -20,13 +21,13 @@ public class DetailsProduct {
     private boolean isCarted;
     private boolean isLiked;
     private String productDetails;
-    private ArrayList<String> productCategory;
+    private ArrayList<String> productCategories;
     private ArrayList<String> productImages;
 
 
-    public DetailsProduct(int productId, int shopId, String productTitle, String shopName, String productPrice,
-                          String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
-                          ArrayList<String> productCategory, ArrayList<String> productImages) {
+    public ProductDetailsModel(int productId, int shopId, String productTitle, String shopName, String productPrice,
+                               String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
+                               ArrayList<String> productCategories, ArrayList<String> productImages) {
         this.productId = productId;
         this.shopId = shopId;
         this.productTitle = productTitle;
@@ -36,7 +37,7 @@ public class DetailsProduct {
         this.isCarted = isCarted;
         this.isLiked = isLiked;
         this.productDetails = productDetails;
-        this.productCategory = productCategory;
+        this.productCategories = productCategories;
         this.productImages = productImages;
 
 
@@ -78,8 +79,8 @@ public class DetailsProduct {
         return productDetails;
     }
 
-    public ArrayList<String> getProductCategory() {
-        return productCategory;
+    public ArrayList<String> getProductCategories() {
+        return productCategories;
     }
 
     public ArrayList<String> getProductImages() {

@@ -25,7 +25,7 @@ import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
-import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.presenter.ProductListPresenter;
 import numan947.com.bizzybay.view.ProductListView;
 import numan947.com.bizzybay.view.adapter.ProductListAdapter;
@@ -59,7 +59,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         /**
          * Called when a Product in the list is clicked.
          * */
-        void onProductClicked(final ListProductModel model);
+        void onProductClicked(final ProductListModel model);
     }
 
 
@@ -97,12 +97,12 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
      * */
     private final ProductListAdapter.Callback adapterCallback = new ProductListAdapter.Callback() {
         @Override
-        public void OnLikedButtonClicked(ListProductModel model,int position) {
+        public void OnLikedButtonClicked(ProductListModel model, int position) {
             productListPresenter.likeProduct(model,position);
         }
 
         @Override
-        public void OnCardViewClicked(ListProductModel model,int position) {
+        public void OnCardViewClicked(ProductListModel model, int position) {
             productListPresenter.viewProduct(model);
         }
     };
@@ -155,10 +155,18 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //todo should be called with page number 0
                 ProductListFragment.this.productListPresenter.initialize(0);
             }
         });
+    }
+
+    /**
+     * Method for resetting recycler view adapter and the endless scroll listener
+     * */
+    private void resetRecyclerViewAdapter() {
+        adapter.clearAll();
+        adapter.notifyDataSetChanged();
+        endlessRecyclerViewScrollListener.resetState();
     }
 
     /**
@@ -185,7 +193,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
      * */
     private void setupRecyclerView() {
         //initialize the adapter with dummy list, that'll act as container for the product models
-        adapter = new ProductListAdapter(getContext(), adapterCallback,new ArrayList<ListProductModel>());
+        adapter = new ProductListAdapter(getContext(), adapterCallback,new ArrayList<ProductListModel>());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
@@ -198,7 +206,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
             }
         };
 
-
+        this.resetRecyclerViewAdapter();
 
         this.recyclerView.setLayoutManager(linearLayoutManager);
         this.recyclerView.setAdapter(adapter);
@@ -212,14 +220,16 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(savedInstanceState!=null)this.restoreStates(savedInstanceState);
+        if(savedInstanceState!=null)
+            this.restoreStates(savedInstanceState);
+
         this.getParameters();
 
         //this is where presenter tries to load data
         if(productListPresenter==null)
             initializePresenter();
 
-        //productListPresenter.initialize(0); //this is called automatically by endless scroller
+        productListPresenter.initialize(0);
     }
 
     private void getParameters() {
@@ -296,23 +306,17 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
 
     @Override
-    public void renderProductList(int pageNumber, ArrayList<ListProductModel> products) {
+    public void renderProductList(int pageNumber, ArrayList<ProductListModel> products) {
         if(products!=null){
             if(pageNumber==0) {
-                int cnt = adapter.getItemCount();
-                adapter.clearAll();
-                adapter.notifyItemRangeRemoved(0,cnt);
-
-                //reset endless scroll listener
-                endlessRecyclerViewScrollListener.resetState();
-
+                ProductListFragment.this.resetRecyclerViewAdapter();
                 adapter.addAll(products);
                 adapter.notifyItemRangeInserted(0,products.size());
             }
             else{
-                int before = adapter.getItemCount();
+                int before = adapter.getModelSize();
                 adapter.addAll(products);
-                int after = adapter.getItemCount();
+                int after = adapter.getModelSize();
                 adapter.notifyItemRangeInserted(before,after-before);
 
             }
@@ -320,13 +324,13 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     }
 
     @Override
-    public void viewProduct(ListProductModel product) {
+    public void viewProduct(ProductListModel product) {
         productListListener.onProductClicked(product);
     }
 
 
     @Override
-    public void showProductLiked(ListProductModel productModel, int position) {
+    public void showProductLiked(ProductListModel productModel, int position) {
         //reload the adapter here
         adapter.notifyItemChanged(position,productModel);
     }
@@ -347,6 +351,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void showRetry() {
+        swipeRefreshLayout.setRefreshing(false);
         rl_retry.setVisibility(View.VISIBLE);
     }
 

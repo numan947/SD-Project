@@ -1,7 +1,7 @@
 package com.example.repository;
 
-import com.example.DetailsProduct;
-import com.example.ListProduct;
+import com.example.ProductDetails;
+import com.example.ProductList;
 import com.example.exception.ErrorBundle;
 
 import java.util.Collection;
@@ -28,7 +28,7 @@ public interface ProductRepository {
         /**
          * What to do when product list is loaded successfully.
          * */
-        void onProductListLoaded(int pageNumber, Collection<ListProduct> listProducts);
+        void onProductListLoaded(int pageNumber, Collection<ProductList> productLists);
 
         /**
          * What to do when there's error in loading.
@@ -47,7 +47,7 @@ public interface ProductRepository {
         /**
          * What to do when product details is loaded successfully.
          * */
-        void onProductDetailsLoaded(DetailsProduct detailsProduct);
+        void onProductDetailsLoaded(ProductDetails productDetails);
         /**
          * What to do when there's error in loading.
          * */

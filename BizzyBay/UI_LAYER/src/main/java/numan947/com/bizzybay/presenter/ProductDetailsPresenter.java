@@ -1,11 +1,11 @@
 package numan947.com.bizzybay.presenter;
 
-import com.example.DetailsProduct;
+import com.example.ProductDetails;
 import com.example.exception.ErrorBundle;
 import com.example.interactor.GetProductDetailsUseCase;
 
 import numan947.com.bizzybay.mapper.ProductModelDataMapper;
-import numan947.com.bizzybay.model.DetailsProductModel;
+import numan947.com.bizzybay.model.ProductDetailsModel;
 import numan947.com.bizzybay.view.ProductDetailsView;
 
 /**
@@ -35,8 +35,8 @@ public class ProductDetailsPresenter implements Presenter {
      * */
     private final GetProductDetailsUseCase.Callback productDetailsCallback = new GetProductDetailsUseCase.Callback() {
         @Override
-        public void onProductDetailsLoaded(DetailsProduct product) {
-            DetailsProductModel model=ProductDetailsPresenter.this.productModelDataMapper.transform(product);
+        public void onProductDetailsLoaded(ProductDetails product) {
+            ProductDetailsModel model=ProductDetailsPresenter.this.productModelDataMapper.transform(product);
             ProductDetailsPresenter.this.renderProductDetails(model);
         }
 
@@ -59,7 +59,7 @@ public class ProductDetailsPresenter implements Presenter {
     /**
      * Method for rendering Details when the data loading is OK.
      * */
-    private void renderProductDetails(DetailsProductModel product) {
+    private void renderProductDetails(ProductDetailsModel product) {
         productDetailsView.hideRetry();
         productDetailsView.hideLoading();
         productDetailsView.showDetailsView();

@@ -1,7 +1,7 @@
 package numan947.com.data_layer.entity.mapper;
 
-import com.example.DetailsProduct;
-import com.example.ListProduct;
+import com.example.ProductDetails;
+import com.example.ProductList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,16 +20,16 @@ import numan947.com.data_layer.entity.ListProductEntity;
 public class ProductEntityDataMapper {
 
     /**
-     * Converts {@link ListProductEntity } to {@link ListProduct}
+     * Converts {@link ListProductEntity } to {@link ProductList}
      * */
-    public Collection<ListProduct> transform(Collection<ListProductEntity> productEntities) {
+    public Collection<ProductList> transform(Collection<ListProductEntity> productEntities) {
         //todo transform here if necessary
 
-        Collection<ListProduct>collection =new ArrayList<>();
+        Collection<ProductList>collection =new ArrayList<>();
 
         for(ListProductEntity a:productEntities){
 
-            ListProduct b = new ListProduct(a.getShopID(),a.getProductID()
+            ProductList b = new ProductList(a.getShopID(),a.getProductID()
                     ,a.getProductTitle(),a.getProductPrice()+"",
                     a.getShopDetails(),a.isLiked(),a.getProductImage());
             collection.add(b);
@@ -38,13 +38,13 @@ public class ProductEntityDataMapper {
     }
 
     /**
-     * Converts {@link DetailsProductEntity } to {@link DetailsProduct}
+     * Converts {@link DetailsProductEntity } to {@link ProductDetails}
      * */
-    public DetailsProduct transform(DetailsProductEntity detailProductEntity) {
+    public ProductDetails transform(DetailsProductEntity detailProductEntity) {
 
         //todo transform here
 
-        return new DetailsProduct(detailProductEntity.getProductId(),detailProductEntity.getShopId(),
+        return new ProductDetails(detailProductEntity.getProductId(),detailProductEntity.getShopId(),
                 detailProductEntity.getProductTitle(),detailProductEntity.getShopName(),detailProductEntity.getProductPrice()+"",
                 detailProductEntity.getShopLocation(),detailProductEntity.isCarted(),detailProductEntity.isLiked(),detailProductEntity.getProductDetails(),detailProductEntity.getProductCategory(),
                 detailProductEntity.getProductImages());

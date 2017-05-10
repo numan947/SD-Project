@@ -1,13 +1,13 @@
 package numan947.com.bizzybay.mapper;
 
-import com.example.DetailsProduct;
-import com.example.ListProduct;
+import com.example.ProductDetails;
+import com.example.ProductList;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import numan947.com.bizzybay.model.DetailsProductModel;
-import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.model.ProductDetailsModel;
+import numan947.com.bizzybay.model.ProductListModel;
 
 /**
  *
@@ -21,29 +21,29 @@ import numan947.com.bizzybay.model.ListProductModel;
 public class ProductModelDataMapper {
 
     /**
-     * Maps {@link ListProduct} to {@link ListProductModel}
+     * Maps {@link ProductList} to {@link ProductListModel}
      * */
-    public ArrayList<ListProductModel> transform(Collection<ListProduct> listProducts) {
-        ArrayList<ListProductModel>listProductModels = new ArrayList<>();
-        for(ListProduct product:listProducts){
+    public ArrayList<ProductListModel> transform(Collection<ProductList> productLists) {
+        ArrayList<ProductListModel> productListModels = new ArrayList<>();
+        for(ProductList product: productLists){
             //todo do conversion here, like html tag adding and what not
 
-            ListProductModel listProductModel = new ListProductModel(product.getShopID(),product.getProductID(),product.getProductTitle(),
+            ProductListModel productListModel = new ProductListModel(product.getShopID(),product.getProductID(),product.getProductTitle(),
                     product.getShopDetails(),product.getProductPrice(),product.isLiked(),product.getProductImage());
 
-            listProductModels.add(listProductModel);
+            productListModels.add(productListModel);
         }
 
-        return listProductModels;
+        return productListModels;
     }
 
     /**
-     * Maps {@link DetailsProduct} to {@link DetailsProductModel}
+     * Maps {@link ProductDetails} to {@link ProductDetailsModel}
      * */
-    public DetailsProductModel transform(DetailsProduct product) {
+    public ProductDetailsModel transform(ProductDetails product) {
         //todo do conversion here, like html tag adding and what not
 
-        DetailsProductModel model = new DetailsProductModel(product.getProductId(), product.getShopId(), product.getProductTitle(),
+        ProductDetailsModel model = new ProductDetailsModel(product.getProductId(), product.getShopId(), product.getProductTitle(),
                 product.getShopName(),
                 product.getProductPrice(),product.getShopLocation(),
                 product.isCarted(),product.isLiked(),product.getProductDetails(),

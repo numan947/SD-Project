@@ -2,7 +2,7 @@ package numan947.com.bizzybay.view;
 
 import java.util.ArrayList;
 
-import numan947.com.bizzybay.model.ListProductModel;
+import numan947.com.bizzybay.model.ProductListModel;
 
 /**
  *
@@ -19,14 +19,14 @@ public interface ProductListView extends DataToLoad {
     /**
      * Renders the list in the view.
      * */
-    void renderProductList(int pageNumber, ArrayList<ListProductModel> products);
+    void renderProductList(int pageNumber, ArrayList<ProductListModel> products);
 
     /**
      * This is called by Presenter when a product of the list is clicked.
      * */
-    void viewProduct(ListProductModel product);
+    void viewProduct(ProductListModel product);
     /**
      * Called by Presenter when the like button of on of the products is clicked.
      * */
-    void showProductLiked(ListProductModel productModel, int position);
+    void showProductLiked(ProductListModel productModel, int position);
 }

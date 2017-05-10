@@ -1,6 +1,6 @@
 package numan947.com.bizzybay.view;
 
-import numan947.com.bizzybay.model.DetailsProductModel;
+import numan947.com.bizzybay.model.ProductDetailsModel;
 /**
  * @author numan947
  * @since 5/7/17.
@@ -12,7 +12,7 @@ public interface ProductDetailsView extends DataToLoad {
     /**
      * Renders a single product to the view.
      * */
-    void renderProduct(DetailsProductModel model);
+    void renderProduct(ProductDetailsModel model);
 
     /**
      * Called by Presenter when the Shop Name is clicked.

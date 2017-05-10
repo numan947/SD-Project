@@ -1,6 +1,6 @@
 package com.example.interactor;
 
-import com.example.ListProduct;
+import com.example.ProductList;
 import com.example.exception.ErrorBundle;
 
 import java.util.Collection;
@@ -23,7 +23,7 @@ public interface GetProductListUseCase extends BaseUseCase {
         /**
          * What to do when the use case is successfully executed.
          * */
-        void onProductsListLoaded(int pageNumber, Collection<ListProduct> listProducts);
+        void onProductsListLoaded(int pageNumber, Collection<ProductList> productLists);
 
         /**
          * what to do when the use case couldn't complete successfully.

@@ -1,7 +1,7 @@
 package numan947.com.data_layer.repository;
 
-import com.example.DetailsProduct;
-import com.example.ListProduct;
+import com.example.ProductDetails;
+import com.example.ProductList;
 import com.example.repository.ProductRepository;
 
 import java.util.Collection;
@@ -60,9 +60,9 @@ public class ProductDataRepository implements ProductRepository {
         final ProductDataStore.ProductListCallback createdCallback = new ProductDataStore.ProductListCallback() {
             @Override
             public void onProductListLoaded(int pageNumber, Collection<ListProductEntity> productEntities) {
-                Collection<ListProduct> listProducts = ProductDataRepository.this.productEntityDataMapper.transform(productEntities);
+                Collection<ProductList> productLists = ProductDataRepository.this.productEntityDataMapper.transform(productEntities);
 
-                providedCallback.onProductListLoaded(pageNumber,listProducts);
+                providedCallback.onProductListLoaded(pageNumber, productLists);
             }
 
             @Override
@@ -88,8 +88,8 @@ public class ProductDataRepository implements ProductRepository {
         final ProductDataStore.ProductDetailsCallback createdCallback = new ProductDataStore.ProductDetailsCallback() {
             @Override
             public void onProductDetailsLoaded(DetailsProductEntity detailsProductEntity) {
-                DetailsProduct detailsProduct=ProductDataRepository.this.productEntityDataMapper.transform(detailsProductEntity);
-                if(detailsProduct!=null)providedCallback.onProductDetailsLoaded(detailsProduct);
+                ProductDetails productDetails =ProductDataRepository.this.productEntityDataMapper.transform(detailsProductEntity);
+                if(productDetails !=null)providedCallback.onProductDetailsLoaded(productDetails);
             }
 
             @Override
