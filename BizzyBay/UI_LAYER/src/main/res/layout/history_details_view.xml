@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_margin="2dp"
+        >
+        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:siShape="@drawable/rectangle2"
+            android:src="@drawable/placeholder"
+            app:siSquare="true"
+            android:padding="5dp"
+            android:layout_margin="10dp"
+            android:id = "@+id/history_details_view_image"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_name"
+            android:textSize="22sp"
+            android:text="DUMMY TEXT TITLTE"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_order_id"
+            android:textSize="20sp"
+            android:text="OrderId"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_shop_name"
+            android:textSize="20sp"
+            android:text="ShopName"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_quantity"
+            android:textSize="20sp"
+            android:text="QUANTITY"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_price"
+            android:textSize="20sp"
+            android:text="PRice"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_order_time"
+            android:textSize="20sp"
+            android:text="ORDER TIME"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_delivered_time"
+            android:textSize="20sp"
+            android:text="Delivered time"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_delivery_location"
+            android:textSize="20sp"
+            android:text="delivery location"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_payment_method"
+            android:textSize="20sp"
+            android:text="PayMent method"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_payment_id"
+            android:textSize="20sp"
+            android:text="PaymentID"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_details_view_product_details"
+            android:textSize="20sp"
+            android:text="PRODUCT DETAILS"
+            android:layout_marginTop="30dp"/>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

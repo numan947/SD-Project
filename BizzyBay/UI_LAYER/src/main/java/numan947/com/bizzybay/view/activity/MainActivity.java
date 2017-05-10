@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private ActivityNavigator activityNavigator;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-
+    //to keep track of the current fragment
     private int currentFragment=-1;
 
 
@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 showProductListFragment();
                 break;
             //todo handle rest
-            
+
         }
 
     }

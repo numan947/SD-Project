@@ -328,7 +328,8 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * Binds all the XML views with their java counterparts.
      * */
     private void bindAll(View returnView) {
-        toolbar = (Toolbar) returnView.findViewById(R.id.toolbar);
+
+        toolbar = (Toolbar) returnView.findViewById(R.id.details_product_fragment_toolbar);
 
 
         appBarLayout = (AppBarLayout) returnView.findViewById(R.id.details_product_view_ABL);

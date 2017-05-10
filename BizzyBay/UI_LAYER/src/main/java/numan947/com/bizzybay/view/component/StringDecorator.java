@@ -30,7 +30,11 @@ public class StringDecorator {
      * The Method expects String's words separated
      * by SINGLE Space //todo extend it to support multiple space
      * */
-    public static SpannableStringBuilder addClickablePart(final String str, final ClickableSpanDecoratorCallback callback) {
+    public static SpannableStringBuilder addClickablePart(final String str1, final ClickableSpanDecoratorCallback callback) {
+
+        //remove trailing/leading white space
+        final String str = str1.trim();
+
         SpannableStringBuilder ssb = new SpannableStringBuilder(str);
 
         int idx1 =0;
