@@ -1,8 +1,12 @@
 package com.example.interactor;
 
+import com.example.ShopList;
+import com.example.exception.ErrorBundle;
 import com.example.executor.PostExecutionThread;
 import com.example.executor.ThreadExecutor;
 import com.example.repository.ShopRepository;
+
+import java.util.ArrayList;
 
 /**
  * @author numan947
@@ -37,7 +41,6 @@ public class GetShopListUseCaseImpl implements GetShopListUseCase {
 
         if(providedCallback==null)throw  new IllegalArgumentException("AGAIN THESE PARAMETERS CAN'T BE NULL, DUMB-ASS");
 
-
         threadExecutor.execute(this);
     }
 
@@ -45,6 +48,42 @@ public class GetShopListUseCaseImpl implements GetShopListUseCase {
 
     @Override
     public void run() {
-        
+        this.shopRepository.getShopList(pageNumber,createdCallback);
     }
+
+
+    private ShopRepository.ShopListCallback createdCallback  = new ShopRepository.ShopListCallback() {
+
+
+        @Override
+        public void OnShopListLoaded(int pageNumber, ArrayList<ShopList> shopList) {
+            GetShopListUseCaseImpl.this.OnSuccessfulLoad(pageNumber,shopList);
+        }
+
+        @Override
+        public void OnError(ErrorBundle errorBundle) {
+            GetShopListUseCaseImpl.this.OnError(errorBundle);
+        }
+
+    };
+
+    private void OnError(final ErrorBundle errorBundle) {
+        postExecutionThread.post(new Runnable() {
+            @Override
+            public void run() {
+                providedCallback.onError(errorBundle);
+            }
+        });
+    }
+
+    private void OnSuccessfulLoad(final int pageNumber, final ArrayList<ShopList> shopList) {
+        postExecutionThread.post(new Runnable() {
+            @Override
+            public void run() {
+                providedCallback.onShopListLoaded(pageNumber,shopList);
+            }
+        });
+    }
+
+
 }

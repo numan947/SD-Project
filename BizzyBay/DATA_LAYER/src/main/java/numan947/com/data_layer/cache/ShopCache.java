@@ -1,5 +1,10 @@
 package numan947.com.data_layer.cache;
 
+import java.util.ArrayList;
+
+import numan947.com.data_layer.entity.ShopDetailsEntity;
+import numan947.com.data_layer.entity.ShopListEntity;
+
 /**
  * @author numan947
  * @since 5/13/17.<br>
@@ -7,6 +12,18 @@ package numan947.com.data_layer.cache;
 
 public interface ShopCache {
 
+    public interface ShopDetailsCallback{
+        void onShopDetailsLoaded(ShopDetailsEntity shopDetailsEntity);
+        void onError(Exception exception);
+    }
 
+    public interface ShopListCallback{
+        void onShopListLoaded(int pageNumber, ArrayList<ShopListEntity> shopListEntities);
+        void onError(Exception exception);
+    }
+
+    void getShopDetails(int shopId,ShopDetailsCallback providedCallback);
+
+    void getShopList(int pageNumber,ShopListCallback providedCallback);
 
 }

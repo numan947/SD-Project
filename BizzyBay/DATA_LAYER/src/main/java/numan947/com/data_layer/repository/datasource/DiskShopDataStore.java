@@ -1,9 +1,52 @@
 package numan947.com.data_layer.repository.datasource;
 
+import java.util.ArrayList;
+
+import numan947.com.data_layer.cache.ShopCache;
+import numan947.com.data_layer.entity.ShopDetailsEntity;
+import numan947.com.data_layer.entity.ShopListEntity;
+
 /**
  * @author numan947
  * @since 5/13/17.<br>
  **/
 
-public class DiskShopDataStore {
+public class DiskShopDataStore implements ShopDataStore {
+
+
+    private ShopCache shopCache;
+
+    public DiskShopDataStore(ShopCache shopCache) {
+        this.shopCache = shopCache;
+    }
+
+    @Override
+    public void getShopEntityList(int pageNumber, final ShopListCallback providedCallback) {
+        shopCache.getShopList(pageNumber, new ShopCache.ShopListCallback() {
+            @Override
+            public void onShopListLoaded(int pageNumber, ArrayList<ShopListEntity> shopListEntities) {
+                providedCallback.OnShopListLoaded(pageNumber,shopListEntities);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                providedCallback.OnError(exception);
+            }
+        });
+    }
+
+    @Override
+    public void getShopEntityDetails(int shopId, final ShopDetailsCallback providedCallback) {
+        shopCache.getShopDetails(shopId, new ShopCache.ShopDetailsCallback() {
+            @Override
+            public void onShopDetailsLoaded(ShopDetailsEntity shopDetailsEntity) {
+                providedCallback.OnShopDetailsLoaded(shopDetailsEntity);
+            }
+
+            @Override
+            public void onError(Exception exception) {
+                providedCallback.OnError(exception);
+            }
+        });
+    }
 }

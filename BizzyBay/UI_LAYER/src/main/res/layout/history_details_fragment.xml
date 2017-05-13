@@ -3,24 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/history_details_fragment_ABL"
-        android:fitsSystemWindows="true">
+        android:minHeight="0dp"
+        android:fitsSystemWindows="true"
+        >
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleMarginEnd="64dp"
+            android:minHeight="0dp"
+
             android:fitsSystemWindows="true"
             android:id="@+id/history_details_fragment_CTL">
             <include
                 layout="@layout/generic_toolbar_layout"
-                android:id="@+id/history_details_fragment_toolbar"/>
+                android:id="@+id/history_details_fragment_toolbar"
+                android:layout_height="80dp"
+                android:layout_width="match_parent"
+                />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -29,7 +35,8 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/history_details_fragment_SRL"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+       >
 
         <include
             layout="@layout/history_details_view"/>

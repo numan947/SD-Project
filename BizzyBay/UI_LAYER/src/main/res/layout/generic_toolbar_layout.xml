@@ -6,4 +6,5 @@
     style="@style/toolbarStyle"
     app:layout_scrollFlags="scroll|enterAlways"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     />

@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Window window = getWindow();
+
         if(window!=null){
             if( Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
                 setTranslucentStatusBarLollipop(window);
@@ -42,7 +42,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setTranslucentStatusBarLollipop(Window window){
-        window.setStatusBarColor(ContextCompat.getColor(window.getContext(),R.color.transparent));
+        window.setStatusBarColor(getResources().getColor(R.color.transparent,null));
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -50,6 +53,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     {
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
+
+
 
 
 }
