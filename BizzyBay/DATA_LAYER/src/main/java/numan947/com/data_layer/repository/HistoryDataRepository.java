@@ -86,7 +86,7 @@ public class HistoryDataRepository implements HistoryRepository {
 
         HistoryDataStore.HistoryDetailsCallback createdCallback = new HistoryDataStore.HistoryDetailsCallback() {
             @Override
-            public void onHistoryDetailsLoadedd(HistoryDetailsEntity historyDetailsEntity) {
+            public void onHistoryDetailsLoaded(HistoryDetailsEntity historyDetailsEntity) {
                 HistoryDetails details = historyEntityDataMapper.transform(historyDetailsEntity);
                 providedCallback.onHistoryDetailsLoaded(details);
             }

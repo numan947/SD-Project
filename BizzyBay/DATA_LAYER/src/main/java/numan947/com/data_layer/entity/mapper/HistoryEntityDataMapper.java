@@ -67,6 +67,30 @@ public class HistoryEntityDataMapper {
     }
 
     public HistoryDetails transform(HistoryDetailsEntity historyDetailsEntity) {
-        return null;
+        //todo transforming here
+        HistoryDetails historyDetails = new HistoryDetails();
+
+        historyDetails.setPaymentId(Integer.toString(historyDetailsEntity.getPaymentId()));
+        historyDetails.setPaymentMethod(historyDetailsEntity.getPaymentMethod());
+
+        historyDetails.setProductId(historyDetailsEntity.getProductId());
+        historyDetails.setProductName(historyDetailsEntity.getProductName());
+        historyDetails.setProductDetails(historyDetailsEntity.getProductDetails());
+        historyDetails.setProductImage(historyDetailsEntity.getProductImage());
+        historyDetails.setProductPrice(historyDetailsEntity.getProductPrice()+"");
+
+        historyDetails.setProductQuantity(""+historyDetailsEntity.getProductQuantity());
+        historyDetails.setProductDeliveryLocation(historyDetailsEntity.getProductDeliveryLocation());
+        historyDetails.setProductDeliveryTime(historyDetailsEntity.getProductDeliveryTime().toString());
+
+        historyDetails.setProductOrderId(Integer.toString(historyDetailsEntity.getProductOrderId()));
+        historyDetails.setProductOrderTime(historyDetailsEntity.getProductOrderTime().toString());
+        historyDetails.setProductOrderTime(historyDetailsEntity.getProductOrderTime().toString());
+
+        historyDetails.setShopName(historyDetailsEntity.getShopName());
+        historyDetails.setShopId(historyDetailsEntity.getShopId());
+
+
+        return historyDetails;
     }
 }

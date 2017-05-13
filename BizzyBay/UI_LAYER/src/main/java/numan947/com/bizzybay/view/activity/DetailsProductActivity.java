@@ -122,5 +122,10 @@ public class DetailsProductActivity extends BaseActivity implements ProductDetai
         Toast.makeText(this,"THIS WILL SHOW buy product ACTIVITY",Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
 
 }

@@ -2,6 +2,7 @@ package numan947.com.data_layer.cache;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
@@ -108,7 +109,17 @@ public class TestHistoryCacheImpl implements HistoryCache {
 
     @Override
     public void getHistoryDetails(int orderId, int shopId, int productId, HistoryDetailsCallback providedCallback) {
+        HistoryDetailsEntity historyDetailsEntity = new HistoryDetailsEntity("Product Name",orderId,"Shop Name",
+                random.nextInt(12),random.nextInt(12)*100+100,new Date(),new Date(),"Delivery Location",
+                "Payment Method",shopId+orderId+productId,"Product details.........." +
+                "..................................................................." +
+                "..................................................................." +
+                "..................................................................." +
+                "....................................................................",placeHolders[random.nextInt(110)%placeHolders.length],
+                productId,shopId);
 
+
+        providedCallback.onHistoryDetailsLoaded(historyDetailsEntity);
     }
 
     @Override

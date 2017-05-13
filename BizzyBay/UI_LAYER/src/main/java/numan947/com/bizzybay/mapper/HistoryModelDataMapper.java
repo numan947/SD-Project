@@ -1,11 +1,13 @@
 package numan947.com.bizzybay.mapper;
 
+import com.example.HistoryDetails;
 import com.example.HistoryList;
 import com.example.HistoryPerProduct;
 import com.example.HistoryPerShop;
 
 import java.util.ArrayList;
 
+import numan947.com.bizzybay.model.HistoryDetailsModel;
 import numan947.com.bizzybay.model.HistoryListModel;
 import numan947.com.bizzybay.model.HistoryPerProductModel;
 import numan947.com.bizzybay.model.HistoryPerShopModel;
@@ -52,5 +54,15 @@ public class HistoryModelDataMapper {
         }
 
         return model;
+    }
+
+    public HistoryDetailsModel transform(HistoryDetails historyDetails) {
+        //todo do any necessary transformation here
+
+        return  new HistoryDetailsModel(historyDetails.getProductName(),"Order ID "+historyDetails.getProductOrderId(),"ShopName "+historyDetails.getShopName(),"QTY "+historyDetails.getProductQuantity(),
+                "Price " +historyDetails.getProductPrice(),"Order time " +historyDetails.getProductOrderTime(),"Delivery Time "+historyDetails.getProductDeliveryTime(),
+                historyDetails.getProductDeliveryLocation(),historyDetails.getPaymentMethod(),historyDetails.getPaymentId(),historyDetails.getProductDetails(),historyDetails.getProductImage(),historyDetails.getProductId(),
+                historyDetails.getShopId());
+
     }
 }

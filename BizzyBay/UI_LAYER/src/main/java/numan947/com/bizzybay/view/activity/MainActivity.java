@@ -333,7 +333,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void onHistoryItemClicked(int orderId, int shopId, int productId) {
-        //todo show single history activity here
-        Toast.makeText(this,"WILL SHOW THE HISTORY DETAILS",Toast.LENGTH_SHORT).show();
+        activityNavigator.navigateToDetailsHistoryActivity(orderId,shopId,productId);
+
     }
 }

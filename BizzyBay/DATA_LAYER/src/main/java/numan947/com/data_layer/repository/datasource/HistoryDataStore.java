@@ -19,7 +19,7 @@ public interface HistoryDataStore {
 
 
     interface HistoryDetailsCallback{
-        void onHistoryDetailsLoadedd(HistoryDetailsEntity historyDetailsEntity);
+        void onHistoryDetailsLoaded(HistoryDetailsEntity historyDetailsEntity);
         void onError(Exception exception);
     }
 

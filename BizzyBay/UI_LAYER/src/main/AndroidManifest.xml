@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.DetailsProductActivity"/>
+        <activity android:name=".view.activity.HistoryDetailsActivity"/>
     </application>
 
 </manifest>

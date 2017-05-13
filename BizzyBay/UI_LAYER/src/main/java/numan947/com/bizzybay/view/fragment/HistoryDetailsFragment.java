@@ -1,5 +1,6 @@
 package numan947.com.bizzybay.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -22,30 +23,41 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.executor.PostExecutionThread;
 import com.example.executor.ThreadExecutor;
+import com.example.interactor.GetHistoryDetailsUseCase;
+import com.example.interactor.GetHistoryDetailsUseCaseImpl;
+import com.example.repository.HistoryRepository;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 
+import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.mapper.HistoryModelDataMapper;
 import numan947.com.bizzybay.model.HistoryDetailsModel;
 import numan947.com.bizzybay.presenter.HistoryDetailsPresenter;
 import numan947.com.bizzybay.view.HistoryDetailsView;
 import numan947.com.data_layer.cache.HistoryCache;
 import numan947.com.data_layer.cache.TestHistoryCacheImpl;
+import numan947.com.data_layer.entity.mapper.HistoryEntityDataMapper;
 import numan947.com.data_layer.executor.BackgroundExecutor;
-import numan947.com.data_layer.repository.datasource.DiskHistoryDataStore;
-import numan947.com.data_layer.repository.datasource.HistoryDataStore;
+import numan947.com.data_layer.repository.HistoryDataRepository;
+import numan947.com.data_layer.repository.datasource.HistoryDataStoreFactory;
 
 /**
  * @author numan947
  * @since 5/10/17.<br>
  **/
 
-public class HistoryDetailsFragment extends BaseFragment implements HistoryDetailsView {
+public class HistoryDetailsFragment extends BaseFragment implements HistoryDetailsView, View.OnClickListener {
     private static final String fragmentId = "numan947.com.bizzybay.view.fragment.HISTORY_DETAILS_FRAGMENT";
+
+    private static final String ORDER_ID = "numan947.com.bizzybay.view.fragment.ORDER_ID";
+    private static final String SHOP_ID  = "numan947.com.bizzybay.view.fragment.SHOP_ID";
+    private static final String PRODUCT_ID = "numan947.com.bizzybay.view.fragment.PRODUCT_ID";
 
     public interface HistoryDetailsListener{
         void onProductNameClicked(int productId,int shopId);
         void onShopNameClicked(int shopId);
+        void finishActivity();
     }
 
 
@@ -78,19 +90,36 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
     private HistoryDetailsListener historyDetailsListener;
     private HistoryDetailsModel historyDetailsModel;
 
+    int orderId,shopId,productId;
 
 
 
 
-    public static HistoryDetailsFragment newInstance(){
-        //todo add necessary arguments here
-        return new HistoryDetailsFragment();
+
+    public static HistoryDetailsFragment newInstance(int orderId,int shopId,int productId){
+
+        Bundle bundle  = new Bundle();
+        bundle.putInt(ORDER_ID,orderId);
+        bundle.putInt(SHOP_ID,shopId);
+        bundle.putInt(PRODUCT_ID,productId);
+
+        HistoryDetailsFragment fragment = new HistoryDetailsFragment();
+
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
     public static String getFragmentID()
     {
         return fragmentId;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof HistoryDetailsListener) //get the listener to Activity
+            this.historyDetailsListener = (HistoryDetailsListener) context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,6 +144,16 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return HistoryDetailsFragment.this.onOptionsItemSelected(item);
+            }
+        });
+
+
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -124,25 +163,60 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                historyDetailsListener.finishActivity();
+                break;
+            //todo add other
+
+
+
+        }
+
         return super.onOptionsItemSelected(item);
         //todo setup options menu later
     }
 
 
     private void addListeners() {
+        productName.setOnClickListener(this);
+        shopName.setOnClickListener(this);
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //todo implement later
+                //try reloading the data
+
+                //todo may be invalidate the image here? only delete cached image if new one is available
+                HistoryDetailsFragment.this.historyDetailsPresenter.initialize(HistoryDetailsFragment.this.orderId,
+                        HistoryDetailsFragment.this.shopId,HistoryDetailsFragment.this.productId);
             }
         });
 
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo implement later
+                //todo may be invalidate the image here? only delete cached image if new one is available
+                HistoryDetailsFragment.this.historyDetailsPresenter.initialize(HistoryDetailsFragment.this.orderId,
+                        HistoryDetailsFragment.this.shopId,HistoryDetailsFragment.this.productId);
             }
         });
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        //chaining to presenter
+        switch (v.getId()) {
+            case R.id.history_details_view_product_name:
+                historyDetailsPresenter.viewProduct(historyDetailsModel.getProductId(),historyDetailsModel.getShopId());
+                break;
+            case R.id.history_details_view_product_shop_name:
+                historyDetailsPresenter.viewShop(historyDetailsModel.getShopId());
+                break;
+            //todo handle any additional case
+        }
     }
 
     private void bindAll(View view) {
@@ -177,10 +251,20 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(savedInstanceState==null){
-            historyDetailsPresenter.initialize();
+            this.getParameters(getArguments());
+            historyDetailsPresenter.initialize(this.orderId,this.shopId,this.productId); //pull from data layer
         }
+        else
+            this.renderHistoryDetails(this.historyDetailsModel); //render the saved data
     }
 
+    private void getParameters(Bundle arguments) {
+        if(arguments!=null){
+            this.productId = arguments.getInt(PRODUCT_ID,-1);
+            this.shopId = arguments.getInt(SHOP_ID,-1);
+            this.orderId = arguments.getInt(ORDER_ID,-1);
+        }
+    }
 
 
     @Override
@@ -191,7 +275,22 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
 
         HistoryCache historyCache = TestHistoryCacheImpl.getInstance(); //todo replace with a real one
 
-        HistoryDataStore historyDataStore = 
+
+        //todo insert json serializer here and a real cache
+
+
+        HistoryDataStoreFactory historyDataStoreFactory = new HistoryDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),historyCache);
+
+        HistoryEntityDataMapper historyEntityDataMapper = new HistoryEntityDataMapper();
+
+        HistoryRepository historyRepository = HistoryDataRepository.getInstance(historyDataStoreFactory,historyEntityDataMapper);
+
+        GetHistoryDetailsUseCase getHistoryDetailsUseCase = new GetHistoryDetailsUseCaseImpl(postExecutionThread,threadExecutor,historyRepository);
+
+        HistoryModelDataMapper historyModelDataMapper = new HistoryModelDataMapper();
+
+
+        historyDetailsPresenter = new HistoryDetailsPresenter(this,getHistoryDetailsUseCase,historyModelDataMapper);
 
     }
 
@@ -207,8 +306,11 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
 
     @Override
     public void renderHistoryDetails(HistoryDetailsModel model) {
-        this.renderTextualElements(model);
-        this.renderImage(model.getProductImage());
+
+        this.historyDetailsModel = model; //save it
+
+        this.renderTextualElements(model); //render the textual data
+        this.renderImage(model.getProductImage()); //render the image
     }
 
     private void renderImage(String productImage) {
@@ -237,7 +339,6 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
     @Override
     public void onProductNameClicked(int productId,int shopId) {
         //chain to activity
-
         historyDetailsListener.onProductNameClicked(productId,shopId);
     }
 
@@ -273,5 +374,18 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
     public void showError(String message) {
 
         //todo show some awesome error message here
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        historyDetailsPresenter.onResume();
+    }
+
+    @Override
+    public void onPause() {
+
+        historyDetailsPresenter.onPause();
+        super.onPause();
     }
 }

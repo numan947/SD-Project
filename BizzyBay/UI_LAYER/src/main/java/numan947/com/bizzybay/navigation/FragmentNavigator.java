@@ -2,6 +2,7 @@ package numan947.com.bizzybay.navigation;
 
 import android.support.v4.app.FragmentManager;
 
+import numan947.com.bizzybay.view.fragment.HistoryDetailsFragment;
 import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
 
 /**
@@ -41,9 +42,14 @@ public class FragmentNavigator {
         }
     }
 
-    public void navigateToHistoryDetailsFragment(FragmentManager fragmentManager,int container,int shopId,int orderId)
+    public void navigateToHistoryDetailsFragment(FragmentManager fragmentManager,int container,int shopId,int orderId, int productId)
     {
-        //todo implement
+        HistoryDetailsFragment fragment = (HistoryDetailsFragment) fragmentManager.findFragmentByTag(HistoryDetailsFragment.getFragmentID());
+        if(fragment==null){
+            fragment = HistoryDetailsFragment.newInstance(orderId,shopId,productId);
+            fragmentManager.beginTransaction().add(container,fragment,HistoryDetailsFragment.getFragmentID()).commit();
+        }
+
     }
 
 

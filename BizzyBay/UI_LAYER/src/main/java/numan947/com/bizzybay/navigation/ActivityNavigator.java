@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import numan947.com.bizzybay.view.activity.DetailsProductActivity;
+import numan947.com.bizzybay.view.activity.HistoryDetailsActivity;
 import numan947.com.bizzybay.view.activity.MainActivity;
 
 /**
@@ -43,6 +44,8 @@ public class ActivityNavigator {
     }
 
 
-
-
+    public void navigateToDetailsHistoryActivity(int orderId, int shopId, int productId) {
+        Intent callingIntent = HistoryDetailsActivity.getCallingIntent(context,orderId,shopId,productId);
+        context.startActivity(callingIntent);
+    }
 }

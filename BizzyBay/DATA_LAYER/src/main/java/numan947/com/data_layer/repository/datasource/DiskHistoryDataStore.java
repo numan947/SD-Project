@@ -46,7 +46,7 @@ public class DiskHistoryDataStore implements HistoryDataStore {
         HistoryCache.HistoryDetailsCallback createdCallback = new HistoryCache.HistoryDetailsCallback() {
             @Override
             public void onHistoryDetailsLoaded(HistoryDetailsEntity detailsEntity) {
-                providedCallback.onHistoryDetailsLoadedd(detailsEntity);
+                providedCallback.onHistoryDetailsLoaded(detailsEntity);
             }
 
             @Override

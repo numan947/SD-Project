@@ -27,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.executor.PostExecutionThread;
 import com.example.executor.ThreadExecutor;
 import com.example.interactor.GetProductDetailsUseCase;
@@ -95,6 +96,8 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
          * Method to call when Buy Product button is clicked.
          * */
         void OnBuyProduct(int productId,int shopId);
+
+        void finishActivity();
     }
 
 
@@ -227,7 +230,6 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         this.bindAll(returnView);
         this.setupToolbar();
         this.setupViewPager();
-        this.setupSwipeRefreshLayout();
         this.addListenersToViews();
 
         return returnView;
@@ -237,6 +239,24 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * Method for adding listeners to the views available.
      * */
     private void addListenersToViews() {
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //todo setup this image anti-caching gracefully
+                new Thread((new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.get(BizzyBay.getBizzyBayApplicationContext()).clearDiskCache();
+                        Glide.get(BizzyBay.getBizzyBayApplicationContext()).getBitmapPool();
+
+                    }
+                })).start();
+                Glide.get(BizzyBay.getBizzyBayApplicationContext()).clearMemory();
+                ProductDetailsFragment.this.productDetailsPresenter.initialize(productId,shopId);
+
+            }
+        });
 
         likeButton.setOnClickListener(this);
         addToCartButton.setOnClickListener(this);
@@ -252,17 +272,6 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         productCategory.setHighlightColor(Color.TRANSPARENT);
     }
 
-    /**
-     * Method setting up the swipe refresh layout's refreshing.
-     * */
-    private void setupSwipeRefreshLayout() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                ProductDetailsFragment.this.productDetailsPresenter.initialize(productId,shopId);
-            }
-        });
-    }
 
     /**
      * The parameters passed to the activity / the parameters saved while configuration changed are restored here.
@@ -275,11 +284,11 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
 
 
         if(savedInstanceState==null) {
-//            this.restoreStates(savedInstanceState);
+            this.restoreStates(savedInstanceState); //restore the saved data, if any
             this.getParameters();
             this.initializeDrawables();
             this.productDetailsPresenter.initialize(this.productId, this.shopId);
-            System.err.println("THIS IS SPARTA");
+            //System.err.println("THIS IS SPARTA");
         }
         else{
             if(detailsProduct!=null)renderProduct(detailsProduct);
@@ -341,6 +350,17 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
      * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                activityListener.finishActivity();
+                break;
+
+            //todo add other cases
+
+
+        }
+
+
         return super.onOptionsItemSelected(item);
         //todo handle options menu item click here
     }
