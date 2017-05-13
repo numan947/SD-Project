@@ -39,7 +39,7 @@ public class DetailsProductActivity extends BaseActivity implements ProductDetai
         activityNavigator = new ActivityNavigator(this);
         fragmentNavigator = FragmentNavigator.getInstance();
 
-        fragmentNavigator.navigateToDetailsFragment(getSupportFragmentManager(),android.R.id.content,pid,sid);
+        fragmentNavigator.navigateToProductDetailsFragment(getSupportFragmentManager(),android.R.id.content,pid,sid);
     }
 
     /**

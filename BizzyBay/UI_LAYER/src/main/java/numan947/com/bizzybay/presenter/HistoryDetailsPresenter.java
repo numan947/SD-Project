@@ -25,4 +25,7 @@ public class HistoryDetailsPresenter implements Presenter {
     public void onPause() {
 
     }
+
+    public void initialize() {
+    }
 }

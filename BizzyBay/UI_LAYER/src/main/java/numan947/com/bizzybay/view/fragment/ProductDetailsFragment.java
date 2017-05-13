@@ -72,9 +72,6 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private static final String PRODUCT_ID="numan947.com.bizzybay.view.activity.DetailsProductFragment.PRODUCT_ID";
     private static final String SHOP_ID="numan947.com.bizzybay.view.activity.DetailsProductFragment.SHOP_ID";
 
-    private int productId;//todo may be we need to add user id here as well
-    private int shopId;
-    private ProductDetailsModel detailsProduct;
 
     //implemented by the activity to respond to fragment's different needs
     /**
@@ -106,6 +103,10 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     private ProductDetailsPresenter productDetailsPresenter;
     private ProductDetailsListener activityListener;
     private ProductDetailsViewPagerAdapter viewPagerAdapter;
+
+    private int productId;//todo may be we need to add user id here as well
+    private int shopId;
+    private ProductDetailsModel detailsProduct;
 
 
     //ui elements

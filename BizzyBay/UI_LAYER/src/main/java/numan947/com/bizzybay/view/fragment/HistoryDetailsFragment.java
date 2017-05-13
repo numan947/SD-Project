@@ -14,13 +14,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.executor.PostExecutionThread;
+import com.example.executor.ThreadExecutor;
 import com.github.siyamed.shapeimageview.mask.PorterShapeImageView;
 
+import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.model.HistoryDetailsModel;
+import numan947.com.bizzybay.presenter.HistoryDetailsPresenter;
 import numan947.com.bizzybay.view.HistoryDetailsView;
+import numan947.com.data_layer.cache.HistoryCache;
+import numan947.com.data_layer.cache.TestHistoryCacheImpl;
+import numan947.com.data_layer.executor.BackgroundExecutor;
+import numan947.com.data_layer.repository.datasource.DiskHistoryDataStore;
+import numan947.com.data_layer.repository.datasource.HistoryDataStore;
 
 /**
  * @author numan947
@@ -30,13 +43,20 @@ import numan947.com.bizzybay.view.HistoryDetailsView;
 public class HistoryDetailsFragment extends BaseFragment implements HistoryDetailsView {
     private static final String fragmentId = "numan947.com.bizzybay.view.fragment.HISTORY_DETAILS_FRAGMENT";
 
+    public interface HistoryDetailsListener{
+        void onProductNameClicked(int productId,int shopId);
+        void onShopNameClicked(int shopId);
+    }
+
+
 
     private Toolbar toolbar;
     private AppBarLayout appbarLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NestedScrollView nestedScrollView;
+    private LinearLayout mainLinearLayout;
 
-    private PorterShapeImageView imageView;
+    private PorterShapeImageView productImageView;
     private TextView productName;
     private TextView productOrderId;
     private TextView shopName;
@@ -52,6 +72,14 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
     private RelativeLayout retryLayout;
     private RelativeLayout loadingLayout;
     private Button retryButton;
+
+
+    private HistoryDetailsPresenter historyDetailsPresenter;
+    private HistoryDetailsListener historyDetailsListener;
+    private HistoryDetailsModel historyDetailsModel;
+
+
+
 
 
     public static HistoryDetailsFragment newInstance(){
@@ -88,6 +116,18 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        //todo setup options menu later
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+        //todo setup options menu later
+    }
+
 
     private void addListeners() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -103,8 +143,6 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
                 //todo implement later
             }
         });
-
-
     }
 
     private void bindAll(View view) {
@@ -116,8 +154,9 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
         loadingLayout = (RelativeLayout)view.findViewById(R.id.rl_progress);
         retryLayout = (RelativeLayout)view.findViewById(R.id.rl_retry);
         retryButton = (Button)view.findViewById(R.id.bt_retry);
+        mainLinearLayout = (LinearLayout)view.findViewById(R.id.history_details_fragment_main_LL) ;
 
-        imageView = (PorterShapeImageView) view.findViewById(R.id.history_details_view_image);
+        productImageView = (PorterShapeImageView) view.findViewById(R.id.history_details_view_image);
         productName = (TextView) view.findViewById(R.id.history_details_view_product_name);
         productOrderId = (TextView)view.findViewById(R.id.history_details_view_product_order_id);
         shopName = (TextView)view.findViewById(R.id.history_details_view_product_shop_name);
@@ -137,67 +176,102 @@ public class HistoryDetailsFragment extends BaseFragment implements HistoryDetai
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(savedInstanceState==null){
+            historyDetailsPresenter.initialize();
+        }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        //todo setup options menu later
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-        //todo setup options menu later
-    }
 
     @Override
     protected void initializePresenter() {
+    //todo later
+        PostExecutionThread postExecutionThread = MainThread.getInstance();
+        ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
+
+        HistoryCache historyCache = TestHistoryCacheImpl.getInstance(); //todo replace with a real one
+
+        HistoryDataStore historyDataStore = 
 
     }
 
     @Override
     public void showDetails() {
-
+        this.mainLinearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideDetails() {
-
+        this.mainLinearLayout.setVisibility(View.GONE);
     }
 
     @Override
-    public void onProductNameClicked() {
+    public void renderHistoryDetails(HistoryDetailsModel model) {
+        this.renderTextualElements(model);
+        this.renderImage(model.getProductImage());
+    }
 
+    private void renderImage(String productImage) {
+        Glide.with(this).load(productImage)
+                .error(R.drawable.error)
+                .placeholder(R.drawable.placeholder)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .crossFade().fitCenter()
+                .into(productImageView);
+    }
+
+    private void renderTextualElements(HistoryDetailsModel model) {
+        this.productName.setText(model.getProductName());
+        this.productDetails.setText(model.getProductDetails());
+        this.productDeliveryLocation.setText(model.getProductDeliveryLocation());
+        this.productDeliveryTime.setText(model.getProductDeliveryTime());
+        this.productOrderTime.setText(model.getProductOrderTime());
+        this.productOrderId.setText(model.getProductOrderId());
+        this.shopName.setText(model.getShopName());
+        this.productPrice.setText(model.getProductPrice());
+        this.productQuantity.setText(model.getProductQuantity());
+        this.paymentId.setText(model.getPaymentId());
+        this.paymentMethod.setText(model.getPaymentMethod());
     }
 
     @Override
-    public void onShopNameClicked() {
+    public void onProductNameClicked(int productId,int shopId) {
+        //chain to activity
 
+        historyDetailsListener.onProductNameClicked(productId,shopId);
+    }
+
+    @Override
+    public void onShopNameClicked(int shopId) {
+        //chain to activity
+        historyDetailsListener.onShopNameClicked(shopId);
     }
 
     @Override
     public void showLoading() {
-
+        this.swipeRefreshLayout.setRefreshing(true);
+        //todo or do we use the default one?
     }
 
     @Override
     public void hideLoading() {
-
+        this.swipeRefreshLayout.setRefreshing(false);
+        //todo or do we use the default one?
     }
 
     @Override
     public void showRetry() {
-
+        this.retryLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideRetry() {
-
+        this.retryLayout.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(String message) {
 
+        //todo show some awesome error message here
     }
 }

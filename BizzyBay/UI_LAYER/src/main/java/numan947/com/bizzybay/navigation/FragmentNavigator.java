@@ -30,7 +30,7 @@ public class FragmentNavigator {
     /**
      * Navigation to the {@link ProductDetailsFragment} which is inside the {@link numan947.com.bizzybay.view.activity.DetailsProductActivity}
      * */
-    public void navigateToDetailsFragment(FragmentManager fragmentManager,int container,int productId,int shopId) {
+    public void navigateToProductDetailsFragment(FragmentManager fragmentManager, int container, int productId, int shopId) {
 
         ProductDetailsFragment fragment = (ProductDetailsFragment) fragmentManager.findFragmentByTag(ProductDetailsFragment.getFragmentID());
 
@@ -39,6 +39,11 @@ public class FragmentNavigator {
             fragment = ProductDetailsFragment.newInstance(productId, shopId);
             fragmentManager.beginTransaction().add(container, fragment, ProductDetailsFragment.getFragmentID()).commit();
         }
+    }
+
+    public void navigateToHistoryDetailsFragment(FragmentManager fragmentManager,int container,int shopId,int orderId)
+    {
+        //todo implement
     }
 
 

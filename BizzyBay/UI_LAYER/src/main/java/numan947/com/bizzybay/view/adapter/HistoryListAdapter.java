@@ -85,7 +85,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
      * Method for creating a normal list item.
      */
     private RecyclerView.ViewHolder normalListItem(ViewGroup parent) {
-        View view = layoutInflater.inflate(R.layout.history_page_single_date, parent, false);
+        View view = layoutInflater.inflate(R.layout.history_list_single_date, parent, false);
         return new HistoryListViewHolder(view);
     }
 
@@ -192,7 +192,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
         private View bindHistoryPerShop(HistoryPerShopModel historyPerShopModel) {
             View v= null;
             if(layoutInflater!=null){
-                v = layoutInflater.inflate(R.layout.history_page_single_shop,null);
+                v = layoutInflater.inflate(R.layout.history_list_single_shop,null);
                 this.bindSingleShopView(v);
                 this.renderSingleShop(historyPerShopModel);
             }
@@ -225,7 +225,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
         private View bindHistoryPerProduct(final HistoryPerProductModel historyPerProductModel) {
             View v = null;
             if(layoutInflater!=null) {
-                v = layoutInflater.inflate(R.layout.history_page_single_product, null);
+                v = layoutInflater.inflate(R.layout.history_list_single_product, null);
 
                 this.bindSingleProductView(v);
 
