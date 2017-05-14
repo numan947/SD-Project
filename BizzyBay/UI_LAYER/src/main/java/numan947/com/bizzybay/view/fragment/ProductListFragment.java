@@ -324,6 +324,9 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
                 adapter.addAll(products);
                 adapter.notifyItemRangeInserted(0,products.size());
             }
+            else if(pageNumber==-1){
+                //do nothing, it means end of the list
+            }
             else{
                 this.pageNumber = pageNumber;
                 int before = adapter.getModelSize();

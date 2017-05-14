@@ -3,17 +3,17 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/browse_products"
+            android:id="@+id/productlist"
             android:title="@string/browse_product"
             android:icon="@drawable/ic_code_black_24dp"/>
 
         <item
-            android:id="@+id/find_shops"
+            android:id="@+id/shoplist"
             android:title="@string/find_shops_near_you"
             android:icon="@drawable/ic_code_black_24dp"/>
 
         <item
-            android:id="@+id/shopping_bag"
+            android:id="@+id/shoppingbag"
             android:title="@string/shopping_bag"
             android:icon="@drawable/ic_code_black_24dp"/>
 
@@ -23,16 +23,9 @@
             android:icon="@drawable/ic_code_black_24dp"/>
 
         <item
-            android:id="@+id/wish_list"
+            android:id="@+id/wishlist"
             android:title="@string/my_wish_list"
             android:icon="@drawable/ic_code_black_24dp"/>
-
-
-        <item
-            android:id="@+id/offers"
-            android:title="@string/offers"
-            android:icon="@drawable/ic_code_black_24dp"/>
-
 
         <item
             android:id="@+id/about"

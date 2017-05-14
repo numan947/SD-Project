@@ -1,6 +1,8 @@
 package numan947.com.data_layer.cache;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import numan947.com.data_layer.entity.ShopListEntity;
@@ -12,9 +14,10 @@ import numan947.com.data_layer.entity.ShopListEntity;
 
 public class TestShopCacheImpl implements ShopCache {
 
-    private ArrayList<ShopListEntity> shopEntities;
+    private List<ShopListEntity> shopEntities;
 
     Random random = new Random();
+    static  int cnt=0;
 
     private String[] placeHolders =  new String[]{
             "http://placeimg.com/640/480/animals",
@@ -39,7 +42,7 @@ public class TestShopCacheImpl implements ShopCache {
 
     private TestShopCacheImpl()
     {
-        this.shopEntities = new ArrayList<>();
+        this.shopEntities = Collections.synchronizedList(new ArrayList<ShopListEntity>());
 
     }
 
@@ -49,8 +52,29 @@ public class TestShopCacheImpl implements ShopCache {
         //todo
     }
 
+
     @Override
     public void getShopList(int pageNumber, ShopListCallback providedCallback) {
-        //todo
+        shopEntities.clear();
+
+        if(pageNumber==0) try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(pageNumber>3){
+            providedCallback.onShopListLoaded(-1,shopEntities);
+            return;
+        }
+
+        cnt++;
+
+        for(int i=0;i<10;i++){
+            ShopListEntity  shopListEntity = new ShopListEntity((10*pageNumber)+i,placeHolders[random.nextInt(100)%placeHolders.length],
+                    "Shop small details here............................asdasdas.d.sd.a.d.asd.as.das.d.asd",
+                    "ShopType","ShopLocation, Mars",i+1,"Shop name");
+            shopEntities.add(shopListEntity);
+        }
+        providedCallback.onShopListLoaded(pageNumber,shopEntities);
     }
 }

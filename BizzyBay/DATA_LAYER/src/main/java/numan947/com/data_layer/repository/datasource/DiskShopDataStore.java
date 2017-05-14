@@ -1,6 +1,6 @@
 package numan947.com.data_layer.repository.datasource;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import numan947.com.data_layer.cache.ShopCache;
 import numan947.com.data_layer.entity.ShopDetailsEntity;
@@ -24,7 +24,7 @@ public class DiskShopDataStore implements ShopDataStore {
     public void getShopEntityList(int pageNumber, final ShopListCallback providedCallback) {
         shopCache.getShopList(pageNumber, new ShopCache.ShopListCallback() {
             @Override
-            public void onShopListLoaded(int pageNumber, ArrayList<ShopListEntity> shopListEntities) {
+            public void onShopListLoaded(int pageNumber, List<ShopListEntity> shopListEntities) {
                 providedCallback.OnShopListLoaded(pageNumber,shopListEntities);
             }
 

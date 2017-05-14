@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
+import numan947.com.bizzybay.view.fragment.ShopListFragment;
 
 
 /**
@@ -91,6 +92,29 @@ public class DrawerNavigator {
 
         //fragmentManager.executePendingTransactions();
         currentFragment = HistoryListFragment.getFragmentID();
+
+    }
+
+    public void navigateToShopListFragment(FragmentManager fragmentManager,int container)
+    {
+        if(currentFragment!=null){
+            Fragment fragment = fragmentManager.findFragmentByTag(currentFragment);
+            if(fragment!=null)fragmentManager.beginTransaction().hide(fragment).commit();
+        }
+
+        ShopListFragment shopListFragment;
+
+        shopListFragment= (ShopListFragment) fragmentManager.findFragmentByTag(ShopListFragment.getFragmentId());
+
+        if(shopListFragment==null){
+            shopListFragment = ShopListFragment.newInstance();
+            fragmentManager.beginTransaction().add(container,shopListFragment, ShopListFragment.getFragmentId()).commit();
+        }
+        else
+            fragmentManager.beginTransaction().show(shopListFragment).commit();
+
+        currentFragment = ShopListFragment.getFragmentId();
+
 
     }
 }

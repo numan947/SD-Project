@@ -24,7 +24,7 @@ import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.DrawerNavigator;
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
-
+import numan947.com.bizzybay.view.fragment.ShopListFragment;
 
 
 /**
@@ -37,7 +37,12 @@ import numan947.com.bizzybay.view.fragment.ProductListFragment;
  *
  * */
 @SuppressWarnings("FieldCanBeLocal")
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener,ProductListFragment.ProductListListener,HistoryListFragment.HistoryListListener {
+public class MainActivity extends BaseActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        View.OnClickListener,
+        ProductListFragment.ProductListListener,
+        HistoryListFragment.HistoryListListener,
+        ShopListFragment.ShopListListener{
 
 
     private final int navigationDrawerGravity = GravityCompat.START;
@@ -87,18 +92,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if(currentFragment==-1)
             this.showProductListFragment();
         else
-            this.showSuitableFragment();
+            this.showSuitableFragment(currentFragment);
 
 
     }
 
-    private void showSuitableFragment() {
-        switch (currentFragment){
+    private void showSuitableFragment(int switchVariable) {
+        switch (switchVariable){
            case R.id.history:
                showHistoryListFragment();
                break;
-            case R.id.browse_products:
+            case R.id.productlist:
                 showProductListFragment();
+                break;
+            case R.id.shoplist:
+                showShopListFragment();
                 break;
             //todo handle rest
 
@@ -120,7 +128,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if(savedInstanceState !=null) {
             currentFragment = savedInstanceState.getInt(CURRENT_FRAGMENT, -1);
-            this.showSuitableFragment();
+            this.showSuitableFragment(currentFragment);
         }
     }
 
@@ -255,26 +263,25 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
      * */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-       switch (item.getItemId()){
-           case R.id.browse_products:
-               this.showProductListFragment();
-               break;
-           case R.id.history:
-               this.showHistoryListFragment();
-               break;
-           //todo handle other case here
 
-       }
-       drawerLayout.closeDrawer(navigationDrawerGravity);
+        this.showSuitableFragment(item.getItemId());
+        drawerLayout.closeDrawer(navigationDrawerGravity);
         return true;
     }
+
+    private void showShopListFragment() {
+        drawerNavigator.navigateToShopListFragment(getSupportFragmentManager(),R.id.main_activity_frame);
+        navigationView.setCheckedItem(R.id.shoplist);
+        currentFragment =R.id.shoplist;
+    }
+
     /**
      * Method for showing the first fragment.
      * */
     private void showProductListFragment() {
         drawerNavigator.navigateToProductListFragment(R.id.main_activity_frame,getSupportFragmentManager());
-        navigationView.setCheckedItem(R.id.browse_products);
-        currentFragment = R.id.browse_products;
+        navigationView.setCheckedItem(R.id.productlist);
+        currentFragment = R.id.productlist;
     }
 
 
@@ -335,5 +342,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void onHistoryItemClicked(int orderId, int shopId, int productId) {
         activityNavigator.navigateToDetailsHistoryActivity(orderId,shopId,productId);
 
+    }
+
+    @Override
+    public void onShopListItemClicked(int shopId) {
+        //todo implement later
+        Toast.makeText(this,"WILL SHOW SHOP DETAILS",Toast.LENGTH_SHORT).show();
     }
 }

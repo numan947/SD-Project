@@ -1,6 +1,6 @@
 package numan947.com.data_layer.repository.datasource;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import numan947.com.data_layer.entity.ShopDetailsEntity;
 import numan947.com.data_layer.entity.ShopListEntity;
@@ -12,7 +12,7 @@ import numan947.com.data_layer.entity.ShopListEntity;
 
 public interface ShopDataStore {
     public interface ShopListCallback{
-        void OnShopListLoaded(int pageNumber, ArrayList<ShopListEntity>entities);
+        void OnShopListLoaded(int pageNumber, List<ShopListEntity> entities);
         void OnError(Exception exception);
     }
 

@@ -1,6 +1,6 @@
 package numan947.com.data_layer.cache;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import numan947.com.data_layer.entity.ShopDetailsEntity;
 import numan947.com.data_layer.entity.ShopListEntity;
@@ -18,7 +18,7 @@ public interface ShopCache {
     }
 
     public interface ShopListCallback{
-        void onShopListLoaded(int pageNumber, ArrayList<ShopListEntity> shopListEntities);
+        void onShopListLoaded(int pageNumber, List<ShopListEntity> shopListEntities);
         void onError(Exception exception);
     }
 

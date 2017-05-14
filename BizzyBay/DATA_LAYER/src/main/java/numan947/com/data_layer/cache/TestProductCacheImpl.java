@@ -18,8 +18,9 @@ import numan947.com.data_layer.entity.ListProductEntity;
 
 public class TestProductCacheImpl implements ProductCache {
     private Collection<ListProductEntity>productEntities;
-    Random random = new Random();
+    private Random random = new Random();
 
+    private static int cnt=0;
     private String[] placeHolders =  new String[]{
             "http://placeimg.com/640/480/animals",
             "http://placeimg.com/640/480/arch",
@@ -103,7 +104,15 @@ public class TestProductCacheImpl implements ProductCache {
 
         //loading
 
+
         productEntities.clear();
+        if(cnt==3){
+            System.out.println("CNT ==3 ");
+            callback.onProductEntityListLoaded(-1,productEntities);
+            return;
+        }
+        cnt++;
+
         if (pageNumber==0) try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

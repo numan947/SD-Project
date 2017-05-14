@@ -247,12 +247,12 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
                 new Thread((new Runnable() {
                     @Override
                     public void run() {
-                        Glide.get(BizzyBay.getBizzyBayApplicationContext()).clearDiskCache();
-                        Glide.get(BizzyBay.getBizzyBayApplicationContext()).getBitmapPool();
+                        Glide.get(getContext()).clearDiskCache();
+                        Glide.get(getContext()).getBitmapPool();
 
                     }
                 })).start();
-                Glide.get(BizzyBay.getBizzyBayApplicationContext()).clearMemory();
+                Glide.get(getContext()).clearMemory();
                 ProductDetailsFragment.this.productDetailsPresenter.initialize(productId,shopId);
 
             }

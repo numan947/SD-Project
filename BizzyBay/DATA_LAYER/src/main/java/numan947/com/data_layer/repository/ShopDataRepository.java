@@ -5,6 +5,7 @@ import com.example.ShopList;
 import com.example.repository.ShopRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import numan947.com.data_layer.entity.ShopDetailsEntity;
 import numan947.com.data_layer.entity.ShopListEntity;
@@ -57,7 +58,7 @@ public class ShopDataRepository implements ShopRepository {
 
         shopDataStore.getShopEntityList(pageNumber, new ShopDataStore.ShopListCallback() {
             @Override
-            public void OnShopListLoaded(int pageNumber, ArrayList<ShopListEntity> entities) {
+            public void OnShopListLoaded(int pageNumber, List<ShopListEntity> entities) {
                 ArrayList<ShopList>shopList = shopEntityDataMapper.transform(entities);
                 providedCallback.OnShopListLoaded(pageNumber,shopList);
             }

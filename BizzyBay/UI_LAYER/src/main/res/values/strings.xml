@@ -2,7 +2,7 @@
     <string name="app_name">BizzyBay</string>
     <string name="browse_product">Browse Product</string>
     <string name="search_products">Search Products</string>
-    <string name="find_shops_near_you">Find Shops Near You</string>
+    <string name="find_shops_near_you">Shop List</string>
     <string name="shopping_bag">Shopping Bag</string>
     <string name="my_history">My History</string>
     <string name="my_wish_list">My Wish List</string>
