@@ -31,7 +31,7 @@
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/details_product_viewpager_indicator"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"/>
 
 

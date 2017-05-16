@@ -23,13 +23,13 @@ import numan947.com.bizzybay.R;
  *
  **/
 
-public class ProductDetailsViewPagerFragment extends Fragment {
-    private static final String KEY = "numan947.com.bizzybay.view.fragment.ProductDetailsViewPagerFragment.KEY";
+public class ImageViewPageFragment extends Fragment {
+    private static final String KEY = "numan947.com.bizzybay.view.fragment.ImageViewPageFragment.KEY";
     private String url;
 
-    public static ProductDetailsViewPagerFragment newInstance(String url)
+    public static ImageViewPageFragment newInstance(String url)
     {
-        ProductDetailsViewPagerFragment fragment = new ProductDetailsViewPagerFragment();
+        ImageViewPageFragment fragment = new ImageViewPageFragment();
 
         Bundle b = new Bundle();
         b.putString(KEY,url);

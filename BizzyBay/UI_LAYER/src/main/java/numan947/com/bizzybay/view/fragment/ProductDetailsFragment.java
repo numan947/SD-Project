@@ -46,7 +46,7 @@ import numan947.com.bizzybay.mapper.ProductModelDataMapper;
 import numan947.com.bizzybay.model.ProductDetailsModel;
 import numan947.com.bizzybay.presenter.ProductDetailsPresenter;
 import numan947.com.bizzybay.view.ProductDetailsView;
-import numan947.com.bizzybay.view.adapter.ProductDetailsViewPagerAdapter;
+import numan947.com.bizzybay.view.adapter.ImageViewPagerAdapter;
 import numan947.com.bizzybay.view.component.CircularViewPagerHandler;
 import numan947.com.bizzybay.view.component.StringDecorator;
 import numan947.com.data_layer.cache.ProductCache;
@@ -105,7 +105,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
     //native elements
     private ProductDetailsPresenter productDetailsPresenter;
     private ProductDetailsListener activityListener;
-    private ProductDetailsViewPagerAdapter viewPagerAdapter;
+    private ImageViewPagerAdapter viewPagerAdapter;
 
     private int productId;//todo may be we need to add user id here as well
     private int shopId;
@@ -413,7 +413,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         viewPager.setOffscreenPageLimit(3);
 
         //initiating the adapter with container
-        viewPagerAdapter = new ProductDetailsViewPagerAdapter(getActivity().getSupportFragmentManager(),new ArrayList<String>());
+        viewPagerAdapter = new ImageViewPagerAdapter(getActivity().getSupportFragmentManager(),new ArrayList<String>());
         viewPager.setAdapter(viewPagerAdapter);
         pagerIndicator.setViewPager(viewPager);
         viewPagerAdapter.registerDataSetObserver(pagerIndicator.getDataSetObserver());

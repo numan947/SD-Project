@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-import numan947.com.bizzybay.view.fragment.ProductDetailsViewPagerFragment;
+import numan947.com.bizzybay.view.fragment.ImageViewPageFragment;
 
 /**
  *
@@ -18,21 +18,21 @@ import numan947.com.bizzybay.view.fragment.ProductDetailsViewPagerFragment;
  *
  **/
 
-public class ProductDetailsViewPagerAdapter extends FragmentPagerAdapter {
+public class ImageViewPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Images to show, must be valid {@link java.net.URL}
      * */
     private ArrayList<String>images;
 
-    public ProductDetailsViewPagerAdapter(FragmentManager fm, ArrayList<String>images) {
+    public ImageViewPagerAdapter(FragmentManager fm, ArrayList<String>images) {
         super(fm);
         this.images = images;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return ProductDetailsViewPagerFragment.newInstance(images.get(position));
+        return ImageViewPageFragment.newInstance(images.get(position));
     }
 
     @Override
