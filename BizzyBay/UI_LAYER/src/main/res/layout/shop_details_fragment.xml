@@ -7,7 +7,8 @@
     android:fitsSystemWindows="true">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/shop_details_ABL">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -39,7 +40,8 @@
                       android:orientation="vertical"
                       android:layout_width="match_parent"
                       android:layout_height="match_parent"
-                      android:clickable="true">
+                      android:clickable="true"
+                      android:id="@+id/shop_details_fragment_view_parent">
 
             <android.support.design.widget.TabLayout
                 android:layout_width="match_parent"
@@ -53,6 +55,11 @@
                 android:layout_height="match_parent"
                 android:id="@+id/shop_details_view_pager"
                 android:background="@drawable/shop_details_view_pager_background"/>
+
+            <include
+                layout="@layout/generic_retry_view"/>
+            <include
+                layout="@layout/generic_progress_view"/>
 
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>

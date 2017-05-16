@@ -1,5 +1,8 @@
 package numan947.com.bizzybay.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -11,7 +14,7 @@ import java.util.ArrayList;
  * Model element for the Product Details in the UI Layer
  **/
 
-public class ProductDetailsModel {
+public class ProductDetailsModel implements Parcelable {
     private int productId;
     private int shopId;
     private String productTitle;
@@ -130,4 +133,56 @@ public class ProductDetailsModel {
     public ArrayList<String> getProductImages() {
         return productImages;
     }
+
+
+    //making the class parcelable
+
+
+    protected ProductDetailsModel(Parcel in) {
+        productId = in.readInt();
+        shopId = in.readInt();
+        productTitle = in.readString();
+        shopName = in.readString();
+        productPrice = in.readString();
+        shopLocation = in.readString();
+        isCarted = in.readByte() != 0;
+        isLiked = in.readByte() != 0;
+        productDetails = in.readString();
+        productCategories = in.createStringArrayList();
+        productImages = in.createStringArrayList();
+    }
+
+    public static final Creator<ProductDetailsModel> CREATOR = new Creator<ProductDetailsModel>() {
+        @Override
+        public ProductDetailsModel createFromParcel(Parcel in) {
+            return new ProductDetailsModel(in);
+        }
+
+        @Override
+        public ProductDetailsModel[] newArray(int size) {
+            return new ProductDetailsModel[size];
+        }
+    };
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(productId);
+        dest.writeInt(shopId);
+        dest.writeString(productTitle);
+        dest.writeString(shopName);
+        dest.writeString(productPrice);
+        dest.writeString(shopLocation);
+        dest.writeByte((byte) (isCarted ? 1 : 0));
+        dest.writeByte((byte) (isLiked ? 1 : 0));
+        dest.writeString(productDetails);
+        dest.writeStringList(productCategories);
+        dest.writeStringList(productImages);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
 }
