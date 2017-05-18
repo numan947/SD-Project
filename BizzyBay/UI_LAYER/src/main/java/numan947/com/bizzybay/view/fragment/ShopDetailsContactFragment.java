@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.model.ShopDetailsModel;
+import numan947.com.bizzybay.model.ShopDetailsModelForMap;
 
 /**
  * @author numan947
@@ -34,7 +35,7 @@ public class ShopDetailsContactFragment extends Fragment implements OnMapReadyCa
     public interface ShopDetailsContactFragmentListener{
         void onWhatsAppButtonClicked(); //todo add parameters
         void onFacebookButtonClicked();
-        void onMapClicked(LatLng latLng);
+        void onMapClicked(ShopDetailsModelForMap shopDetailsModelForMap);
     }
 
 
@@ -145,7 +146,9 @@ public class ShopDetailsContactFragment extends Fragment implements OnMapReadyCa
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                shopDetailsContactFragmentListener.onMapClicked(ShopDetailsContactFragment.this.markerOptions.getPosition());
+                shopDetailsContactFragmentListener.onMapClicked(new ShopDetailsModelForMap(
+                        ShopDetailsContactFragment.this.markerOptions.getSnippet(), ShopDetailsContactFragment.this.markerOptions.getTitle(),
+                        ShopDetailsContactFragment.this.markerOptions.getPosition()));
             }
         });
 

@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
+import numan947.com.bizzybay.model.ShopDetailsModelForMap;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
-import numan947.com.bizzybay.navigation.FragmentNavigator;
+import numan947.com.bizzybay.navigation.ShopDetailsFragmentNavigator;
 import numan947.com.bizzybay.view.fragment.ShopDetailsContactFragment;
 import numan947.com.bizzybay.view.fragment.ShopDetailsFragment;
 
@@ -20,10 +19,16 @@ import numan947.com.bizzybay.view.fragment.ShopDetailsFragment;
 
 public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFragment.ShopDetailsListener,ShopDetailsContactFragment.ShopDetailsContactFragmentListener {
     private static final String SHOP_ID = "numan947.com.bizzybay.view.activity.ShopDetailsActivity.SHOP_ID";
+    private static final String CURRENT_FRAGMENT="numan947.com.bizzybay.view.activity.ShopDetailsActivity.CURRENT_FRAGMENT";
+    private static final String SHOP_DETAILS_MODEL_FOR_MAP = "numan947.com.bizzybay.view.activity.ShopDetailsActivity.SHOP_DETAILS_MODEL_FOR_MAP";
+
     private int shopId;
 
-    private FragmentNavigator fragmentNavigator;
+    private ShopDetailsFragmentNavigator fragmentNavigator;
     private ActivityNavigator activityNavigator;
+
+    private int currentFragment=-1;
+    private ShopDetailsModelForMap shopDetailsModelForMap;
 
 
     public static Intent getCallingIntent(Context context,int shopId)
@@ -43,9 +48,47 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
 
         activityNavigator = new ActivityNavigator(this);
 
-        fragmentNavigator = FragmentNavigator.getInstance();
-        fragmentNavigator.navigateToShopDetailsFragment(getSupportFragmentManager(),android.R.id.content,shopId);
+        fragmentNavigator = ShopDetailsFragmentNavigator.getInstance();
 
+        this.getParameters();
+
+        if(currentFragment==-1) {
+            fragmentNavigator.navigateToShopDetailsFragment(getSupportFragmentManager(), android.R.id.content, shopId);
+            currentFragment = 0;
+            System.err.println("NOW I SEE YOU");
+        }
+        else{
+            this.provideNavigation(currentFragment);
+        }
+    }
+
+    private void provideNavigation(int currentFragment) {
+        switch (currentFragment){
+            case 0:
+                fragmentNavigator.navigateToShopDetailsFragment(getSupportFragmentManager(), android.R.id.content,
+                        shopId);
+                break;
+            case 1:
+                fragmentNavigator.navigateToShopGenericMapView(getSupportFragmentManager(),android.R.id.content,
+                        shopDetailsModelForMap);
+                break;
+            //todo add others
+        }
+    }
+
+    private void getParameters() {
+        this.shopId = getIntent().getIntExtra(SHOP_ID,-1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentFragment==0) {
+            super.onBackPressed();
+        } else {
+
+            this.fragmentNavigator.navigateToShopDetailsFragment(getSupportFragmentManager(),android.R.id.content,shopId);
+            currentFragment = 0;
+        }
     }
 
 
@@ -53,12 +96,22 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SHOP_ID,shopId);
+        outState.putInt(CURRENT_FRAGMENT,currentFragment);
+        outState.putParcelable(SHOP_DETAILS_MODEL_FOR_MAP,shopDetailsModelForMap);
+
+        //System.err.println("WHY WHY1 "+ shopId+"   "+currentFragment+"   "+shopDetailsModelForMap);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        this.shopId = savedInstanceState.getInt(SHOP_ID,-1);
+        if(savedInstanceState!=null) {
+            this.shopId = savedInstanceState.getInt(SHOP_ID, -1);
+            this.currentFragment = savedInstanceState.getInt(CURRENT_FRAGMENT, -1);
+            this.shopDetailsModelForMap = savedInstanceState.getParcelable(SHOP_DETAILS_MODEL_FOR_MAP);
+        }
+
+        //System.err.println("WHY WHY2 "+ shopId+"   "+currentFragment+"   "+shopDetailsModelForMap);
     }
 
     @Override
@@ -87,8 +140,12 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
     }
 
     @Override
-    public void onMapClicked(LatLng latLng) {
-        //// TODO: 5/18/17
-        Toast.makeText(this,"this will open up the map in a new window",Toast.LENGTH_SHORT).show();
+    public void onMapClicked(ShopDetailsModelForMap modelForMap) {
+        currentFragment =1;
+        this.shopDetailsModelForMap = modelForMap;
+
+        fragmentNavigator.navigateToShopGenericMapView(getSupportFragmentManager(),android.R.id.content,
+                modelForMap);
+
     }
 }

@@ -163,7 +163,10 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
             this.detailsPagerCurrentItem = -1;
             if(shopId!=-1)this.shopDetailsPresenter.initialize(shopId);
         }
-        else renderShopDetails(this.shopDetailsModel);
+        else{
+            System.err.println("CurrentImagePage "+imagePagerCurrentItem+" CurrentFragmentPage "+detailsPagerCurrentItem);
+            renderShopDetails(this.shopDetailsModel);
+        }
 
     }
 
@@ -198,8 +201,31 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
         this.fragmentViewPager.setAdapter(shopDetailsViewPagerAdapter);
 
+        this.fragmentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                detailsPagerCurrentItem = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                enableDisableSwipeRefresh(state==ViewPager.SCROLL_STATE_IDLE);
+            }
+        });
+
 
         this.fragmentViewPagerTabLayout.setupWithViewPager(fragmentViewPager);
+    }
+
+    private void enableDisableSwipeRefresh(boolean enable) {
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setEnabled(enable);
+        }
     }
 
     private void addListeners() {
