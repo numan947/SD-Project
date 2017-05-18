@@ -3,11 +3,17 @@ package numan947.com.bizzybay.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,6 +43,8 @@ import numan947.com.data_layer.executor.BackgroundExecutor;
 import numan947.com.data_layer.repository.ProductDataRepository;
 import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
+import static android.view.View.GONE;
+
 /**
  *
  * @author numan947
@@ -49,7 +57,8 @@ import numan947.com.data_layer.repository.datasource.ProductDataStoreFactory;
 
 
 public class ProductListFragment extends BaseFragment implements View.OnClickListener,ProductListView {
-    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.PRODUCT_LIST_FRAGMENT";
+    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.ProductListFragment.PRODUCT_LIST_FRAGMENT";
+    private static final String SHOPID = "numan947.com.bizzybay.view.fragment.ProductListFragment.ShopId";
 
     //this is the interface to send data to Activity so that it can change fragment or switch Activity
     /**
@@ -60,6 +69,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
          * Called when a Product in the list is clicked.
          * */
         void onProductClicked(final ProductListModel model);
+        void onHomeButtonPressed();
     }
 
 
@@ -71,6 +81,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     private ArrayList<ProductListModel>adapterItems;//will be retained
     private int pageNumber; //will be retained
+    private int shopId;
 
 
     //the views related to the view
@@ -81,16 +92,23 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     private RelativeLayout rl_progress;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CoordinatorLayout coordinatorLayout;
+    private AppBarLayout appBarLayout;
+    private Toolbar toolbar;
 
 
 
     /**
      * Initializer for the Fragment.
      * */
-    public static ProductListFragment newInstance()
+    public static ProductListFragment newInstance(int shopId)
     {
+        Bundle bundle = new Bundle();
+        bundle.putInt(SHOPID,shopId);
 
-        return new ProductListFragment();
+        ProductListFragment productListFragment = new ProductListFragment();
+        productListFragment.setArguments(bundle);
+
+        return productListFragment;
     }
 
     public static String getFragmentID()
@@ -123,7 +141,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_retry:
-                productListPresenter.initialize(0);
+                productListPresenter.initialize(0,this.shopId);
                 break;
             //todo handle other cases
         }
@@ -142,6 +160,12 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -153,7 +177,50 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         this.setupRecyclerView();
         this.setupSwipeRefreshLayout();
 
+       // this.setupToolbar();
+
         return v;
+    }
+
+    private void setupToolbar() {
+
+        //todo add toolbar menu items here
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return onOptionsItemSelected(item);
+            }
+        });
+        //todo add handler for toolbar elements
+
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.navigation_view_menu,menu);
+        //todo add optionsmenu here
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //todo handle optionsmenu click here
+        switch (item.getItemId()){
+            case android.R.id.home:
+                productListListener.onHomeButtonPressed();
+                break;
+            //todo handle other cases here
+        }
+
+        return super.onOptionsItemSelected(item);
+
     }
 
     /**
@@ -163,7 +230,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ProductListFragment.this.productListPresenter.initialize(0);
+                ProductListFragment.this.productListPresenter.initialize(0, ProductListFragment.this.shopId);
             }
         });
     }
@@ -195,6 +262,9 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         rl_retry = (RelativeLayout)v.findViewById(R.id.rl_retry);
         swipeRefreshLayout = (SwipeRefreshLayout)v.findViewById(R.id.list_product_fragment_SRL);
         coordinatorLayout = (CoordinatorLayout)v.findViewById(R.id.list_product_fragment_CL);
+
+        appBarLayout = (AppBarLayout)v.findViewById(R.id.list_product_ABL);
+        toolbar = (Toolbar)v.findViewById(R.id.list_product_toolbar);
     }
 
     /**
@@ -211,7 +281,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                productListPresenter.initialize(++pageNumber);
+                productListPresenter.initialize(++pageNumber, ProductListFragment.this.shopId);
             }
         };
 
@@ -232,7 +302,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
             if (productListPresenter == null)
                 initializePresenter();
 
-            productListPresenter.initialize(0);
+            productListPresenter.initialize(0, ProductListFragment.this.shopId);
         }
         //else do nothing....everything should be saved
     }
@@ -245,7 +315,16 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     private void getParameters() {
         Bundle bundle  = getArguments();
         if(bundle!=null){
-            //todo get the parameters passed to the fragment here
+            this.shopId = bundle.getInt(SHOPID);
+
+            if(shopId==-1){
+                //(this.appBarLayout.getParent()).invalidateChildInParent();
+                coordinatorLayout.removeView(appBarLayout);
+                setHasOptionsMenu(false);
+            }
+
+            else
+                this.setupToolbar();
 
         }
 
@@ -353,7 +432,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void showLoading() {
         //rl_progress.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
+        recyclerView.setVisibility(GONE);
         swipeRefreshLayout.setRefreshing(true);
     }
 
@@ -372,7 +451,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void hideRetry() {
-        rl_retry.setVisibility(View.GONE);
+        rl_retry.setVisibility(GONE);
     }
 
     @Override

@@ -302,8 +302,13 @@ public class MainActivity extends BaseActivity implements
     public void onBackPressed() {
 
         //todo gracefully handle all the cases
-        if(drawerLayout.isDrawerOpen(navigationDrawerGravity))drawerLayout.closeDrawer(navigationDrawerGravity);
-
+        if(drawerLayout.isDrawerOpen(navigationDrawerGravity))
+            drawerLayout.closeDrawer(navigationDrawerGravity);
+        else if(currentFragment!=R.id.productlist){
+            drawerNavigator.navigateToProductListFragment(R.id.main_activity_frame,getSupportFragmentManager());
+            navigationView.setCheckedItem(R.id.productlist);
+            currentFragment = R.id.productlist;
+        }
         else
             super.onBackPressed();
     }
@@ -322,6 +327,11 @@ public class MainActivity extends BaseActivity implements
     public void onProductClicked(ProductListModel model) {
         //go to product details
         activityNavigator.navigateToDetailsProductActivity(model.getProductID(),model.getShopID());
+    }
+
+    @Override
+    public void onHomeButtonPressed() {
+        //do nothing
     }
 
     /**

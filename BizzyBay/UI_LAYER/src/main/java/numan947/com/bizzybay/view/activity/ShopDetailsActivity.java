@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.model.ShopDetailsModelForMap;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.ShopDetailsFragmentNavigator;
+import numan947.com.bizzybay.view.fragment.ProductListFragment;
 import numan947.com.bizzybay.view.fragment.ShopDetailsContactFragment;
 import numan947.com.bizzybay.view.fragment.ShopDetailsFragment;
 
@@ -18,7 +20,9 @@ import numan947.com.bizzybay.view.fragment.ShopDetailsFragment;
  * @since 5/18/17.<br>
  **/
 
-public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFragment.ShopDetailsListener,ShopDetailsContactFragment.ShopDetailsContactFragmentListener {
+public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFragment.ShopDetailsListener,
+        ShopDetailsContactFragment.ShopDetailsContactFragmentListener,
+        ProductListFragment.ProductListListener{
     private static final String SHOP_ID = "numan947.com.bizzybay.view.activity.ShopDetailsActivity.SHOP_ID";
     //private static final String CURRENT_FRAGMENT="numan947.com.bizzybay.view.activity.ShopDetailsActivity.CURRENT_FRAGMENT";
     private static final String SHOP_DETAILS_MODEL_FOR_MAP = "numan947.com.bizzybay.view.activity.ShopDetailsActivity.SHOP_DETAILS_MODEL_FOR_MAP";
@@ -72,7 +76,7 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
         if (fragmentNavigator.getCurrentFragment().equals(ShopDetailsFragment.getFragmentId())) {
             super.onBackPressed();
         } else {
-            this.fragmentNavigator.navigateToShopDetailsFragment(getSupportFragmentManager(),android.R.id.content,shopId);
+            this.fragmentNavigator.navigateToShopDetailsFragment(getSupportFragmentManager(),R.id.shop_details_activity_frame,shopId);
         }
     }
 
@@ -104,9 +108,8 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
 
     @Override
     public void showShopProducts(int shopId) {
-        //// TODO: 5/18/17
-
-        Toast.makeText(this,"This will show the products",Toast.LENGTH_SHORT).show();
+        this.shopId = shopId;
+        fragmentNavigator.navigateToShopProductFragment(getSupportFragmentManager(),R.id.shop_details_activity_frame,shopId);
     }
 
 
@@ -127,8 +130,18 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
 
         this.shopDetailsModelForMap = modelForMap;
 
-        fragmentNavigator.navigateToShopGenericMapView(getSupportFragmentManager(),android.R.id.content,
+        fragmentNavigator.navigateToShopGenericMapView(getSupportFragmentManager(),R.id.shop_details_activity_frame,
                 modelForMap);
 
+    }
+
+    @Override
+    public void onProductClicked(ProductListModel model) {
+        activityNavigator.navigateToDetailsProductActivity(model.getProductID(),model.getShopID());
+    }
+
+    @Override
+    public void onHomeButtonPressed() {
+        this.onBackPressed();
     }
 }

@@ -27,9 +27,9 @@ class DiskProductDataStore implements ProductDataStore {
     }
 
     @Override
-    public void getProductsEntityList(int pageNumber, final ProductListCallback callback) {
+    public void getProductsEntityList(int pageNumber, int shopId, final ProductListCallback callback) {
 
-        productCache.get(pageNumber,new ProductCache.ProductEntityListCacheCallback() {
+        productCache.get(pageNumber,shopId,new ProductCache.ProductEntityListCacheCallback() {
             @Override
             public void onProductEntityListLoaded(int pageNumber, Collection<ListProductEntity> productEntities) {
                 callback.onProductListLoaded(pageNumber,productEntities);

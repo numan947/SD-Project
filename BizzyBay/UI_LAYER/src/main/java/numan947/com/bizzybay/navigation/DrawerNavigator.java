@@ -54,7 +54,7 @@ public class DrawerNavigator {
         fragment = (ProductListFragment) fragmentManager.findFragmentByTag(ProductListFragment.getFragmentID());
 
         if(fragment==null) {
-            fragment = ProductListFragment.newInstance();
+            fragment = ProductListFragment.newInstance(-1);
             fragmentManager.beginTransaction().add(container, fragment, ProductListFragment.getFragmentID()).commit();
         }
         else
@@ -114,7 +114,9 @@ public class DrawerNavigator {
             fragmentManager.beginTransaction().show(shopListFragment).commit();
 
         currentFragment = ShopListFragment.getFragmentId();
+    }
 
-
+    public String getCurrentFragment(){
+        return currentFragment;
     }
 }

@@ -100,13 +100,13 @@ public class TestProductCacheImpl implements ProductCache {
     }
 
     @Override
-    public void get(int pageNumber,ProductEntityListCacheCallback callback) {
+    public void get(int pageNumber,int shopId,ProductEntityListCacheCallback callback) {
 
         //loading
 
 
         productEntities.clear();
-        if(cnt==3){
+        if(cnt>=3&&pageNumber>=3){
             System.out.println("CNT ==3 ");
             callback.onProductEntityListLoaded(-1,productEntities);
             return;
@@ -118,13 +118,24 @@ public class TestProductCacheImpl implements ProductCache {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         for(int i=0;i<20;i++){
             int pos = 20*(pageNumber+1);
-            ListProductEntity a= new ListProductEntity(pos+i+1,
-                    pos+i+1,"ProductTitle"+pos+" "+i,(pos+i+1)*100,
-                    "SHOP details here",
-                    ((pos+i)%2)==1,placeHolders[(pos+i)%placeHolders.length]);
+            ListProductEntity a;
+            if(shopId==-1){
+                a= new ListProductEntity(pos+i+1,
+                        pos+i+1,"ProductTitle"+pos+" "+i,(pos+i+1)*100,
+                        "SHOP details here",
+                        ((pos+i)%2)==1,placeHolders[(pos+i)%placeHolders.length]);
 
+            }
+            else{
+                a= new ListProductEntity(pos+i+1,
+                        pos+i+1,"ProductTitle "+shopId+" "+i,(shopId+i+1)*100,
+                        "SHOP details here:....shopId "+shopId,
+                        ((pos+i)%2)==1,placeHolders[(pos+i)%placeHolders.length]);
+
+            }
             productEntities.add(a);
         }
 

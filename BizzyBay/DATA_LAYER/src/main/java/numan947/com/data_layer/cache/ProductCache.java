@@ -51,7 +51,7 @@ public interface ProductCache {
     /**
      * Loader method for list product.
      * */
-    void get(int pageNumber, ProductEntityListCacheCallback callback);
+    void get(int pageNumber,int shopId, ProductEntityListCacheCallback callback);
 
     /**
      * updater/persistence maker method for list product.

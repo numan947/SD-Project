@@ -54,7 +54,7 @@ public class ProductDataRepository implements ProductRepository {
     }
 
     @Override
-    public void getProductList(int pageNumber, final ProductListCallback providedCallback) {
+    public void getProductList(int pageNumber, int shopId, final ProductListCallback providedCallback) {
         //todo create a real data store and load
         System.out.println("Product REQ....1  "+cnt);
         cnt++;
@@ -77,7 +77,7 @@ public class ProductDataRepository implements ProductRepository {
         };
 
 
-        productDataStore.getProductsEntityList(pageNumber,createdCallback);
+        productDataStore.getProductsEntityList(pageNumber,shopId,createdCallback);
 
 
 

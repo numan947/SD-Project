@@ -46,31 +46,29 @@ public class ProductListPresenter implements Presenter {
      * The method available to the view to use the UseCase.
      * Takes a pageNumber and returns the content of the page
      * */
-    public void initialize(int pageNumber)
+    public void initialize(int pageNumber,int shopId)
     {
-        this.loadProductList(pageNumber);
+        this.loadProductList(pageNumber,shopId);
     }
 
     /**
      * Method for performing data loading
+     *  @param pageNumber The Page to load
      *
-     * @param pageNumber The Page to load
-     *
-     * */
-    private void loadProductList(int pageNumber) {
+     * @param shopId*/
+    private void loadProductList(int pageNumber, int shopId) {
         this.hideRetryView();
         this.showLoadingView();
-        this.getProductsList(pageNumber);
+        this.getProductsList(pageNumber,shopId);
     }
 
 
     /**
      * Method for executing the use case from inside the presenter
-     *
-     * @param pageNumber The page to load
-     * */
-    private void getProductsList(int pageNumber) {
-        this.getProductListUseCaseUseCase.execute(pageNumber,productListCallback);
+     *  @param pageNumber The page to load
+     * @param shopId*/
+    private void getProductsList(int pageNumber, int shopId) {
+        this.getProductListUseCaseUseCase.execute(pageNumber,shopId,productListCallback);
     }
 
     /**

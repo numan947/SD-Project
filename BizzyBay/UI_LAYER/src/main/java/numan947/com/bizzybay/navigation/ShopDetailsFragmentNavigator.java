@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import numan947.com.bizzybay.model.ShopDetailsModelForMap;
 import numan947.com.bizzybay.view.fragment.GenericMapFragment;
+import numan947.com.bizzybay.view.fragment.ProductListFragment;
 import numan947.com.bizzybay.view.fragment.ShopDetailsFragment;
 
 /**
@@ -82,5 +83,24 @@ public class ShopDetailsFragmentNavigator {
 
     public boolean currentFragmentNotNull(FragmentManager supportFragmentManager) {
         return supportFragmentManager.findFragmentByTag(currentFragment)!=null;
+    }
+
+    public void navigateToShopProductFragment(FragmentManager fragmentManager,int container,int shopId) {
+        if(currentFragment!=null){
+            Fragment fr = fragmentManager.findFragmentByTag(currentFragment);
+            if(fr!=null)fragmentManager.beginTransaction().hide(fr).commit();
+        }
+
+        ProductListFragment fragment = (ProductListFragment) fragmentManager.findFragmentByTag(ProductListFragment.getFragmentID());
+
+        if(fragment==null){
+            fragment = ProductListFragment.newInstance(shopId);
+            fragmentManager.beginTransaction().add(container,fragment, ProductListFragment.getFragmentID()).commit();
+        }
+        else
+            fragmentManager.beginTransaction().show(fragment).commit();
+
+        currentFragment = ProductListFragment.getFragmentID();
+
     }
 }

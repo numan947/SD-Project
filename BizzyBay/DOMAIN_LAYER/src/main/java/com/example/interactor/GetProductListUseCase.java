@@ -33,5 +33,5 @@ public interface GetProductListUseCase extends BaseUseCase {
     /**
      *  executes the use case.
      * */
-    void execute(int pageNumber, Callback callback);
+    void execute(int pageNumber, int shopId, Callback callback);
 }

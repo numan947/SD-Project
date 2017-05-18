@@ -58,7 +58,7 @@ public interface ProductRepository {
     /**
      * loader method for the product list.
      * */
-    void getProductList(int pageNumber, final ProductListCallback callback);
+    void getProductList(int pageNumber, int shopId, final ProductListCallback callback);
 
     /**
      * loader method for single product.

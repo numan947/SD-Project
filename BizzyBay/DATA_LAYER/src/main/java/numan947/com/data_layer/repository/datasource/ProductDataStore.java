@@ -36,7 +36,7 @@ public interface ProductDataStore {
     /**
      * loader method for product entity list.
      * */
-    void getProductsEntityList(int pageNumber, final ProductListCallback callback);
+    void getProductsEntityList(int pageNumber, int shopId, final ProductListCallback callback);
 
     /**
      * loader method for product entity details.

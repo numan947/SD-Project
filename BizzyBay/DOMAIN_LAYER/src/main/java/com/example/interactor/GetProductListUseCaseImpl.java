@@ -19,6 +19,7 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
 
     private int pageNumber;
     private Callback callback;
+    private int shopId;
 
     public GetProductListUseCaseImpl(ProductRepository productRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
 
@@ -33,11 +34,12 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
 
 
     @Override
-    public void execute(int pageNumber, Callback callback) {
+    public void execute(int pageNumber, int shopId, Callback callback) {
         if(callback == null)
             throw new IllegalArgumentException("Interactor Callback MUST NOT BE NULL");
 
         this.pageNumber = pageNumber;
+        this.shopId = shopId;
         this.callback = callback;
         this.threadExecutor.execute(this);
     }
@@ -45,7 +47,7 @@ public class GetProductListUseCaseImpl implements GetProductListUseCase {
 
     @Override
     public void run() {
-        this.productRepository.getProductList(pageNumber,this.repositoryCallback);
+        this.productRepository.getProductList(pageNumber,shopId,this.repositoryCallback);
     }
 
     private final ProductRepository.ProductListCallback repositoryCallback = new ProductRepository.ProductListCallback() {
