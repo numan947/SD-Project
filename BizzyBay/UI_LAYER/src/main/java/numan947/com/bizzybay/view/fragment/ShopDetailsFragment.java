@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +28,8 @@ import com.example.interactor.GetShopDetailsUseCaseImpl;
 import com.example.repository.ShopRepository;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
@@ -87,6 +90,18 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
     private RelativeLayout imageViewPagerParent;
     private ViewPager imageViewPager;
     private ImageViewPagerAdapter imageViewPagerAdapter;
+    private Runnable timerTask = new Runnable() {
+        @Override
+        public void run() {
+            int cur = ShopDetailsFragment.this.imageViewPager.getCurrentItem();
+            int size = ShopDetailsFragment.this.imageViewPager.getAdapter().getCount();
+
+            if(size-1==cur)imageViewPager.setCurrentItem(0,false);
+            else imageViewPager.setCurrentItem(++cur,true);
+        }
+    };
+    private Timer imagePagerTimer;
+    private final int TIME_BEFORE_PAGE_CHANGE = 7000;
 
     private TextView shopUserName;
     private TextView shopName;
@@ -192,6 +207,14 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
         this.imageViewPagerAdapter = new ImageViewPagerAdapter(getActivity().getSupportFragmentManager(),new ArrayList<String>());
 
         this.imageViewPager.setAdapter(imageViewPagerAdapter); //dummy
+
+        imageViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+            }
+        });
+
 
 
         this.fragmentViewPager.setOffscreenPageLimit(3);
@@ -435,4 +458,41 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
     public void showError(String message) {
         //todo do some awesome things here -_-
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shopDetailsPresenter.onResume();
+        this.setupViewPagerTimer();
+    }
+
+    /**
+     * Method to initiate the {@link ViewPager} {@link Timer}.
+     * */
+    private void setupViewPagerTimer() {
+        imagePagerTimer = new Timer();
+        imagePagerTimer.schedule(
+                new TimerTask() {
+            @Override
+            public void run() {
+                MainThread.getInstance().post(timerTask);
+            }
+        },TIME_BEFORE_PAGE_CHANGE,TIME_BEFORE_PAGE_CHANGE);
+    }
+
+    @Override
+    public void onPause() {
+        shopDetailsPresenter.onPause();
+        this.cancelViewPagerTimer();
+        super.onPause();
+    }
+
+    /**
+     * Cancels {@link ViewPager} {@link Timer}.
+     * */
+    private void cancelViewPagerTimer() {
+        imagePagerTimer.cancel();
+        imagePagerTimer.purge();
+    }
+
 }

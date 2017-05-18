@@ -163,7 +163,7 @@ public class ProductDetailsFragment extends BaseFragment implements ProductDetai
         }
     };
     private Timer viewPagerTimer;
-    private final long TIME_BEFORE_PAGE_CHANGE = 5000;
+    private final long TIME_BEFORE_PAGE_CHANGE = 7000;
 
 
     public ProductDetailsFragment(){
