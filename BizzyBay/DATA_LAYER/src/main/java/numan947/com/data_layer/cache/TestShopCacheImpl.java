@@ -60,7 +60,7 @@ public class TestShopCacheImpl implements ShopCache {
                 "shopAddressLine2 .......","shopAddressLine3 .......","0172545124556","+88015212000156",
                 "Dhaka",1207,images,23.7730662f,90.3767122f,"@user1234",420420,"1937506626493735","+8801521220200");
         try {
-            Thread.sleep(200);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

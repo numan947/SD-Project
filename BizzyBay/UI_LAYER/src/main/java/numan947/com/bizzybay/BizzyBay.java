@@ -3,6 +3,8 @@ package numan947.com.bizzybay;
 import android.app.Application;
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
+
 /**
  * Created by numan947 on 5/9/17.
  */
@@ -35,5 +37,13 @@ public class BizzyBay extends Application {
         super.onCreate();
         applicationContext = getApplicationContext();
         application = this;
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
     }
 }

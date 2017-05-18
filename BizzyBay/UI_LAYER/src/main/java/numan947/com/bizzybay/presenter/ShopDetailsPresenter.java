@@ -41,12 +41,14 @@ public class ShopDetailsPresenter implements Presenter {
 
     private void renderShopDetails(ShopDetails shopDetails) {
         ShopDetailsModel shopDetailsModel = shopModelDataMapper.transform(shopDetails);
+        shopDetailsView.renderShopDetails(shopDetailsModel);
+
 
         this.hideLoadingView();
         this.hideRetryView();
         this.showDetailsView();
 
-        shopDetailsView.renderShopDetails(shopDetailsModel);
+
     }
 
     public ShopDetailsPresenter(ShopDetailsView shopDetailsView, GetShopDetailsUseCase getShopDetailsUseCase, ShopModelDataMapper shopModelDataMapper) {

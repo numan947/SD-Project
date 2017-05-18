@@ -99,4 +99,9 @@ dependencies {
 
     //google places
     compile 'com.google.android.gms:play-services-places:10.2.4'
+
+    //leak canary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }

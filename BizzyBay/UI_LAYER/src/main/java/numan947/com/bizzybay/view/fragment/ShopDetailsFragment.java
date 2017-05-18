@@ -98,6 +98,7 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
             if(size-1==cur)imageViewPager.setCurrentItem(0,false);
             else imageViewPager.setCurrentItem(++cur,true);
+            imagePagerCurrentItem = cur;
         }
     };
     private Timer imagePagerTimer;
@@ -382,6 +383,7 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
     @Override
     public void renderShopDetails(ShopDetailsModel shopDetailsModel) {
         this.shopDetailsModel = shopDetailsModel; //save it
+
 
         this.renderImageViewPager(shopDetailsModel.getShopDetailsImageViewPagerImages());
 
