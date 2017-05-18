@@ -51,11 +51,9 @@
                 app:tabTextAppearance="@style/AppTabTextAppearance"/>
 
             <android.support.v4.view.ViewPager
-                
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/shop_details_view_pager"
-                android:background="@drawable/shop_details_view_pager_background"/>
+                android:id="@+id/shop_details_view_pager"/>
 
             <include
                 layout="@layout/generic_retry_view"/>

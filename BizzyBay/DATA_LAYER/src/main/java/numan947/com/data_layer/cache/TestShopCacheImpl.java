@@ -59,7 +59,11 @@ public class TestShopCacheImpl implements ShopCache {
                 placeHolders[random.nextInt(123)%placeHolders.length],"Shop Name","Shop Address line1.....",
                 "shopAddressLine2 .......","shopAddressLine3 .......","0172545124556","+88015212000156",
                 "Dhaka",1207,images,23.7730662f,90.3767122f,"@user1234",420420);
-
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         providedCallback.onShopDetailsLoaded(shopDetailsEntity);
     }
 
@@ -68,11 +72,12 @@ public class TestShopCacheImpl implements ShopCache {
     public void getShopList(int pageNumber, ShopListCallback providedCallback) {
         shopEntities.clear();
 
-        if(pageNumber==0) try {
+        try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         if(pageNumber>3){
             providedCallback.onShopListLoaded(-1,shopEntities);
             return;
