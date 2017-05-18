@@ -1,5 +1,5 @@
 <resources>
-    <string name="google_api_key"></string>
+    <string name="google_api_key">AIzaSyDjtWiyDzKTri1Z-TrWP7M7-4g_icylgkk</string>
     <string name="app_name">BizzyBay</string>
     <string name="browse_product">Browse Product</string>
     <string name="search_products">Search Products</string>

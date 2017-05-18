@@ -37,6 +37,13 @@ public class ShopEntityDataMapper {
     }
 
     public ShopDetails transform(ShopDetailsEntity shopDetailsEntity) {
-        return null;
+        ShopDetails shopDetails = new ShopDetails(shopDetailsEntity.getShopDetailsAboutUs(),
+                shopDetailsEntity.getShopDetailsAboutUsImage(),shopDetailsEntity.getShopName(),
+                shopDetailsEntity.getShopAddressLine1(),shopDetailsEntity.getShopAddressLine2(),
+                shopDetailsEntity.getShopAddressLine3(),shopDetailsEntity.getShopDetailsPhone(),
+                shopDetailsEntity.getShopDetailsAuxPhone(),shopDetailsEntity.getShopDetailsCity(),String.valueOf(shopDetailsEntity.getShopDetailsZip()),
+                shopDetailsEntity.getShopDetailsImageViewPagerImages(),shopDetailsEntity.getLat(),shopDetailsEntity.getLng(),
+                shopDetailsEntity.getShopUserName(),String.valueOf(shopDetailsEntity.getShopId()));
+        return shopDetails;
     }
 }

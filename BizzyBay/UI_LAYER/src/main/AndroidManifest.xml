@@ -34,6 +34,7 @@
         </activity>
         <activity android:name=".view.activity.DetailsProductActivity"/>
         <activity android:name=".view.activity.HistoryDetailsActivity"/>
+        <activity android:name=".view.activity.ShopDetailsActivity"/>
     </application>
 
 </manifest>

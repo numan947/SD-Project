@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 
 import numan947.com.bizzybay.view.fragment.HistoryDetailsFragment;
 import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
+import numan947.com.bizzybay.view.fragment.ShopDetailsFragment;
 
 /**
  *
@@ -53,5 +54,14 @@ public class FragmentNavigator {
     }
 
 
+    public void navigateToShopDetailsFragment(FragmentManager fragmentManager,int container,int shopId) {
+        ShopDetailsFragment shopDetailsFragment = (ShopDetailsFragment) fragmentManager.findFragmentByTag(ShopDetailsFragment.getFragmentId());
 
+        if(shopDetailsFragment==null){
+            shopDetailsFragment = ShopDetailsFragment.newInstance(shopId);
+            fragmentManager.beginTransaction().add(container,shopDetailsFragment,ShopDetailsFragment.getFragmentId()).commit();
+        }
+
+
+    }
 }

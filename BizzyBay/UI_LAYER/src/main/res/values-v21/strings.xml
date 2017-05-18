@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="google_api_key">AIzaSyDjtWiyDzKTri1Z-TrWP7M7-4g_icylgkk</string>
     <string name="btn_text_retry">Retry</string>
 </resources>

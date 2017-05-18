@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +18,31 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.example.executor.PostExecutionThread;
+import com.example.executor.ThreadExecutor;
+import com.example.interactor.GetShopDetailsUseCase;
+import com.example.interactor.GetShopDetailsUseCaseImpl;
+import com.example.repository.ShopRepository;
+
+import java.util.ArrayList;
+
+import numan947.com.bizzybay.BizzyBay;
+import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.mapper.ShopModelDataMapper;
 import numan947.com.bizzybay.model.ShopDetailsModel;
 import numan947.com.bizzybay.presenter.ShopDetailsPresenter;
 import numan947.com.bizzybay.view.ShopDetailsView;
+import numan947.com.bizzybay.view.adapter.ImageViewPagerAdapter;
+import numan947.com.bizzybay.view.adapter.ShopDetailsViewPagerAdapter;
+import numan947.com.data_layer.cache.ShopCache;
+import numan947.com.data_layer.cache.TestShopCacheImpl;
+import numan947.com.data_layer.entity.mapper.ShopEntityDataMapper;
+import numan947.com.data_layer.executor.BackgroundExecutor;
+import numan947.com.data_layer.repository.ShopDataRepository;
+import numan947.com.data_layer.repository.datasource.ShopDataStoreFactory;
 
 /**
  * @author numan947
@@ -32,8 +51,12 @@ import numan947.com.bizzybay.view.ShopDetailsView;
 
 public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView {
 
-    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.SHOP_DETAILS_FRAGMENT";
-    private static final String SHOP_ID = "numan947.com.bizzybay.view.fragment.SHOP_ID";
+    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.ShopDetailsFragment.SHOP_DETAILS_FRAGMENT";
+    private static final String SHOP_ID = "numan947.com.bizzybay.view.fragment.ShopDetailsFragment.SHOP_ID";
+
+    private static final String IMAGE_PAGER_CURRENT_ITEM="numan947.com.bizzybay.view.fragment.ShopDetailsFragment.IMAGE_PAGER_CURRENT_ITEM";
+    private static final String DETAILS_PAGER_CURRENT_ITEM="numan947.com.bizzybay.view.fragment.ShopDetailsFragment.DETAILS_PAGER_CURRENT_ITEM";
+
 
     public static String getFragmentId(){
         return fragmentId;
@@ -52,6 +75,7 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
     public interface  ShopDetailsListener{
         void finishActivity();
+        void showShopProducts(int shopId);
         //todo add some method for passing instructions to activity
     }
 
@@ -62,6 +86,8 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
     //image view pager
     private RelativeLayout imageViewPagerParent;
     private ViewPager imageViewPager;
+    private ImageViewPagerAdapter imageViewPagerAdapter;
+
     private TextView shopUserName;
     private TextView shopName;
     private Button productButton;
@@ -73,8 +99,9 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
     //fragment viewpager
     private LinearLayout fragmentViewPagerParent;
-    private TableLayout fragmentViewPagerTabLayout;
+    private TabLayout fragmentViewPagerTabLayout;
     private ViewPager fragmentViewPager;
+    private ShopDetailsViewPagerAdapter shopDetailsViewPagerAdapter;
 
     //generic retry view
     private RelativeLayout retryLayout;
@@ -90,6 +117,8 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
     private int shopId; //we'll get it from intent and use it to pull data from datalayer
 
+    private int imagePagerCurrentItem;
+    private int detailsPagerCurrentItem;
 
 
     @Override
@@ -122,8 +151,55 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
         return returnView;
     }
 
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        if(savedInstanceState==null){
+            this.getParameters();
+            this.imagePagerCurrentItem = -1;
+            this.detailsPagerCurrentItem = -1;
+            if(shopId!=-1)this.shopDetailsPresenter.initialize(shopId);
+        }
+        else renderShopDetails(this.shopDetailsModel);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //save these, in case of configuration change
+        this.imagePagerCurrentItem = imageViewPager.getCurrentItem();
+        this.detailsPagerCurrentItem = fragmentViewPager.getCurrentItem();
+    }
+
+    private void getParameters() {
+        Bundle bundle  = getArguments();
+        this.shopId = bundle.getInt(SHOP_ID,-1);
+    }
+
+
     private void setupViewPagers() {
-        //todo setup viewpagers here, both image and fragment
+
+        this.imageViewPager.setOffscreenPageLimit(3);
+
+        this.imageViewPagerAdapter = new ImageViewPagerAdapter(getActivity().getSupportFragmentManager(),new ArrayList<String>());
+
+        this.imageViewPager.setAdapter(imageViewPagerAdapter); //dummy
+
+
+        this.fragmentViewPager.setOffscreenPageLimit(3);
+
+        this.shopDetailsViewPagerAdapter = new ShopDetailsViewPagerAdapter(getActivity().getSupportFragmentManager(),null);
+
+
+        this.fragmentViewPager.setAdapter(shopDetailsViewPagerAdapter);
+
+
+        this.fragmentViewPagerTabLayout.setupWithViewPager(fragmentViewPager);
     }
 
     private void addListeners() {
@@ -131,11 +207,33 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
             @Override
             public void onRefresh() {
                 shopDetailsPresenter.initialize(shopId);
+                ShopDetailsFragment.this.resetPagerCurrentItems();
+            }
+        });
+
+        this.retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopDetailsPresenter.initialize(shopId);
+                ShopDetailsFragment.this.resetPagerCurrentItems();
+            }
+        });
+
+
+        productButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shopDetailsListener.showShopProducts(shopId);
             }
         });
 
 
 
+    }
+
+    private void resetPagerCurrentItems() {
+        ShopDetailsFragment.this.detailsPagerCurrentItem = -1;
+        ShopDetailsFragment.this.imagePagerCurrentItem = -1;
     }
 
     private void setupToolbar() {
@@ -172,7 +270,7 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
         fragmentViewPagerParent = (LinearLayout) returnView.findViewById(R.id.shop_details_fragment_view_parent);
         fragmentViewPager = (ViewPager) returnView.findViewById(R.id.shop_details_view_pager);
-        fragmentViewPagerTabLayout = (TableLayout) returnView.findViewById(R.id.shop_details_tab_layout);
+        fragmentViewPagerTabLayout = (TabLayout) returnView.findViewById(R.id.shop_details_tab_layout);
 
         retryLayout = (RelativeLayout) returnView.findViewById(R.id.rl_retry);
         retryButton = (Button) returnView.findViewById(R.id.bt_retry);
@@ -180,15 +278,6 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
     }
 
 
-
-
-
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //todo initialize here
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -209,12 +298,77 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
     @Override
     protected void initializePresenter() {
-        //todo
+        PostExecutionThread postExecutionThread = MainThread.getInstance();
+        ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
+
+        //todo initialize serializer
+
+        //todo add real cache instead of test
+
+        ShopCache shopCache = TestShopCacheImpl.getInstance();
+
+
+        ShopDataStoreFactory shopDataStoreFactory = new ShopDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),shopCache);
+
+        ShopEntityDataMapper shopEntityDataMapper = new ShopEntityDataMapper();
+
+
+        ShopRepository shopRepository = ShopDataRepository.getInstance(shopDataStoreFactory,shopEntityDataMapper);
+
+
+        GetShopDetailsUseCase getShopDetailsUseCase = new GetShopDetailsUseCaseImpl(postExecutionThread,threadExecutor,shopRepository);
+
+        ShopModelDataMapper shopModelDataMapper = new ShopModelDataMapper();
+
+
+        this.shopDetailsPresenter = new ShopDetailsPresenter(this,getShopDetailsUseCase,shopModelDataMapper);
+
+
+
+
+
     }
 
     @Override
     public void renderShopDetails(ShopDetailsModel shopDetailsModel) {
-        //todo
+        this.shopDetailsModel = shopDetailsModel; //save it
+
+        this.renderImageViewPager(shopDetailsModel.getShopDetailsImageViewPagerImages());
+
+        this.renderDetailsViewPager(shopDetailsModel);
+
+        this.renderOthers(shopDetailsModel);
+
+
+    }
+
+    private void renderOthers(ShopDetailsModel shopDetailsModel) {
+        this.shopIdText.setText(shopDetailsModel.getShopId());
+        this.shopName.setText(shopDetailsModel.getShopName());
+        this.shopUserName.setText(shopDetailsModel.getShopUserName());
+    }
+
+    private void renderDetailsViewPager(ShopDetailsModel shopDetailsModel) {
+
+        this.shopDetailsViewPagerAdapter.setShopDetailsModel(shopDetailsModel);
+        this.shopDetailsViewPagerAdapter.notifyDataSetChanged();
+
+        if(detailsPagerCurrentItem==-1) {
+            this.fragmentViewPager.setCurrentItem(0);
+            this.detailsPagerCurrentItem = 0;
+        }
+        else this.fragmentViewPager.setCurrentItem(detailsPagerCurrentItem);
+    }
+
+    private void renderImageViewPager(ArrayList<String> shopDetailsImageViewPagerImages) {
+        this.imageViewPagerAdapter.clear();
+        this.imageViewPagerAdapter.addAll(shopDetailsImageViewPagerImages);
+        this.imageViewPagerAdapter.notifyDataSetChanged();
+        if(imagePagerCurrentItem==-1){
+            this.imageViewPager.setCurrentItem(0);
+            imagePagerCurrentItem=0;
+        }
+        else this.imageViewPager.setCurrentItem(imagePagerCurrentItem);
     }
 
     @Override

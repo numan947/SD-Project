@@ -1,9 +1,11 @@
 package numan947.com.bizzybay.mapper;
 
+import com.example.ShopDetails;
 import com.example.ShopList;
 
 import java.util.ArrayList;
 
+import numan947.com.bizzybay.model.ShopDetailsModel;
 import numan947.com.bizzybay.model.ShopListModel;
 
 /**
@@ -24,5 +26,15 @@ public class ShopModelDataMapper {
         }
 
         return shops;
+    }
+
+    public ShopDetailsModel transform(ShopDetails shopDetails) {
+        ShopDetailsModel model=new ShopDetailsModel(shopDetails.getShopDetailsAboutUs(),shopDetails.getShopDetailsAboutUsImage(),
+                shopDetails.getShopName(),shopDetails.getShopAddressLine1(),shopDetails.getShopAddressLine2(),shopDetails.getShopAddressLine3(),
+                shopDetails.getShopDetailsPhone(),shopDetails.getShopDetailsAuxPhone(),shopDetails.getShopDetailsCity(),shopDetails.getShopDetailsZip(),
+                shopDetails.getShopDetailsImageViewPagerImages(),shopDetails.getLat(),shopDetails.getLng(),shopDetails.getShopUserName(),
+                shopDetails.getShopId());
+
+        return model;
     }
 }

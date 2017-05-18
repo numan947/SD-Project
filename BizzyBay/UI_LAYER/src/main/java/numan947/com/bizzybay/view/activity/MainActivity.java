@@ -346,7 +346,6 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onShopListItemClicked(int shopId) {
-        //todo implement later
-        Toast.makeText(this,"WILL SHOW SHOP DETAILS",Toast.LENGTH_SHORT).show();
+        activityNavigator.navigateToShopDetailsActivity(shopId);
     }
 }
