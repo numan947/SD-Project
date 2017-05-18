@@ -1,9 +1,12 @@
 package numan947.com.bizzybay.view.fragment;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +36,8 @@ public class ShopDetailsContactFragment extends Fragment implements OnMapReadyCa
 
 
     public interface ShopDetailsContactFragmentListener{
-        void onWhatsAppButtonClicked(); //todo add parameters
-        void onFacebookButtonClicked();
+        void onWhatsAppButtonClicked(String number); //todo add parameters
+        void onFacebookButtonClicked(String faceBookPage);
         void onMapClicked(ShopDetailsModelForMap shopDetailsModelForMap);
     }
 
@@ -100,8 +103,23 @@ public class ShopDetailsContactFragment extends Fragment implements OnMapReadyCa
         this.setupMapView(savedInstanceState);
         this.renderAll();
         this.addListeners();
+        this.setupWhatsAppAndFaceBook();
 
         return view;
+    }
+
+    private void setupWhatsAppAndFaceBook() {
+        if(!isInstalled("com.whatsapp")){
+            whatsappButton.setEnabled(false);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                whatsappButton.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.whatsapp_2));
+            }
+            else{
+                whatsappButton.setBackgroundDrawable(ContextCompat.getDrawable(getContext(),R.drawable.whatsapp_2));
+            }
+        }
+
+        //no need to check for facebook
     }
 
     private void addListeners() {
@@ -110,15 +128,33 @@ public class ShopDetailsContactFragment extends Fragment implements OnMapReadyCa
         this.mapViewLL.setOnClickListener(this);
     }
 
+
+    private boolean isInstalled(String uri) {
+        PackageManager pm = getContext().getPackageManager();
+
+        boolean app_installed;
+        try {
+
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+
+            app_installed = true;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+
+            app_installed = false;
+
+        }
+        return app_installed;
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
 
             case R.id.shop_details_whatsapp_button:
-                this.shopDetailsContactFragmentListener.onWhatsAppButtonClicked();
+                this.shopDetailsContactFragmentListener.onWhatsAppButtonClicked(this.shopDetailsModel.getWhatsappNumber());
                 break;
             case R.id.shop_details_facebook_button:
-                this.shopDetailsContactFragmentListener.onFacebookButtonClicked();
+                this.shopDetailsContactFragmentListener.onFacebookButtonClicked(this.shopDetailsModel.getFaceBookPage());
                 break;
         }
     }
@@ -158,6 +194,7 @@ public class ShopDetailsContactFragment extends Fragment implements OnMapReadyCa
 
 
     private void renderAll() {
+
         this.shopDetailsShopName.setText(shopDetailsModel.getShopName());
 
         this.shopDetailsAddressLine1.setText(shopDetailsModel.getShopAddressLine1());

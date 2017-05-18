@@ -220,6 +220,7 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
 
 
         this.fragmentViewPagerTabLayout.setupWithViewPager(fragmentViewPager);
+
     }
 
     private void enableDisableSwipeRefresh(boolean enable) {

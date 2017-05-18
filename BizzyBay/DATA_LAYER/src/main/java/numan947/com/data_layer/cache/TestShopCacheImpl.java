@@ -58,9 +58,9 @@ public class TestShopCacheImpl implements ShopCache {
                 "ABOUT US: In Android, Parcelables are a great way to serialize Java Objects between Contexts. Compared with traditional Serialization, Parcelables take on the order of 10x less time to both serialize and deserialize. There is a major flaw with Parcelables, however. Parcelables contain a ton of boilerplate code. To implement a Parcelable, you must mirror the writeToParcel() and createFromParcel() methods such that they read and write to the Parcel in the same order. Also, a Parcelable must define a public static final Parcelable.Creator CREATOR in order for the Android infrastructure to be able to leverage the serialization code.",
                 placeHolders[random.nextInt(123)%placeHolders.length],"Shop Name","Shop Address line1.....",
                 "shopAddressLine2 .......","shopAddressLine3 .......","0172545124556","+88015212000156",
-                "Dhaka",1207,images,23.7730662f,90.3767122f,"@user1234",420420);
+                "Dhaka",1207,images,23.7730662f,90.3767122f,"@user1234",420420,"1937506626493735","+8801521220200");
         try {
-            Thread.sleep(1000);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

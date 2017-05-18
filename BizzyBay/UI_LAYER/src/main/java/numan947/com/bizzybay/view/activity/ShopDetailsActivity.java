@@ -2,6 +2,7 @@ package numan947.com.bizzybay.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -114,15 +115,44 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
 
 
     @Override
-    public void onWhatsAppButtonClicked() {
-        //// TODO: 5/18/17
-        Toast.makeText(this,"this will open up whatsapp",Toast.LENGTH_SHORT).show();
+    public void onWhatsAppButtonClicked(String shopNumber) {
+
+        //assuming the number has '+' at the beginning
+
+        //ALL HAIL STACK OVERFLOW B)
+
+        String smsNumber;
+        if(shopNumber.charAt(0)=='+')
+            smsNumber = shopNumber.substring(1);
+        else
+            smsNumber = shopNumber; //without '+'
+
+
+        try {
+            Intent sendIntent = new Intent("android.intent.action.MAIN");
+            //sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "Hello!");
+            sendIntent.putExtra("jid", smsNumber + "@s.whatsapp.net"); //phone number without "+" prefix
+            sendIntent.setPackage("com.whatsapp");
+            startActivity(sendIntent);
+        } catch(Exception e) {
+            Toast.makeText(this, "Error in whatsapp\nContact Customer Service\n" + e.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
-    public void onFacebookButtonClicked() {
-    //// TODO: 5/18/17
-        Toast.makeText(this,"this will open up facebook",Toast.LENGTH_SHORT).show();
+    public void onFacebookButtonClicked(String faceBookPage) {
+
+        Intent intent;
+        try {
+            this.getPackageManager().getPackageInfo("com.facebook.katana", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/"+faceBookPage));
+        } catch (Exception e) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/"+faceBookPage));
+        }
+        startActivity(intent);
     }
 
     @Override

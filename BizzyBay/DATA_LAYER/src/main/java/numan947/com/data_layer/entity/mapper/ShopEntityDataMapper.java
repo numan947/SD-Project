@@ -43,7 +43,7 @@ public class ShopEntityDataMapper {
                 shopDetailsEntity.getShopAddressLine3(),shopDetailsEntity.getShopDetailsPhone(),
                 shopDetailsEntity.getShopDetailsAuxPhone(),shopDetailsEntity.getShopDetailsCity(),String.valueOf(shopDetailsEntity.getShopDetailsZip()),
                 shopDetailsEntity.getShopDetailsImageViewPagerImages(),shopDetailsEntity.getLat(),shopDetailsEntity.getLng(),
-                shopDetailsEntity.getShopUserName(),String.valueOf(shopDetailsEntity.getShopId()));
+                shopDetailsEntity.getShopUserName(),String.valueOf(shopDetailsEntity.getShopId()),shopDetailsEntity.getFacebookPage(),shopDetailsEntity.getWhatsappNumber());
         return shopDetails;
     }
 }

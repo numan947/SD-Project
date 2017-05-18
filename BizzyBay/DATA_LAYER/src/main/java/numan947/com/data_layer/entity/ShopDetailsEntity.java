@@ -25,13 +25,21 @@ public class ShopDetailsEntity {
     private String shopUserName;
     private int shopId;
 
+    private String facebookPage;
+    private String whatsappNumber;
+
     public ShopDetailsEntity()
     {
 
     }
 
 
-    public ShopDetailsEntity(String shopDetailsAboutUs, String shopDetailsAboutUsImage, String shopName, String shopAddressLine1, String shopAddressLine2, String shopAddressLine3, String shopDetailsPhone, String shopDetailsAuxPhone, String shopDetailsCity, int shopDetailsZip, ArrayList<String> shopDetailsImageViewPagerImages, float lat, float lng, String shopUserName, int shopId) {
+    public ShopDetailsEntity(String shopDetailsAboutUs, String shopDetailsAboutUsImage,
+                             String shopName, String shopAddressLine1, String shopAddressLine2,
+                             String shopAddressLine3, String shopDetailsPhone, String shopDetailsAuxPhone,
+                             String shopDetailsCity, int shopDetailsZip,
+                             ArrayList<String> shopDetailsImageViewPagerImages, float lat, float lng,
+                             String shopUserName, int shopId,String facebookPage,String whatsappNumber) {
         this.shopDetailsAboutUs = shopDetailsAboutUs;
         this.shopDetailsAboutUsImage = shopDetailsAboutUsImage;
         this.shopName = shopName;
@@ -47,6 +55,25 @@ public class ShopDetailsEntity {
         this.lng = lng;
         this.shopUserName = shopUserName;
         this.shopId = shopId;
+        this.facebookPage = facebookPage;
+        this.whatsappNumber = whatsappNumber;
+    }
+
+
+    public String getFacebookPage() {
+        return facebookPage;
+    }
+
+    public void setFacebookPage(String facebookPage) {
+        this.facebookPage = facebookPage;
+    }
+
+    public String getWhatsappNumber() {
+        return whatsappNumber;
+    }
+
+    public void setWhatsappNumber(String whatsappNumber) {
+        this.whatsappNumber = whatsappNumber;
     }
 
     public String getShopDetailsAboutUs() {

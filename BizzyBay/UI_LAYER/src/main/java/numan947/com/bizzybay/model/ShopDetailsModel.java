@@ -25,6 +25,9 @@ public class ShopDetailsModel implements Parcelable {
     private float lat;
     private float lng;
 
+    private String whatsappNumber;
+    private String faceBookPage;
+
     private String shopUserName;
     private String shopId;
 
@@ -32,7 +35,11 @@ public class ShopDetailsModel implements Parcelable {
 
     }
 
-    public ShopDetailsModel(String shopDetailsAboutUs, String shopDetailsAboutUsImage, String shopName, String shopAddressLine1, String shopAddressLine2, String shopAddressLine3, String shopDetailsPhone, String shopDetailsAuxPhone, String shopDetailsCity, String shopDetailsZip, ArrayList<String> shopDetailsImageViewPagerImages, float lat, float lng, String shopUserName, String shopId) {
+    public ShopDetailsModel(String shopDetailsAboutUs, String shopDetailsAboutUsImage, String shopName, String shopAddressLine1,
+                            String shopAddressLine2, String shopAddressLine3, String shopDetailsPhone,
+                            String shopDetailsAuxPhone, String shopDetailsCity, String shopDetailsZip,
+                            ArrayList<String> shopDetailsImageViewPagerImages, float lat, float lng,
+                            String shopUserName, String shopId,String faceBookPage,String whatsappNumber) {
         this.shopDetailsAboutUs = shopDetailsAboutUs;
         this.shopDetailsAboutUsImage = shopDetailsAboutUsImage;
         this.shopName = shopName;
@@ -48,6 +55,8 @@ public class ShopDetailsModel implements Parcelable {
         this.lng = lng;
         this.shopUserName = shopUserName;
         this.shopId = shopId;
+        this.whatsappNumber = whatsappNumber;
+        this.faceBookPage  = faceBookPage;
     }
 
     protected ShopDetailsModel(Parcel in) {
@@ -64,6 +73,8 @@ public class ShopDetailsModel implements Parcelable {
         shopDetailsImageViewPagerImages = in.createStringArrayList();
         lat = in.readFloat();
         lng = in.readFloat();
+        whatsappNumber = in.readString();
+        faceBookPage = in.readString();
         shopUserName = in.readString();
         shopId = in.readString();
     }
@@ -83,6 +94,8 @@ public class ShopDetailsModel implements Parcelable {
         dest.writeStringList(shopDetailsImageViewPagerImages);
         dest.writeFloat(lat);
         dest.writeFloat(lng);
+        dest.writeString(whatsappNumber);
+        dest.writeString(faceBookPage);
         dest.writeString(shopUserName);
         dest.writeString(shopId);
     }
@@ -103,6 +116,22 @@ public class ShopDetailsModel implements Parcelable {
             return new ShopDetailsModel[size];
         }
     };
+
+    public String getWhatsappNumber() {
+        return whatsappNumber;
+    }
+
+    public void setWhatsappNumber(String whatsappNumber) {
+        this.whatsappNumber = whatsappNumber;
+    }
+
+    public String getFaceBookPage() {
+        return faceBookPage;
+    }
+
+    public void setFaceBookPage(String faceBookPage) {
+        this.faceBookPage = faceBookPage;
+    }
 
     public String getShopDetailsAboutUs() {
         return shopDetailsAboutUs;

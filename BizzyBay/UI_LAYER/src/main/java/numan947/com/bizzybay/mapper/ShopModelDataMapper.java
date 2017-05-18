@@ -33,7 +33,7 @@ public class ShopModelDataMapper {
                 shopDetails.getShopName(),shopDetails.getShopAddressLine1(),shopDetails.getShopAddressLine2(),shopDetails.getShopAddressLine3(),
                 shopDetails.getShopDetailsPhone(),shopDetails.getShopDetailsAuxPhone(),shopDetails.getShopDetailsCity(),shopDetails.getShopDetailsZip(),
                 shopDetails.getShopDetailsImageViewPagerImages(),shopDetails.getLat(),shopDetails.getLng(),shopDetails.getShopUserName(),
-                shopDetails.getShopId());
+                shopDetails.getShopId(),shopDetails.getFaceBookPage(),shopDetails.getWhatsappNumber());
 
         return model;
     }
