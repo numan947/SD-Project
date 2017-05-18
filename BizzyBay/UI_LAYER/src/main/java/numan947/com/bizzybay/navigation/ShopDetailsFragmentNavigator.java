@@ -29,7 +29,7 @@ public class ShopDetailsFragmentNavigator {
     public void navigateToShopGenericMapView(FragmentManager fragmentManager,int container, ShopDetailsModelForMap model) {
         if (currentFragment != null) {
             Fragment fragment = fragmentManager.findFragmentByTag(currentFragment);
-            fragmentManager.beginTransaction().hide(fragment).commit();
+            if(fragment!=null)fragmentManager.beginTransaction().hide(fragment).commit();
         }
 
 
@@ -50,8 +50,8 @@ public class ShopDetailsFragmentNavigator {
 
         if(currentFragment!=null){
             Fragment fragment = fragmentManager.findFragmentByTag(currentFragment);
-            fragmentManager.beginTransaction().hide(fragment).commit();
-            System.err.println(currentFragment);
+            if(fragment!=null)
+                fragmentManager.beginTransaction().hide(fragment).commit();
         }
 
 
@@ -66,5 +66,21 @@ public class ShopDetailsFragmentNavigator {
 
 
         currentFragment = ShopDetailsFragment.getFragmentId();
+    }
+
+
+    public String getCurrentFragment()
+    {
+        return currentFragment;
+    }
+
+
+    public void navigateToCurrentFragment(FragmentManager fragmentManager) {
+        Fragment fragment = fragmentManager.findFragmentByTag(currentFragment);
+        fragmentManager.beginTransaction().show(fragment).commit();
+    }
+
+    public boolean currentFragmentNotNull(FragmentManager supportFragmentManager) {
+        return supportFragmentManager.findFragmentByTag(currentFragment)!=null;
     }
 }
