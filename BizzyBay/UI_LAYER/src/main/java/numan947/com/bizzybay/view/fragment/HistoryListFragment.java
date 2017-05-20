@@ -113,8 +113,6 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
         this.bindAll(v);
         this.setupRecyclerView();
         this.addListenersToView();
-        this.setupSwipeRefreshView();
-
 
 
         return v;
@@ -153,24 +151,20 @@ public class HistoryListFragment extends BaseFragment implements HistoryListView
     }
 
 
-    private void setupSwipeRefreshView() {
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                HistoryListFragment.this.pageNumber = 0;
-                historyListPresenter.initialize(0);
-            }
-        });
-
-    }
-
     private void addListenersToView() {
 
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //again try to load the first page
+                historyListPresenter.initialize(0);
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                HistoryListFragment.this.pageNumber = 0;
                 historyListPresenter.initialize(0);
             }
         });

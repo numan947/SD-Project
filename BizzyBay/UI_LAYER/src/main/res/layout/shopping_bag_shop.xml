@@ -55,7 +55,7 @@
                 android:layout_below="@id/shopping_bag_total_price"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:id="@+id/shopping_bag_buy_button"
+                android:id="@+id/shopping_bag_checkout_button"
                 android:background="@drawable/checkout"/>
             <TextView
                 android:layout_width="wrap_content"
