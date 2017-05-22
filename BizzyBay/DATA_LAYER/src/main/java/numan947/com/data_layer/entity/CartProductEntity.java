@@ -11,13 +11,23 @@ public class CartProductEntity {
     private int productPrice;
     private int productAvailability;
     private String productImage;
+    private int productId;
 
-    public CartProductEntity(String productName, int productQuantity, int productPrice, int productAvailability, String productImage) {
+    public CartProductEntity(String productName, int productQuantity, int productPrice, int productAvailability, String productImage, int productId) {
         this.productName = productName;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
         this.productAvailability = productAvailability;
         this.productImage = productImage;
+        this.productId = productId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {

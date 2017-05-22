@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.example.executor.PostExecutionThread;
+import com.example.executor.ThreadExecutor;
+import com.example.interactor.GetCartListUseCase;
+import com.example.interactor.GetCartListUseCaseImpl;
+import com.example.repository.CartListWishListRepository;
+
 import java.util.ArrayList;
 
+import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.mapper.CartListWishListModelDataMapper;
 import numan947.com.bizzybay.model.CartListModel;
+import numan947.com.bizzybay.model.CartProductModel;
 import numan947.com.bizzybay.presenter.CartListPresenter;
 import numan947.com.bizzybay.view.CartListView;
+import numan947.com.bizzybay.view.adapter.CartListAdapter;
+import numan947.com.bizzybay.view.component.EndlessRecyclerViewScrollListener;
+import numan947.com.data_layer.cache.CartListWishListCache;
+import numan947.com.data_layer.cache.TestCartListWishListCacheImpl;
+import numan947.com.data_layer.entity.mapper.CartListWishListEntityDataMapper;
+import numan947.com.data_layer.executor.BackgroundExecutor;
+import numan947.com.data_layer.repository.CartListWishListDataRepository;
+import numan947.com.data_layer.repository.datasource.CartListWishListDataStoreFactory;
 
 /**
  * @author numan947
@@ -53,6 +71,43 @@ public class CartListFragment extends BaseFragment implements CartListView {
     private Button retryButton;
 
 
+    private CartListAdapter cartListAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+
+    private CartListAdapter.Callback callBackForRecyclerViewAdapter = new CartListAdapter.Callback() {
+        @Override
+        public void onProductItemClicked(int productId, int shopId) {
+
+        }
+
+        @Override
+        public void onShopNameClicked(int shopId) {
+
+        }
+
+        @Override
+        public void onShopDeleteButtonClicked(int position) {
+
+        }
+
+        @Override
+        public void onCheckOutButtonClicked(CartListModel cartListModel) {
+
+        }
+
+        @Override
+        public void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct) {
+
+        }
+    };
+
+
+
+    private int pageNumber;
+    private ArrayList<CartListModel>adapterItems;
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -73,7 +128,7 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //todo add view
+
         View view = inflater.inflate(R.layout.shopping_bag_fragment,container,false);
 
         this.bindAll(view);
@@ -81,16 +136,46 @@ public class CartListFragment extends BaseFragment implements CartListView {
         this.setupRecyclerView();
 
         
-        return null;
+        return view;
     }
 
     private void setupRecyclerView() {
-        // TODO: 5/20/17 setup recycler view
+
+
+        this.linearLayoutManager = new LinearLayoutManager(getContext());
+
+        this.endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                cartListPresenter.initialize(++pageNumber);
+            }
+        };
+
+
+        this.cartListAdapter = new CartListAdapter(getContext(),adapterItems,callBackForRecyclerViewAdapter);
+
+
+        this.recyclerView.setLayoutManager(linearLayoutManager);
+        this.recyclerView.setAdapter(cartListAdapter);
     }
 
     private void addListeners() {
-        //// TODO: 5/20/17 Add listeners
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cartListPresenter.initialize(0);
+            }
+        });
+
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cartListPresenter.initialize(0);
+            }
+        });
     }
+
 
     private void bindAll(View view) {
         this.swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.cart_page_fragment_SRL);
@@ -106,7 +191,11 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //todo 
+
+        if(savedInstanceState==null){
+            this.cartListPresenter.initialize(0);
+        }
+        //do nothing
     }
 
     @Override
@@ -123,33 +212,77 @@ public class CartListFragment extends BaseFragment implements CartListView {
 
     @Override
     protected void initializePresenter() {
-        //todo
+        this.adapterItems = new ArrayList<>();
+
+
+        PostExecutionThread postExecutionThread = MainThread.getInstance();
+        ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
+
+        //todo add JSON Parser here plus other things, like a real cache instead of a test one
+
+        CartListWishListCache cache = TestCartListWishListCacheImpl.getInstance();
+
+        CartListWishListDataStoreFactory dataStoreFactory = new CartListWishListDataStoreFactory(cache);
+
+        CartListWishListEntityDataMapper entityDataMapper = new CartListWishListEntityDataMapper();
+
+        CartListWishListRepository cartListWishListRepository = CartListWishListDataRepository.getInstance(entityDataMapper,dataStoreFactory);
+
+        GetCartListUseCase getCartListUseCase = new GetCartListUseCaseImpl(postExecutionThread,threadExecutor,cartListWishListRepository);
+        CartListWishListModelDataMapper modelDataMapper = new CartListWishListModelDataMapper();
+
+        this.cartListPresenter = new CartListPresenter(this,getCartListUseCase,modelDataMapper);
     }
 
     @Override
-    public void renderCartList(ArrayList<CartListModel> cartListModels) {
-        //todo
+    public void renderCartList(int pageNumber,ArrayList<CartListModel> cartListModels) {
+        if(pageNumber==0){
+            resetRecyclerViewAdapter();
+            cartListAdapter.addAll(cartListModels);
+
+
+            cartListAdapter.notifyItemRangeInserted(0,cartListModels.size());
+        }
+        else{
+
+            int before = cartListAdapter.getModelSize();
+
+            cartListAdapter.addAll(cartListModels);
+
+            int after = cartListAdapter.getModelSize();
+
+            cartListAdapter.notifyItemRangeInserted(before,after-before);
+        }
+    }
+
+
+    private void resetRecyclerViewAdapter() {
+        pageNumber = 0;
+        cartListAdapter.clearAll();
+        cartListAdapter.notifyDataSetChanged();
+        endlessRecyclerViewScrollListener.resetState();
     }
 
     @Override
     public void hideCartList() {
-        //todo
+        this.recyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void showCartList() {
-        //todo
+        this.recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onDeleteShopButtonClicked(int shopId, int orderId) {
-        //// TODO: 5/20/17  
+        //// TODO: 5/20/17
     }
 
     @Override
     public void onDeleteProductButtonClicked(int shopId, int productId, int orderId) {
         // TODO: 5/20/17  
     }
+
 
     @Override
     public void onCheckoutButtonClicked(int shopId, int orderId) {
@@ -158,36 +291,40 @@ public class CartListFragment extends BaseFragment implements CartListView {
 
     @Override
     public void onProductItemClicked(int shopId, int productId) {
-        // TODO: 5/20/17  
+        //goto suitable activity
+        cartListListener.onProductClicked(productId,shopId);
     }
 
     @Override
     public void onShopNameClicked(int shopId) {
-        // TODO: 5/20/17  
+        //goto suitable activity
+        cartListListener.onShopNameClicked(shopId);
     }
 
     @Override
     public void showLoading() {
-        // TODO: 5/20/17  
+        this.loadingView.setVisibility(View.VISIBLE);
+        this.swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-        // TODO: 5/20/17  
+        this.loadingView.setVisibility(View.GONE);
+        this.swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showRetry() {
-        // TODO: 5/20/17  
+        this.retryView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideRetry() {
-        // TODO: 5/20/17  
+        this.retryView.setVisibility(View.GONE);
     }   
 
     @Override
     public void showError(String message) {
-        // TODO: 5/20/17
+        //todo show some awesome error message -_- well, may be later
     }
 }

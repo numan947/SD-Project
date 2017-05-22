@@ -10,7 +10,7 @@ import numan947.com.bizzybay.model.CartListModel;
  **/
 
 public interface CartListView extends DataToLoad {
-    void renderCartList(ArrayList<CartListModel>cartListModels);
+    void renderCartList(int pageNumber,ArrayList<CartListModel>cartListModels);
     void hideCartList();
     void showCartList();
     void onDeleteShopButtonClicked(int shopId,int orderId);

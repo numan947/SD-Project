@@ -23,7 +23,7 @@ public class ProductEntityDataMapper {
      * Converts {@link ListProductEntity } to {@link ProductList}
      * */
     public Collection<ProductList> transform(Collection<ListProductEntity> productEntities) {
-        //todo transform here if necessary
+        //todo transformCartList here if necessary
 
         Collection<ProductList>collection =new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class ProductEntityDataMapper {
      * */
     public ProductDetails transform(DetailsProductEntity detailProductEntity) {
 
-        //todo transform here
+        //todo transformCartList here
 
         return new ProductDetails(detailProductEntity.getProductId(),detailProductEntity.getShopId(),
                 detailProductEntity.getProductTitle(),detailProductEntity.getShopName(),detailProductEntity.getProductPrice()+"",

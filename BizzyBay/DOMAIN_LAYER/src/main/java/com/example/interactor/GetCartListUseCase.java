@@ -1,6 +1,9 @@
 package com.example.interactor;
 
+import com.example.CartList;
 import com.example.exception.ErrorBundle;
+
+import java.util.ArrayList;
 
 /**
  * @author numan947
@@ -9,7 +12,7 @@ import com.example.exception.ErrorBundle;
 
 public interface GetCartListUseCase  extends BaseUseCase{
     public interface Callback{
-        void onCartListLoaded(int page);
+        void onCartListLoaded(int page, ArrayList<CartList> cartList);
         void onError(ErrorBundle errorBundle);
     }
 

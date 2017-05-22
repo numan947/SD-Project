@@ -3,6 +3,7 @@ package numan947.com.bizzybay.navigation;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import numan947.com.bizzybay.view.fragment.CartListFragment;
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 import numan947.com.bizzybay.view.fragment.ShopListFragment;
@@ -118,5 +119,23 @@ public class DrawerNavigator {
 
     public String getCurrentFragment(){
         return currentFragment;
+    }
+
+    public void navigateToShoppingBagFragment(int main_activity_frame, FragmentManager supportFragmentManager) {
+        if(currentFragment!=null){
+            Fragment f = supportFragmentManager.findFragmentByTag(currentFragment);
+            if(f!=null)supportFragmentManager.beginTransaction().hide(f).commit();
+        }
+
+        CartListFragment cartListFragment = (CartListFragment) supportFragmentManager.findFragmentByTag(CartListFragment.getFragmentId());
+
+        if(cartListFragment==null){
+            cartListFragment = CartListFragment.newInstance();
+            supportFragmentManager.beginTransaction().add(main_activity_frame,cartListFragment, CartListFragment.getFragmentId()).commit();
+        }
+        else
+            supportFragmentManager.beginTransaction().show(cartListFragment).commit();
+
+        currentFragment = CartListFragment.getFragmentId();
     }
 }

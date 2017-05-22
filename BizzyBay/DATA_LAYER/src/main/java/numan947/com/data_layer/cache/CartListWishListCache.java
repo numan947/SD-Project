@@ -1,5 +1,10 @@
 package numan947.com.data_layer.cache;
 
+import java.util.ArrayList;
+
+import numan947.com.data_layer.entity.CartListEntity;
+import numan947.com.data_layer.entity.WishListEntity;
+
 /**
  * @author numan947
  * @since 5/20/17.<br>
@@ -7,12 +12,12 @@ package numan947.com.data_layer.cache;
 
 public interface CartListWishListCache {
     public interface CartListCallback{
-        void onCartListLoaded(int page);
+        void onCartListLoaded(int page, ArrayList<CartListEntity>cartListEntities);
         void onError(Exception exception);
     }
 
     public interface WishListCallback{
-        void onWishListLoaded(int page);
+        void onWishListLoaded(int page, ArrayList<WishListEntity> wishListEntities);
         void onError(Exception exception);
     }
 

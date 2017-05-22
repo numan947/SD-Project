@@ -22,6 +22,7 @@ import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.DrawerNavigator;
+import numan947.com.bizzybay.view.fragment.CartListFragment;
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 import numan947.com.bizzybay.view.fragment.ShopListFragment;
@@ -42,7 +43,8 @@ public class MainActivity extends BaseActivity implements
         View.OnClickListener,
         ProductListFragment.ProductListListener,
         HistoryListFragment.HistoryListListener,
-        ShopListFragment.ShopListListener{
+        ShopListFragment.ShopListListener,
+        CartListFragment.CartListListener{
 
 
     private final int navigationDrawerGravity = GravityCompat.START;
@@ -108,11 +110,16 @@ public class MainActivity extends BaseActivity implements
             case R.id.shoplist:
                 showShopListFragment();
                 break;
+            case R.id.shoppingbag:
+                showShoppingBagFragment();
+                break;
+
             //todo handle rest
 
         }
 
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -295,6 +302,13 @@ public class MainActivity extends BaseActivity implements
         currentFragment = R.id.history;
     }
 
+
+    private void showShoppingBagFragment() {
+        drawerNavigator.navigateToShoppingBagFragment(R.id.main_activity_frame,getSupportFragmentManager());
+        navigationView.setCheckedItem(R.id.shoppingbag);
+        currentFragment = R.id.shoppingbag;
+    }
+
     /**
      * See the parent.
      * */
@@ -357,5 +371,20 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onShopListItemClicked(int shopId) {
         activityNavigator.navigateToShopDetailsActivity(shopId);
+    }
+
+    @Override
+    public void finishActivity() {
+        // TODO: 5/22/17
+    }
+
+    @Override
+    public void onShopNameClicked(int shopId) {
+// TODO: 5/22/17
+    }
+
+    @Override
+    public void onProductClicked(int productId, int shopId) {
+// TODO: 5/22/17
     }
 }

@@ -11,14 +11,24 @@ public class CartProduct {
     private String productPrice;
     private String productAvailability;
     private String productImage;
+    private int productId;
 
 
-    public CartProduct(String productName, String productQuantity, String productPrice, String productAvailability, String productImage) {
+    public CartProduct(String productName, String productQuantity, String productPrice, String productAvailability, String productImage, int productId) {
         this.productName = productName;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
         this.productAvailability = productAvailability;
         this.productImage = productImage;
+        this.productId = productId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getProductName() {

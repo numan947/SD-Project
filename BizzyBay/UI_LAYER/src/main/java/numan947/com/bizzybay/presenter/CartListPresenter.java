@@ -1,11 +1,106 @@
 package numan947.com.bizzybay.presenter;
 
+import com.example.CartList;
+import com.example.exception.ErrorBundle;
+import com.example.interactor.GetCartListUseCase;
+
+import java.util.ArrayList;
+
+import numan947.com.bizzybay.mapper.CartListWishListModelDataMapper;
+import numan947.com.bizzybay.model.CartListModel;
+import numan947.com.bizzybay.view.CartListView;
+
 /**
  * @author numan947
  * @since 5/20/17.<br>
  **/
 
 public class CartListPresenter implements Presenter {
+    private CartListView cartListView;
+    private GetCartListUseCase getCartListUseCase;
+    private CartListWishListModelDataMapper modelDataMapper;
+
+    private GetCartListUseCase.Callback createdCallback = new GetCartListUseCase.Callback() {
+        @Override
+        public void onCartListLoaded(int page, ArrayList<CartList> cartList) {
+            ArrayList<CartListModel>cartListModels = modelDataMapper.transformCartList(cartList);
+            CartListPresenter.this.successfulLoad(page,cartListModels);
+        }
+
+        @Override
+        public void onError(ErrorBundle errorBundle) {
+            CartListPresenter.this.failedLoad(errorBundle);
+        }
+    };
+
+    private void failedLoad(ErrorBundle errorBundle) {
+        this.showRetryView();
+        this.hideListView();
+        this.hideLoadingView();
+        this.cartListView.showError(errorBundle.getErrorMessage());
+    }
+
+
+
+    private void successfulLoad(int page, ArrayList<CartListModel> cartLists) {
+
+        this.hideLoadingView();
+        this.hideRetryView();
+        this.showListView();
+        this.cartListView.renderCartList(page,cartLists);
+
+    }
+
+
+
+    public CartListPresenter(CartListView cartListView, GetCartListUseCase getCartListUseCase, CartListWishListModelDataMapper modelDataMapper) {
+        this.cartListView = cartListView;
+        this.getCartListUseCase = getCartListUseCase;
+        this.modelDataMapper = modelDataMapper;
+    }
+
+
+
+
+
+    public void initialize(int page) {
+        this.hideListView();
+        this.hideRetryView();
+        this.showLoadingView();
+        this.loadList(page);
+        System.out.println("HELLO WORLD");
+    }
+    private void loadList(int page) {
+        this.getCartListUseCase.getCartList(page,createdCallback);
+    }
+
+
+    private void hideLoadingView() {
+        this.cartListView.hideLoading();
+    }
+
+    private void showRetryView() {
+        this.cartListView.showRetry();
+    }
+
+
+    private void showLoadingView() {
+        this.cartListView.showLoading();
+    }
+
+    private void hideRetryView() {
+        this.cartListView.hideRetry();
+    }
+
+    private void hideListView() {
+        this.cartListView.hideCartList();
+    }
+    private void showListView() {
+        this.cartListView.showCartList();
+    }
+
+
+
     @Override
     public void onResume() {
 
@@ -15,4 +110,5 @@ public class CartListPresenter implements Presenter {
     public void onPause() {
 
     }
+
 }
