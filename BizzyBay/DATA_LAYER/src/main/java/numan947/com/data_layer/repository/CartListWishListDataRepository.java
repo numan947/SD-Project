@@ -21,8 +21,8 @@ import numan947.com.data_layer.repository.datasource.CartListWishListDataStoreFa
 public class CartListWishListDataRepository implements CartListWishListRepository {
 
     //todo remove these debug thingy
-    static int cnt=0;
-    static int cnt2=0;
+    private static int cnt=0;
+    private static int cnt2=0;
 
     private static CartListWishListDataRepository INSTANCE;
 

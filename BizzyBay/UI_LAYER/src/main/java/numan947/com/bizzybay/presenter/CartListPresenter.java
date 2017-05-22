@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import numan947.com.bizzybay.mapper.CartListWishListModelDataMapper;
 import numan947.com.bizzybay.model.CartListModel;
+import numan947.com.bizzybay.model.CartProductModel;
 import numan947.com.bizzybay.view.CartListView;
 
 /**
@@ -111,4 +112,23 @@ public class CartListPresenter implements Presenter {
 
     }
 
+    public void onProductItemClicked(int productId, int shopId) {
+        this.cartListView.onProductItemClicked(shopId,productId);
+    }
+
+    public void onShopNameClicked(int shopId) {
+        this.cartListView.onShopNameClicked(shopId);
+    }
+
+    public void onShopDeleteButtonClicked(int position) {
+        this.cartListView.onDeleteShopButtonClicked(position);
+    }
+
+    public void onCheckoutButtonClicked(CartListModel cartListModel) {
+        this.cartListView.onCheckoutButtonClicked(cartListModel);
+    }
+
+    public void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct) {
+        this.cartListView.onDeleteProductButtonClicked(cartListModel,cartProduct);
+    }
 }

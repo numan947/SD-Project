@@ -2,6 +2,7 @@ package numan947.com.bizzybay.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,7 +151,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
         private TextView productStatus;
         private TextView productPrice;
         private SquareImageView productImage;
-
+        private TypedValue outValue;
         HistoryListViewHolder(View itemView) {
             super(itemView);
 
@@ -161,6 +162,11 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
 
             historyPageProductHolderParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             historyPageProductHolderParams.setMargins(10,10,10,10);
+
+
+            outValue = new TypedValue();
+            context.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+
         }
 
         private void bindSingleDateView(View itemView) {
@@ -239,6 +245,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
                     callback.onItemClicked(historyPerProductModel.getOrderId(), historyPerProductModel.getShopId(), historyPerProductModel.getProductId());
                 }
             });
+
+            v.setBackgroundResource(outValue.resourceId);
 
             return v;
         }

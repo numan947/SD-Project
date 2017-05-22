@@ -3,10 +3,12 @@ package numan947.com.bizzybay.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.model.CartListModel;
 import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.DrawerNavigator;
@@ -374,17 +377,20 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void finishActivity() {
-        // TODO: 5/22/17
-    }
-
-    @Override
     public void onShopNameClicked(int shopId) {
-// TODO: 5/22/17
+        activityNavigator.navigateToShopDetailsActivity(shopId);
     }
 
     @Override
     public void onProductClicked(int productId, int shopId) {
-// TODO: 5/22/17
+        activityNavigator.navigateToDetailsProductActivity(productId,shopId);
+    }
+
+    @Override
+    public void onCheckoutButtonClicked(CartListModel cartListModel) {
+        //todo navigate to checkout activity
+
+        Snackbar.make(drawerLayout,"This will open up checkout activity",Snackbar.LENGTH_SHORT).setActionTextColor(Color.CYAN)
+                .show();
     }
 }

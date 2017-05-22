@@ -3,6 +3,7 @@ package numan947.com.bizzybay.view;
 import java.util.ArrayList;
 
 import numan947.com.bizzybay.model.CartListModel;
+import numan947.com.bizzybay.model.CartProductModel;
 
 /**
  * @author numan947
@@ -13,9 +14,9 @@ public interface CartListView extends DataToLoad {
     void renderCartList(int pageNumber,ArrayList<CartListModel>cartListModels);
     void hideCartList();
     void showCartList();
-    void onDeleteShopButtonClicked(int shopId,int orderId);
-    void onDeleteProductButtonClicked(int shopId,int productId,int orderId);
-    void onCheckoutButtonClicked(int shopId,int orderId);
+    void onDeleteShopButtonClicked(int position);
+    void onDeleteProductButtonClicked(CartListModel cartListModel, CartProductModel cartProductModel);
+    void onCheckoutButtonClicked(CartListModel cartListModel);
     void onProductItemClicked(int shopId,int productId);
     void onShopNameClicked(int shopId);
 }

@@ -56,9 +56,10 @@ public class CartListFragment extends BaseFragment implements CartListView {
     }
 
     public interface CartListListener{
-        void finishActivity();
         void onShopNameClicked(int shopId);
         void onProductClicked(int productId,int shopId);
+
+        void onCheckoutButtonClicked(CartListModel cartListModel);
     }
 
     private CartListListener cartListListener;
@@ -78,27 +79,28 @@ public class CartListFragment extends BaseFragment implements CartListView {
     private CartListAdapter.Callback callBackForRecyclerViewAdapter = new CartListAdapter.Callback() {
         @Override
         public void onProductItemClicked(int productId, int shopId) {
-
+            //chain to presenter
+            cartListPresenter.onProductItemClicked(productId,shopId);
         }
 
         @Override
         public void onShopNameClicked(int shopId) {
-
+            cartListPresenter.onShopNameClicked(shopId);
         }
 
         @Override
         public void onShopDeleteButtonClicked(int position) {
-
+            cartListPresenter.onShopDeleteButtonClicked(position);
         }
 
         @Override
         public void onCheckOutButtonClicked(CartListModel cartListModel) {
-
+            cartListPresenter.onCheckoutButtonClicked(cartListModel);
         }
 
         @Override
         public void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct) {
-
+            cartListPresenter.onProductDeleteButtonClicked(cartListModel,cartProduct);
         }
     };
 
@@ -119,8 +121,7 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //todo add default things
+        //todo: do we have anything to do here?
     }
 
 
@@ -147,6 +148,7 @@ public class CartListFragment extends BaseFragment implements CartListView {
         this.endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                System.out.println("HELLO WORLD");
                 cartListPresenter.initialize(++pageNumber);
             }
         };
@@ -155,6 +157,7 @@ public class CartListFragment extends BaseFragment implements CartListView {
         this.cartListAdapter = new CartListAdapter(getContext(),adapterItems,callBackForRecyclerViewAdapter);
 
 
+        this.recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
         this.recyclerView.setLayoutManager(linearLayoutManager);
         this.recyclerView.setAdapter(cartListAdapter);
     }
@@ -274,30 +277,40 @@ public class CartListFragment extends BaseFragment implements CartListView {
     }
 
     @Override
-    public void onDeleteShopButtonClicked(int shopId, int orderId) {
-        //// TODO: 5/20/17
+    public void onDeleteShopButtonClicked(int position) {
+        //todo do some internet update from here using the presenter
+        System.err.println("SHOP DELETE---POSITION................."+position);
+        CartListModel cartListModel = cartListAdapter.removeAt(position);
+
+
+
     }
 
     @Override
-    public void onDeleteProductButtonClicked(int shopId, int productId, int orderId) {
-        // TODO: 5/20/17  
+    public void onDeleteProductButtonClicked(CartListModel cartListModel,CartProductModel cartProductModel) {
+        //todo do some internet update from here using the presenter
+        System.err.println("PRODUCT DELETE-----"+cartListModel.getShopName()+" "+cartProductModel.getProductName());
+
+        //remove from the model so that it doesn't affect the whole checkout thingy
+        cartListModel.getCartProductModels().remove(cartProductModel);
     }
 
 
     @Override
-    public void onCheckoutButtonClicked(int shopId, int orderId) {
-        // TODO: 5/20/17  
+    public void onCheckoutButtonClicked(CartListModel cartListModel) {
+        //todo may be we need some internet action here???
+        cartListListener.onCheckoutButtonClicked(cartListModel);
     }
 
     @Override
     public void onProductItemClicked(int shopId, int productId) {
-        //goto suitable activity
+        //chain to activity
         cartListListener.onProductClicked(productId,shopId);
     }
 
     @Override
     public void onShopNameClicked(int shopId) {
-        //goto suitable activity
+        //chain to activity
         cartListListener.onShopNameClicked(shopId);
     }
 

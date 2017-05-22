@@ -2,6 +2,7 @@ package numan947.com.bizzybay.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,6 +119,16 @@ public class CartListAdapter extends RecyclerView.Adapter {
         this.cartListModels.addAll(newItems);
     }
 
+    public CartListModel removeAt(int position)
+    {
+        CartListModel model= null;
+        if(position<getModelSize()){
+            model = this.cartListModels.remove(position);
+            this.notifyItemRemoved(position);
+        }
+        return model;
+    }
+
     public int getModelSize()
     {
         return cartListModels.size();
@@ -137,12 +148,14 @@ public class CartListAdapter extends RecyclerView.Adapter {
         private LinearLayout productContainer;
         private TextView totalPrice;
         private Button checkOutButton;
-
-
+        private TypedValue outValue;
         CartListViewHolder(View itemView) {
             super(itemView);
 
             this.bindShop(itemView);
+            outValue = new TypedValue();
+            context.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
+
 
         }
 
@@ -197,6 +210,10 @@ public class CartListAdapter extends RecyclerView.Adapter {
 
             for(CartProductModel cartProductModel : cartProductModels){
                 View view = layoutInflater.inflate(R.layout.shopping_bag_product,null);
+
+
+                view.setBackgroundResource(outValue.resourceId);
+
                 new CartProductViewHolder(view,cartProductModel,productContainer,cartListModel);
             }
         }
