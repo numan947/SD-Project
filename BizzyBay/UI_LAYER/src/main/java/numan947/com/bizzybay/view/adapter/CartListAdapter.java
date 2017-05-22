@@ -36,7 +36,7 @@ public class CartListAdapter extends RecyclerView.Adapter {
 
         void onCheckOutButtonClicked(CartListModel cartListModel);
 
-        void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct);
+        void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct,int position);
     }
 
     private ArrayList<CartListModel>cartListModels;
@@ -214,7 +214,7 @@ public class CartListAdapter extends RecyclerView.Adapter {
 
                 view.setBackgroundResource(outValue.resourceId);
 
-                new CartProductViewHolder(view,cartProductModel,productContainer,cartListModel);
+                new CartProductViewHolder(view,cartProductModel,productContainer,cartListModel,position);
             }
         }
 
@@ -226,7 +226,7 @@ public class CartListAdapter extends RecyclerView.Adapter {
         private View view;
         private CartProductModel cartProductModel;
         private CartListModel cartListModel;
-
+        private int position;
 
         private TextView productName;
         private TextView productQuantity;
@@ -236,11 +236,14 @@ public class CartListAdapter extends RecyclerView.Adapter {
         private Button productDeleteButton;
         private LinearLayout productLL;
 
-        CartProductViewHolder(View view, CartProductModel cartProductModel, LinearLayout container, CartListModel cartListModel) {
+
+        CartProductViewHolder(View view, CartProductModel cartProductModel, LinearLayout container, CartListModel cartListModel,int position) {
             this.view = view;
             this.cartProductModel = cartProductModel;
             this.container = container;
             this.cartListModel = cartListModel;
+            this.position = position;
+
 
             this.bindProduct(view);
             this.renderModel(cartProductModel);
@@ -301,7 +304,8 @@ public class CartListAdapter extends RecyclerView.Adapter {
                     });
 
                     //chain the information
-                    providedCallback.onProductDeleteButtonClicked(cartListModel,cartProductModel);
+                    providedCallback.onProductDeleteButtonClicked(cartListModel,cartProductModel,position);
+
 
                     break;
             }

@@ -99,8 +99,8 @@ public class CartListFragment extends BaseFragment implements CartListView {
         }
 
         @Override
-        public void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct) {
-            cartListPresenter.onProductDeleteButtonClicked(cartListModel,cartProduct);
+        public void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct,int position) {
+            cartListPresenter.onProductDeleteButtonClicked(cartListModel,cartProduct,position);
         }
     };
 
@@ -287,12 +287,20 @@ public class CartListFragment extends BaseFragment implements CartListView {
     }
 
     @Override
-    public void onDeleteProductButtonClicked(CartListModel cartListModel,CartProductModel cartProductModel) {
+    public void onDeleteProductButtonClicked(CartListModel cartListModel,CartProductModel cartProductModel,int position) {
         //todo do some internet update from here using the presenter
         System.err.println("PRODUCT DELETE-----"+cartListModel.getShopName()+" "+cartProductModel.getProductName());
 
         //remove from the model so that it doesn't affect the whole checkout thingy
         cartListModel.getCartProductModels().remove(cartProductModel);
+
+        System.err.println("WHY IS THE SIZE ---- "+cartListModel.getCartProductModels().size());
+        if(cartListModel.getCartProductModels().size()==0){
+            //todo do some internet thingy here oo
+            cartListAdapter.removeAt(position);
+//            cartListAdapter.notifyDataSetChanged();
+        }
+
     }
 
 

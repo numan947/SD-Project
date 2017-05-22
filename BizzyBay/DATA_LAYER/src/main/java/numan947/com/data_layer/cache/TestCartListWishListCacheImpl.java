@@ -54,6 +54,8 @@ public class TestCartListWishListCacheImpl implements CartListWishListCache {
 
         this.cartListEntities.clear();
 
+        int t=0;
+
         for(int i=0;i<12;i++){
 
             ArrayList<CartProductEntity>cartProductEntities = new ArrayList<>();
@@ -64,6 +66,7 @@ public class TestCartListWishListCacheImpl implements CartListWishListCache {
                         random.nextInt(12235));
 
                 cartProductEntities.add(cartProductEntity);
+                t++;
             }
 
             CartListEntity cartListEntity = new CartListEntity("ShopName "+page+" "+i,
@@ -73,6 +76,7 @@ public class TestCartListWishListCacheImpl implements CartListWishListCache {
             this.cartListEntities.add(cartListEntity);
         }
 
+        System.out.println("WHY IS TTTTTTTTTTTT "+t);
         providedCallback.onCartListLoaded(page,cartListEntities);
 
     }

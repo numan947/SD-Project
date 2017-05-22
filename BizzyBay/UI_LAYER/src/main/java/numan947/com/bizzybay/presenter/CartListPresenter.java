@@ -128,7 +128,7 @@ public class CartListPresenter implements Presenter {
         this.cartListView.onCheckoutButtonClicked(cartListModel);
     }
 
-    public void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct) {
-        this.cartListView.onDeleteProductButtonClicked(cartListModel,cartProduct);
+    public void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct,int position) {
+        this.cartListView.onDeleteProductButtonClicked(cartListModel,cartProduct,position);
     }
 }
