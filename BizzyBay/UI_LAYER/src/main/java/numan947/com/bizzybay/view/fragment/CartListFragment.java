@@ -240,8 +240,28 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Override
     public void renderCartList(int pageNumber,ArrayList<CartListModel> cartListModels) {
         if(pageNumber==0){
+
             resetRecyclerViewAdapter();
+
+//            System.out.println("REQUEST NUMBER 0  : "+cartListAdapter.getModelSize());
+//
+//            for(CartListModel c: adapterItems){
+//
+//                System.out.println("SIZE OF "+c.getShopId()+"  "+c.getCartProductModels().size()+"\n\n");
+//
+//
+//            }
+
             cartListAdapter.addAll(cartListModels);
+
+//            System.out.println("REQUEST NUMBER 0  : "+cartListAdapter.getModelSize());
+//
+//            for(CartListModel c: adapterItems){
+//
+//                System.out.println("SIZE OF "+c.getShopId()+"  "+c.getCartProductModels().size()+"\n\n");
+//
+//
+//            }
 
 
             cartListAdapter.notifyItemRangeInserted(0,cartListModels.size());
@@ -281,6 +301,8 @@ public class CartListFragment extends BaseFragment implements CartListView {
         //todo do some internet update from here using the presenter
         System.err.println("SHOP DELETE---POSITION................."+position);
         CartListModel cartListModel = cartListAdapter.removeAt(position);
+        cartListAdapter.notifyItemRemoved(position);
+        cartListAdapter.notifyItemRangeChanged(position,cartListAdapter.getItemCount()-position);
 
 
 
@@ -298,7 +320,10 @@ public class CartListFragment extends BaseFragment implements CartListView {
         if(cartListModel.getCartProductModels().size()==0){
             //todo do some internet thingy here oo
             cartListAdapter.removeAt(position);
-//            cartListAdapter.notifyDataSetChanged();
+
+            cartListAdapter.notifyItemRemoved(position);
+            cartListAdapter.notifyItemRangeChanged(position,cartListAdapter.getItemCount()-position);
+            //cartListAdapter.notifyDataSetChanged();
         }
 
     }

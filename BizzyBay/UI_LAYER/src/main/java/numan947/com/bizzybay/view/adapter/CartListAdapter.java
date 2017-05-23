@@ -39,6 +39,15 @@ public class CartListAdapter extends RecyclerView.Adapter {
         void onProductDeleteButtonClicked(CartListModel cartListModel, CartProductModel cartProduct,int position);
     }
 
+
+    //interface for communication between the productview and shopview
+    private interface ViewDisablingCallback{
+        void disableWholeContainer();
+    }
+
+
+
+
     private ArrayList<CartListModel>cartListModels;
     private Context context;
     private LayoutInflater layoutInflater;
@@ -124,7 +133,6 @@ public class CartListAdapter extends RecyclerView.Adapter {
         CartListModel model= null;
         if(position<getModelSize()){
             model = this.cartListModels.remove(position);
-            this.notifyItemRemoved(position);
         }
         return model;
     }
@@ -208,15 +216,25 @@ public class CartListAdapter extends RecyclerView.Adapter {
 
         private void setupProducts(ArrayList<CartProductModel> cartProductModels) {
 
+            productContainer.removeAllViews();
             for(CartProductModel cartProductModel : cartProductModels){
                 View view = layoutInflater.inflate(R.layout.shopping_bag_product,null);
 
 
                 view.setBackgroundResource(outValue.resourceId);
 
-                new CartProductViewHolder(view,cartProductModel,productContainer,cartListModel,position);
+                new CartProductViewHolder(view,cartProductModel,productContainer,cartListModel,viewDisablingCallback,position);
             }
         }
+
+        ViewDisablingCallback viewDisablingCallback = new ViewDisablingCallback() {
+            @Override
+            public void disableWholeContainer() {
+                productContainer.setVisibility(View.GONE);
+            }
+        };
+
+
 
     }
 
@@ -237,12 +255,20 @@ public class CartListAdapter extends RecyclerView.Adapter {
         private LinearLayout productLL;
 
 
-        CartProductViewHolder(View view, CartProductModel cartProductModel, LinearLayout container, CartListModel cartListModel,int position) {
+        private ViewDisablingCallback callback;
+
+        private int cnt=0; //debug
+
+
+
+        CartProductViewHolder(View view, CartProductModel cartProductModel, LinearLayout container, CartListModel cartListModel, ViewDisablingCallback viewDisablingCallback, int position) {
             this.view = view;
             this.cartProductModel = cartProductModel;
             this.container = container;
             this.cartListModel = cartListModel;
             this.position = position;
+
+            this.callback = viewDisablingCallback;
 
 
             this.bindProduct(view);
@@ -302,6 +328,13 @@ public class CartListAdapter extends RecyclerView.Adapter {
                             container.removeView(view);
                         }
                     });
+
+                    //check if the parent have any more children, if not, disable the container visibility,
+                    //so that no accidental click happens to checkout button
+
+                    if(container.getChildCount()==0)
+                        callback.disableWholeContainer();
+
 
                     //chain the information
                     providedCallback.onProductDeleteButtonClicked(cartListModel,cartProductModel,position);
