@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.executor.PostExecutionThread;
 import com.example.executor.ThreadExecutor;
@@ -69,6 +70,9 @@ public class CartListFragment extends BaseFragment implements CartListView {
     private SwipeRefreshLayout swipeRefreshLayout;
     private RelativeLayout retryView;
     private RelativeLayout loadingView;
+    private RelativeLayout emptyView;
+
+    private TextView emptyText;
     private Button retryButton;
 
 
@@ -188,6 +192,9 @@ public class CartListFragment extends BaseFragment implements CartListView {
         this.loadingView = (RelativeLayout)view.findViewById(R.id.rl_progress);
         this.retryButton = (Button)view.findViewById(R.id.bt_retry);
 
+        this.emptyView = (RelativeLayout)view.findViewById(R.id.rl_empty);
+        this.emptyText = (TextView)view.findViewById(R.id.txt_empty);
+
     }
 
 
@@ -294,6 +301,17 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Override
     public void showCartList() {
         this.recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showEmpty() {
+        this.emptyText.setText("THE LIST IS EMPTY");
+        this.emptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmpty() {
+        this.emptyView.setVisibility(View.GONE);
     }
 
     @Override

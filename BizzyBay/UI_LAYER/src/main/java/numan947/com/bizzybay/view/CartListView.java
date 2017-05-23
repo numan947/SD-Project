@@ -14,9 +14,13 @@ public interface CartListView extends DataToLoad {
     void renderCartList(int pageNumber,ArrayList<CartListModel>cartListModels);
     void hideCartList();
     void showCartList();
+    void showEmpty();
+    void hideEmpty();
+
     void onDeleteShopButtonClicked(int position);
     void onDeleteProductButtonClicked(CartListModel cartListModel, CartProductModel cartProductModel,int position);
     void onCheckoutButtonClicked(CartListModel cartListModel);
     void onProductItemClicked(int shopId,int productId);
     void onShopNameClicked(int shopId);
+
 }

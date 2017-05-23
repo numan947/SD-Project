@@ -37,6 +37,7 @@ public class CartListPresenter implements Presenter {
     private void failedLoad(ErrorBundle errorBundle) {
         this.showRetryView();
         this.hideListView();
+        this.hideEmptyView();
         this.hideLoadingView();
         this.cartListView.showError(errorBundle.getErrorMessage());
     }
@@ -44,14 +45,31 @@ public class CartListPresenter implements Presenter {
 
 
     private void successfulLoad(int page, ArrayList<CartListModel> cartLists) {
-
         this.hideLoadingView();
         this.hideRetryView();
-        this.showListView();
-        this.cartListView.renderCartList(page,cartLists);
+
+        if(cartLists.size()>0){
+            this.showListView();
+            this.cartListView.renderCartList(page,cartLists);
+        }
+        else{
+            if(page==0){
+                this.showEmptyView();
+            }
+            else{
+                //todo signal somehow to add the end of list
+            }
+        }
 
     }
 
+    private void showEmptyView() {
+        this.cartListView.showEmpty();
+    }
+    private void hideEmptyView()
+    {
+        this.cartListView.hideEmpty();
+    }
 
 
     public CartListPresenter(CartListView cartListView, GetCartListUseCase getCartListUseCase, CartListWishListModelDataMapper modelDataMapper) {
@@ -66,6 +84,8 @@ public class CartListPresenter implements Presenter {
 
     public void initialize(int page) {
         this.hideListView();
+        this.hideEmptyView();
+
         this.hideRetryView();
         this.showLoadingView();
         this.loadList(page);

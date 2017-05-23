@@ -53,6 +53,7 @@ public class TestCartListWishListCacheImpl implements CartListWishListCache {
     public void getCartList(int page, CartListCallback providedCallback) {
 
         this.cartListEntities.clear();
+        
 
         int t=0;
 
