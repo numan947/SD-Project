@@ -40,12 +40,6 @@ public class CartListAdapter extends RecyclerView.Adapter {
     }
 
 
-    //interface for communication between the productview and shopview
-    private interface ViewDisablingCallback{
-        void disableWholeContainer();
-    }
-
-
 
 
     private ArrayList<CartListModel>cartListModels;
@@ -223,19 +217,9 @@ public class CartListAdapter extends RecyclerView.Adapter {
 
                 view.setBackgroundResource(outValue.resourceId);
 
-                new CartProductViewHolder(view,cartProductModel,productContainer,cartListModel,viewDisablingCallback,position);
+                new CartProductViewHolder(view,cartProductModel,productContainer,cartListModel,position);
             }
         }
-
-        ViewDisablingCallback viewDisablingCallback = new ViewDisablingCallback() {
-            @Override
-            public void disableWholeContainer() {
-                productContainer.setVisibility(View.GONE);
-            }
-        };
-
-
-
     }
 
 
@@ -254,21 +238,16 @@ public class CartListAdapter extends RecyclerView.Adapter {
         private Button productDeleteButton;
         private LinearLayout productLL;
 
-
-        private ViewDisablingCallback callback;
-
         private int cnt=0; //debug
 
 
 
-        CartProductViewHolder(View view, CartProductModel cartProductModel, LinearLayout container, CartListModel cartListModel, ViewDisablingCallback viewDisablingCallback, int position) {
+        CartProductViewHolder(View view, CartProductModel cartProductModel, LinearLayout container, CartListModel cartListModel, int position) {
             this.view = view;
             this.cartProductModel = cartProductModel;
             this.container = container;
             this.cartListModel = cartListModel;
             this.position = position;
-
-            this.callback = viewDisablingCallback;
 
 
             this.bindProduct(view);
@@ -321,25 +300,23 @@ public class CartListAdapter extends RecyclerView.Adapter {
                     providedCallback.onProductItemClicked(cartProductModel.getProductId(),cartListModel.getShopId());
                     break;
                 case R.id.shopping_bag_product_delete_button:
+/*
                     //remove from the view
-                    container.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            container.removeView(view);
-                        }
-                    });
+//                    container.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                           // container.removeView(view);
+//                        }
+//                    });
 
                     //check if the parent have any more children, if not, disable the container visibility,
                     //so that no accidental click happens to checkout button
-
-                    if(container.getChildCount()==0)
-                        callback.disableWholeContainer();
-
-
-                    //chain the information
+//
+//                    if(container.getChildCount()==0)
+//                        callback.disableWholeContainer();
+*/
+                    //chain the information, the rest will be handled by adapter itself, as it recreates view
                     providedCallback.onProductDeleteButtonClicked(cartListModel,cartProductModel,position);
-
-
                     break;
             }
 

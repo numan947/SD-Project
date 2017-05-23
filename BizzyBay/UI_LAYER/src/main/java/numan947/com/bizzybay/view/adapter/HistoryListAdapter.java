@@ -172,6 +172,9 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
         private void bindSingleDateView(View itemView) {
             historyDate = (TextView)itemView.findViewById(R.id.history_page_date);
             historyPageShopHolder = (LinearLayout) itemView.findViewById(R.id.history_page_shop_holder);
+
+            //clear the holder
+            historyPageShopHolder.removeAllViews();
         }
 
         public void bindModel(HistoryListModel model)
@@ -208,6 +211,10 @@ public class HistoryListAdapter extends RecyclerView.Adapter {
         private void bindSingleShopView(View v) {
             shopName = (TextView) v.findViewById(R.id.history_page_shop_name);
             historyPageProductHolder = (LinearLayout) v.findViewById(R.id.history_page_product_holder);
+
+            //clear the holder
+            historyPageProductHolder.removeAllViews();
+
         }
 
 

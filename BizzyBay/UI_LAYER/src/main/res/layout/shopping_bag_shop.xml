@@ -26,7 +26,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:id="@+id/shopping_bag_shop_delete_button"
-            android:background="@drawable/multiply"/>
+            android:background="@drawable/multiply"
+            android:layout_margin="15dp"/>
     </RelativeLayout>
 
     <android.support.v7.widget.CardView

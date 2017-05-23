@@ -313,18 +313,25 @@ public class CartListFragment extends BaseFragment implements CartListView {
         //todo do some internet update from here using the presenter
         System.err.println("PRODUCT DELETE-----"+cartListModel.getShopName()+" "+cartProductModel.getProductName());
 
-        //remove from the model so that it doesn't affect the whole checkout thingy
+        //remove from the productModel from cartListModel so that it doesn't affect the whole checkout thingy
         cartListModel.getCartProductModels().remove(cartProductModel);
 
-        System.err.println("WHY IS THE SIZE ---- "+cartListModel.getCartProductModels().size());
-        if(cartListModel.getCartProductModels().size()==0){
-            //todo do some internet thingy here oo
-            cartListAdapter.removeAt(position);
 
+        cartListModel.setTotalPrice("1234"); //debug, checking if the total price can be set programmatically, result: it can be :)
+
+
+        System.err.println("WHY IS THE SIZE ---- "+cartListModel.getCartProductModels().size());
+
+        if(cartListModel.getCartProductModels().size()==0){
+            //todo do some internet thingy here later
+
+
+            cartListAdapter.removeAt(position);
             cartListAdapter.notifyItemRemoved(position);
             cartListAdapter.notifyItemRangeChanged(position,cartListAdapter.getItemCount()-position);
-            //cartListAdapter.notifyDataSetChanged();
         }
+        else
+            cartListAdapter.notifyItemChanged(position,cartListModel);
 
     }
 
@@ -332,7 +339,10 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Override
     public void onCheckoutButtonClicked(CartListModel cartListModel) {
         //todo may be we need some internet action here???
-        cartListListener.onCheckoutButtonClicked(cartListModel);
+        if(cartListModel.getCartProductModels().size()>0){ //explicit checking needed, so that our customer doesn't get an empty checkout page -_-
+
+            cartListListener.onCheckoutButtonClicked(cartListModel);
+        }
     }
 
     @Override
