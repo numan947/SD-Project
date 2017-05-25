@@ -223,7 +223,7 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Override
     protected void initializePresenter() {
         this.adapterItems = new ArrayList<>();
-
+        this.pageNumber = 0;
 
         PostExecutionThread postExecutionThread = MainThread.getInstance();
         ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
@@ -248,28 +248,9 @@ public class CartListFragment extends BaseFragment implements CartListView {
     public void renderCartList(int pageNumber,ArrayList<CartListModel> cartListModels) {
         if(pageNumber==0){
 
-            resetRecyclerViewAdapter();
-
-//            System.out.println("REQUEST NUMBER 0  : "+cartListAdapter.getModelSize());
-//
-//            for(CartListModel c: adapterItems){
-//
-//                System.out.println("SIZE OF "+c.getShopId()+"  "+c.getCartProductModels().size()+"\n\n");
-//
-//
-//            }
+            this.resetRecyclerViewAdapter();
 
             cartListAdapter.addAll(cartListModels);
-
-//            System.out.println("REQUEST NUMBER 0  : "+cartListAdapter.getModelSize());
-//
-//            for(CartListModel c: adapterItems){
-//
-//                System.out.println("SIZE OF "+c.getShopId()+"  "+c.getCartProductModels().size()+"\n\n");
-//
-//
-//            }
-
 
             cartListAdapter.notifyItemRangeInserted(0,cartListModels.size());
         }
@@ -289,7 +270,7 @@ public class CartListFragment extends BaseFragment implements CartListView {
     private void resetRecyclerViewAdapter() {
         pageNumber = 0;
         cartListAdapter.clearAll();
-        cartListAdapter.notifyDataSetChanged();
+        cartListAdapter.notifyItemRangeRemoved(0,adapterItems.size());
         endlessRecyclerViewScrollListener.resetState();
     }
 

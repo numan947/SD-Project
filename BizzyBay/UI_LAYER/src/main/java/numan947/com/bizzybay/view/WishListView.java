@@ -16,7 +16,7 @@ public interface WishListView extends DataToLoad {
     void hideEmpty();
     void showEmpty();
 
-    void onLikeButtonClicked(WishListModel wishListModel);
+    void onLikeButtonClicked(WishListModel wishListModel,int position);
     void onShopClicked(int shopId);
     void onProductClicked(int productId,int shopId);
 }

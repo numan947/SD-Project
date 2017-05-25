@@ -2,11 +2,13 @@ package numan947.com.bizzybay.mapper;
 
 import com.example.CartList;
 import com.example.CartProduct;
+import com.example.WishList;
 
 import java.util.ArrayList;
 
 import numan947.com.bizzybay.model.CartListModel;
 import numan947.com.bizzybay.model.CartProductModel;
+import numan947.com.bizzybay.model.WishListModel;
 
 /**
  * @author numan947
@@ -36,5 +38,21 @@ public class CartListWishListModelDataMapper {
         }
 
         return cartListModels;
+    }
+
+    public ArrayList<WishListModel> transformWishList(ArrayList<WishList> wishLists) {
+        ArrayList<WishList>wishListsCopy = new ArrayList<>(wishLists);
+
+        ArrayList<WishListModel>models = new ArrayList<>();
+
+        for(WishList w: wishListsCopy){
+
+            WishListModel singleModel = new WishListModel(w.getProductId(),w.getShopId(),w.getProductName()
+            ,w.getShopName(),w.getProductPrice(),w.getProductImage());
+
+            models.add(singleModel);
+        }
+
+        return models;
     }
 }
