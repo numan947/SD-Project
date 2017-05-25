@@ -8,6 +8,7 @@ import numan947.com.bizzybay.view.fragment.CartListFragment;
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 import numan947.com.bizzybay.view.fragment.ShopListFragment;
+import numan947.com.bizzybay.view.fragment.WishListFragment;
 
 
 /**
@@ -153,5 +154,24 @@ public class DrawerNavigator {
             supportFragmentManager.beginTransaction().show(cartListFragment).commit();
 
         currentFragment = CartListFragment.getFragmentId();
+    }
+
+    public void navigateToWishListFragment(int main_activity_frame, FragmentManager supportFragmentManager) {
+        this.setFragmentTransaction(supportFragmentManager);
+
+        if(currentFragment!=null){
+            Fragment fr = supportFragmentManager.findFragmentByTag(currentFragment);
+            if(fr!=null)supportFragmentManager.beginTransaction().hide(fr).commit();
+        }
+
+        WishListFragment wishListFragment = (WishListFragment) supportFragmentManager.findFragmentByTag(WishListFragment.getFragmentId());
+
+        if(wishListFragment==null){
+            wishListFragment = WishListFragment.newInstance();
+            supportFragmentManager.beginTransaction().add(main_activity_frame,wishListFragment, WishListFragment.getFragmentId()).commit();
+        }
+        else
+            supportFragmentManager.beginTransaction().show(wishListFragment).commit();
+
     }
 }

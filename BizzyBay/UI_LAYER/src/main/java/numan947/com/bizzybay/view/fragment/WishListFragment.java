@@ -212,13 +212,15 @@ public class WishListFragment extends BaseFragment implements WishListView {
     private void resetRecyclerViewAdapter() {
         pageNumber = 0;
         wishListAdapter.clearAll();
-        wishListAdapter.notifyItemRangeRemoved(0,adapterItems.size());
+        wishListAdapter.notifyDataSetChanged();
         endlessRecyclerViewScrollListener.resetState();
     }
 
 
     @Override
     public void renderWishList(int pageNumber, ArrayList<WishListModel> wishListModels) {
+
+        System.out.println("PAGE NUMBER WISH "+pageNumber);
         if(pageNumber==0){
             this.resetRecyclerViewAdapter();
 

@@ -50,11 +50,13 @@ public class WishListPresenter implements Presenter {
 
     private void renderList(int page, ArrayList<WishListModel> wishListModel) {
         if(page==0&&wishListModel.size()==0){
-            this.showList();
+            this.hideList();
             this.showEmpty();
         }
         else{
+            this.hideEmpty();
             this.showList();
+            System.out.println("HELLOW WORLD WISH");
             view.renderWishList(page,wishListModel);
         }
     }

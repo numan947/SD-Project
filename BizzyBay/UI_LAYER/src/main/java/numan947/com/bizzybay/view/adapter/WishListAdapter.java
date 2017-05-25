@@ -136,6 +136,7 @@ public class WishListAdapter extends RecyclerView.Adapter {
             this.bindProduct(itemView);
             this.addListeners();
 
+
             //giving clickable item behavior
             outValue = new TypedValue();
             context.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);

@@ -270,7 +270,7 @@ public class CartListFragment extends BaseFragment implements CartListView {
     private void resetRecyclerViewAdapter() {
         pageNumber = 0;
         cartListAdapter.clearAll();
-        cartListAdapter.notifyItemRangeRemoved(0,adapterItems.size());
+        cartListAdapter.notifyDataSetChanged();
         endlessRecyclerViewScrollListener.resetState();
     }
 

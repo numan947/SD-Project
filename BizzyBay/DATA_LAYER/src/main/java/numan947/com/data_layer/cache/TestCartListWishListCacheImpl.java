@@ -84,6 +84,15 @@ public class TestCartListWishListCacheImpl implements CartListWishListCache {
 
     @Override
     public void getWishList(int pager, WishListCallback providedCallback) {
-        //todo implement later
+        this.wishListEntities.clear();
+
+        for (int i=0;i<15;i++){
+            WishListEntity wishListEntity  = new WishListEntity(i+random.nextInt(1234),random.nextInt(4321)+i,
+                    "Product Name","Shop Name",random.nextInt(1000),placeHolders[random.nextInt(1234)%placeHolders.length]);
+
+            wishListEntities.add(wishListEntity);
+        }
+
+        providedCallback.onWishListLoaded(pager,wishListEntities);
     }
 }

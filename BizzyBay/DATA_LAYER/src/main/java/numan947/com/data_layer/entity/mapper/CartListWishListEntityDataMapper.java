@@ -42,6 +42,17 @@ public class CartListWishListEntityDataMapper {
     }
 
     public ArrayList<WishList> transformWishList(ArrayList<WishListEntity> wishListEntities) {
-        return null;
+        ArrayList<WishListEntity>ww = new ArrayList<>(wishListEntities);
+
+        ArrayList<WishList>lst = new ArrayList<>();
+
+        for(WishListEntity w: ww){
+            WishList newWish = new WishList(w.getProductId(),w.getShopId(),w.getProductName(),w.getShopName(),
+                    w.getProductPrice()+"",w.getProductImage());
+
+            lst.add(newWish);
+        }
+
+        return lst;
     }
 }

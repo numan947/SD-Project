@@ -128,6 +128,9 @@ public class MainActivity extends BaseActivity implements
             case R.id.shoppingbag:
                 showShoppingBagFragment();
                 break;
+            case R.id.wishlist:
+                showWishListFragment();
+                break;
 
             //todo handle rest
 
@@ -322,6 +325,13 @@ public class MainActivity extends BaseActivity implements
         drawerNavigator.navigateToShoppingBagFragment(R.id.main_activity_frame,getSupportFragmentManager());
         navigationView.setCheckedItem(R.id.shoppingbag);
         currentFragment = R.id.shoppingbag;
+    }
+
+
+    private void showWishListFragment() {
+        drawerNavigator.navigateToWishListFragment(R.id.main_activity_frame,getSupportFragmentManager());
+        navigationView.setCheckedItem(R.id.wishlist);
+        currentFragment = R.id.wishlist;
     }
 
     /**
