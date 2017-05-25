@@ -1,6 +1,7 @@
 package numan947.com.bizzybay.navigation;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import numan947.com.bizzybay.view.fragment.HistoryDetailsFragment;
 import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
@@ -15,6 +16,8 @@ import numan947.com.bizzybay.view.fragment.ProductDetailsFragment;
 
 public class FragmentNavigator {
 
+    private static final int TRANSITION = FragmentTransaction.TRANSIT_FRAGMENT_FADE;
+
     //singleton
     private static FragmentNavigator navigator;
 
@@ -28,10 +31,17 @@ public class FragmentNavigator {
 
     }
 
+    private void setupTransition(FragmentManager fragmentManager)
+    {
+        fragmentManager.beginTransaction().setTransition(TRANSITION).commit();
+    }
+
     /**
      * Navigation to the {@link ProductDetailsFragment} which is inside the {@link numan947.com.bizzybay.view.activity.DetailsProductActivity}
      * */
     public void navigateToProductDetailsFragment(FragmentManager fragmentManager, int container, int productId, int shopId) {
+
+        this.setupTransition(fragmentManager);
 
         ProductDetailsFragment fragment = (ProductDetailsFragment) fragmentManager.findFragmentByTag(ProductDetailsFragment.getFragmentID());
 
@@ -44,6 +54,8 @@ public class FragmentNavigator {
 
     public void navigateToHistoryDetailsFragment(FragmentManager fragmentManager,int container,int shopId,int orderId, int productId)
     {
+        this.setupTransition(fragmentManager);
+
         HistoryDetailsFragment fragment = (HistoryDetailsFragment) fragmentManager.findFragmentByTag(HistoryDetailsFragment.getFragmentID());
         if(fragment==null){
             fragment = HistoryDetailsFragment.newInstance(orderId,shopId,productId);

@@ -2,6 +2,7 @@ package numan947.com.bizzybay.navigation;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import numan947.com.bizzybay.view.fragment.CartListFragment;
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
@@ -20,6 +21,7 @@ import numan947.com.bizzybay.view.fragment.ShopListFragment;
 
 public class DrawerNavigator {
 
+    private static final int TRANSITION = FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
 
 
     private static DrawerNavigator navigator;
@@ -36,11 +38,18 @@ public class DrawerNavigator {
     private DrawerNavigator(){
     }
 
+
+    private void setFragmentTransaction(FragmentManager trans)
+    {
+        trans.beginTransaction().setTransition(TRANSITION).commit();
+    }
+
     /**
      * Navigation to the ProductListFragments
      * */
     public void navigateToProductListFragment(int container, FragmentManager fragmentManager)
     {
+        this.setFragmentTransaction(fragmentManager);
 
         if(currentFragment!=null) {
             Fragment f = fragmentManager.findFragmentByTag(currentFragment);
@@ -70,7 +79,7 @@ public class DrawerNavigator {
 
 
     public void navigateToHistoryListFragment(int container,FragmentManager fragmentManager) {
-
+        this.setFragmentTransaction(fragmentManager);
 
         if(currentFragment!=null) {
             Fragment f = fragmentManager.findFragmentByTag(currentFragment);
@@ -98,6 +107,8 @@ public class DrawerNavigator {
 
     public void navigateToShopListFragment(FragmentManager fragmentManager,int container)
     {
+        this.setFragmentTransaction(fragmentManager);
+
         if(currentFragment!=null){
             Fragment fragment = fragmentManager.findFragmentByTag(currentFragment);
             if(fragment!=null)fragmentManager.beginTransaction().hide(fragment).commit();
@@ -121,7 +132,12 @@ public class DrawerNavigator {
         return currentFragment;
     }
 
+
     public void navigateToShoppingBagFragment(int main_activity_frame, FragmentManager supportFragmentManager) {
+
+        this.setFragmentTransaction(supportFragmentManager);
+
+
         if(currentFragment!=null){
             Fragment f = supportFragmentManager.findFragmentByTag(currentFragment);
             if(f!=null)supportFragmentManager.beginTransaction().hide(f).commit();
