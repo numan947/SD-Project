@@ -18,9 +18,17 @@ import numan947.com.bizzybay.view.fragment.WishListFragment;
  *
  * This class provides navigation in the {@link numan947.com.bizzybay.view.activity.MainActivity}
  * It handles the fragment changing operations of the {@link android.support.v4.widget.DrawerLayout}
+ *
  **/
 
 public class DrawerNavigator {
+    /*
+    * How to add new navigation method:
+    * 1. check if there's a fragment in the fragmentManager, if there is, hide it
+    * 2. check if the fragment you want to show/add already exists, if it is, just show it, otherwise create and add it to fragmentTransaction
+    * 3. set the currentFragment as the ID of the currently showing fragment
+    * */
+
 
     private static final int TRANSITION = FragmentTransaction.TRANSIT_FRAGMENT_OPEN;
 
