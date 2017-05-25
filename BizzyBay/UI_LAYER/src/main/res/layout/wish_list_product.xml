@@ -18,23 +18,14 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@drawable/placeholder"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:id="@+id/wish_list_product_image"/>
+            android:id="@+id/wish_list_product_image"
+            android:scaleType="centerCrop"
+            android:padding="2dp"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_margin="3dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,20 +51,16 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_margin="1dp">
             <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:id="@+id/wish_list_button"
                 android:background="@drawable/liked"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:padding="2dp"/>
 
         </RelativeLayout>
     </LinearLayout>

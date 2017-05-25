@@ -14,24 +14,27 @@
                   xmlns:app="http://schemas.android.com/apk/res-auto"
                   android:orientation="horizontal"
                   android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
+                  android:layout_height="wrap_content"
+        android:layout_margin="2dp">
         <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
-            android:layout_width="115dp"
-            android:layout_height="115dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             app:siShape="@drawable/rectangle2"
             android:src="@drawable/placeholder"
             app:siSquare="true"
             android:id = "@+id/shop_list_view_image"
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="15dp"
+            android:padding="3dp"
             />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -65,6 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ShopDETAILS................................."
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:id="@+id/shop_list_view_shop_details"
                 android:textSize="17sp"/>
         </LinearLayout>

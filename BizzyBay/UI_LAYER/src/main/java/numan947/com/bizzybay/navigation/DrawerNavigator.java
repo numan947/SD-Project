@@ -173,5 +173,6 @@ public class DrawerNavigator {
         else
             supportFragmentManager.beginTransaction().show(wishListFragment).commit();
 
+        currentFragment = WishListFragment.getFragmentId();
     }
 }

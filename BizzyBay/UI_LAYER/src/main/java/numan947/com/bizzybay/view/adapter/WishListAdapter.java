@@ -133,14 +133,15 @@ public class WishListAdapter extends RecyclerView.Adapter {
 
         WishListViewHolder(View itemView) {
             super(itemView);
+            this.getSelectableItemBackground();
             this.bindProduct(itemView);
             this.addListeners();
+        }
 
-
-            //giving clickable item behavior
+        private void getSelectableItemBackground() {
+            //getting the selectable item background from resources
             outValue = new TypedValue();
             context.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, outValue, true);
-            itemView.setBackgroundResource(outValue.resourceId);
         }
 
         private void addListeners() {
@@ -159,6 +160,9 @@ public class WishListAdapter extends RecyclerView.Adapter {
             this.likeButton = (Button) itemView.findViewById(R.id.wish_list_button);
 
             this.wishListLL = (LinearLayout)itemView.findViewById(R.id.wish_list_LL);
+
+            //giving the view a 'selectable' style
+            wishListLL.setBackgroundResource(outValue.resourceId);
         }
 
         void renderModel(WishListModel wishListModel,int position)
@@ -180,7 +184,7 @@ public class WishListAdapter extends RecyclerView.Adapter {
                     .error(R.drawable.error)
                     .placeholder(R.drawable.placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .crossFade().fitCenter()
+                    .crossFade()
                     .into(productImageView);
         }
 
