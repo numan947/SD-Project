@@ -151,6 +151,7 @@ public class CartListAdapter extends RecyclerView.Adapter {
         private TextView totalPrice;
         private Button checkOutButton;
         private TypedValue outValue;
+
         CartListViewHolder(View itemView) {
             super(itemView);
 

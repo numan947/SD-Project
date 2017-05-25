@@ -1,61 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
-        android:layout_width="115dp"
-        android:layout_height="115dp"
-        app:siShape="@drawable/rectangle2"
-        android:src="@drawable/placeholder"
-        app:siSquare="true"
-        android:id = "@+id/shop_list_view_image"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginRight="15dp"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Shop Name"
-                android:id="@+id/shop_list_view_shop_name"
-                android:textSize="25sp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="distance"
-                android:id="@+id/shop_list_view_shop_distance"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:textSize="20sp"/>
-        </RelativeLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/shop_list_view_shop_location"
-            android:text="ShopLocaton"
-            android:textSize="15sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/shop_list_view_shop_type"
-            android:text="SHop type"
-            android:textSize="17sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ShopDETAILS................................."
-            android:id="@+id/shop_list_view_shop_details"
-            android:textSize="17sp"/>
-    </LinearLayout>
 
-</LinearLayout>
+<android.support.v7.widget.CardView
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true"
+    app:cardElevation="@dimen/cardview_default_elevation">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            app:siShape="@drawable/rectangle2"
+            android:src="@drawable/placeholder"
+            app:siSquare="true"
+            android:id = "@+id/shop_list_view_image"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shop Name"
+                    android:id="@+id/shop_list_view_shop_name"
+                    android:textSize="25sp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="distance"
+                    android:id="@+id/shop_list_view_shop_distance"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:textSize="20sp"/>
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/shop_list_view_shop_location"
+                android:text="ShopLocaton"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/shop_list_view_shop_type"
+                android:text="SHop type"
+                android:textSize="17sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ShopDETAILS................................."
+                android:id="@+id/shop_list_view_shop_details"
+                android:textSize="17sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

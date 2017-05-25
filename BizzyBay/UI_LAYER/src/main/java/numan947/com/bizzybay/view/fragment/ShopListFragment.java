@@ -49,7 +49,7 @@ public class ShopListFragment extends BaseFragment implements ShopListView {
 
     //implemented by the activity
     public interface ShopListListener{
-        void onShopListItemClicked(int shopId);
+        void onShopClicked(int shopId,String fragmentId);
     }
 
 
@@ -190,7 +190,7 @@ public class ShopListFragment extends BaseFragment implements ShopListView {
     @Override
     public void viewShop(int shopId) {
         //chained to activity
-        shopListListener.onShopListItemClicked(shopId);
+        shopListListener.onShopClicked(shopId,getFragmentId());
     }
 
     @Override

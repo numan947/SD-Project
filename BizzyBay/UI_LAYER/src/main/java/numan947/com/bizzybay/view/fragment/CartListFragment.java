@@ -57,8 +57,8 @@ public class CartListFragment extends BaseFragment implements CartListView {
     }
 
     public interface CartListListener{
-        void onShopNameClicked(int shopId);
-        void onProductClicked(int productId,int shopId);
+        void onShopClicked(int shopId,String fragmentId);
+        void onProductClicked(int productId,int shopId,String fragmentId);
 
         void onCheckoutButtonClicked(CartListModel cartListModel);
     }
@@ -366,13 +366,13 @@ public class CartListFragment extends BaseFragment implements CartListView {
     @Override
     public void onProductItemClicked(int shopId, int productId) {
         //chain to activity
-        cartListListener.onProductClicked(productId,shopId);
+        cartListListener.onProductClicked(productId,shopId,getFragmentId());
     }
 
     @Override
     public void onShopNameClicked(int shopId) {
         //chain to activity
-        cartListListener.onShopNameClicked(shopId);
+        cartListListener.onShopClicked(shopId,getFragmentId());
     }
 
     @Override

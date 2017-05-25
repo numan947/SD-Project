@@ -22,13 +22,13 @@ import android.widget.Toast;
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
 import numan947.com.bizzybay.model.CartListModel;
-import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.DrawerNavigator;
 import numan947.com.bizzybay.view.fragment.CartListFragment;
 import numan947.com.bizzybay.view.fragment.HistoryListFragment;
 import numan947.com.bizzybay.view.fragment.ProductListFragment;
 import numan947.com.bizzybay.view.fragment.ShopListFragment;
+import numan947.com.bizzybay.view.fragment.WishListFragment;
 
 
 /**
@@ -47,7 +47,8 @@ public class MainActivity extends BaseActivity implements
         ProductListFragment.ProductListListener,
         HistoryListFragment.HistoryListListener,
         ShopListFragment.ShopListListener,
-        CartListFragment.CartListListener{
+        CartListFragment.CartListListener,
+        WishListFragment.WishListListener{
 
 
     private final int navigationDrawerGravity = GravityCompat.START;
@@ -55,6 +56,17 @@ public class MainActivity extends BaseActivity implements
     //fields passed as parameters to this activity
     private static final String USER_ID="numan947.com.bizzybay.view.activity.MainActivity.USER_ID";
     private static final String CURRENT_FRAGMENT="numan947.com.bizzybay.view.activity.MainActivity.CURRENT_FRAGMENT";
+    private static final String activityId = "numan947.com.bizzybay.view.activity.MainActivity.MAIN_ACTIVITY";
+
+    private static final String cartListFragmentId = CartListFragment.getFragmentId();
+    private static final String historyListFragmentId = HistoryListFragment.getFragmentID();
+    private static final String productListFragmentId = ProductListFragment.getFragmentID();
+    private static final String shopListFragmentId = ShopListFragment.getFragmentId();
+    private static final String wishListFragmentId = WishListFragment.getFragmentId();
+
+    //todo add other fragments here
+
+
     private int userId;//todo or should we use the whole user class
 
     //fields to bind the view
@@ -341,12 +353,6 @@ public class MainActivity extends BaseActivity implements
 
 
     @Override
-    public void onProductClicked(ProductListModel model) {
-        //go to product details
-        activityNavigator.navigateToDetailsProductActivity(model.getProductID(),model.getShopID());
-    }
-
-    @Override
     public void onHomeButtonPressed() {
         //do nothing
     }
@@ -372,17 +378,15 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void onShopListItemClicked(int shopId) {
+    public void onShopClicked(int shopId,String fragmentId) {
+        //todo do something with the fragmentID
         activityNavigator.navigateToShopDetailsActivity(shopId);
     }
 
     @Override
-    public void onShopNameClicked(int shopId) {
-        activityNavigator.navigateToShopDetailsActivity(shopId);
-    }
-
-    @Override
-    public void onProductClicked(int productId, int shopId) {
+    public void onProductClicked(int productId,int shopId,String fragmentId) {
+        //go to product details
+        //todo do something with the fragmentId, or not may be....?
         activityNavigator.navigateToDetailsProductActivity(productId,shopId);
     }
 

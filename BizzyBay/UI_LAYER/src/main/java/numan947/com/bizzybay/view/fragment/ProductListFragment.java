@@ -68,7 +68,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
         /**
          * Called when a Product in the list is clicked.
          * */
-        void onProductClicked(final ProductListModel model);
+        void onProductClicked(int productId,int shopId,String fragmentId);
         void onHomeButtonPressed();
     }
 
@@ -419,7 +419,7 @@ public class ProductListFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void viewProduct(ProductListModel product) {
-        productListListener.onProductClicked(product);
+        productListListener.onProductClicked(product.getProductID(),product.getShopID(),getFragmentID());
     }
 
 

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import numan947.com.bizzybay.R;
-import numan947.com.bizzybay.model.ProductListModel;
 import numan947.com.bizzybay.model.ShopDetailsModelForMap;
 import numan947.com.bizzybay.navigation.ActivityNavigator;
 import numan947.com.bizzybay.navigation.ShopDetailsFragmentNavigator;
@@ -166,8 +165,8 @@ public class ShopDetailsActivity extends BaseActivity implements ShopDetailsFrag
     }
 
     @Override
-    public void onProductClicked(ProductListModel model) {
-        activityNavigator.navigateToDetailsProductActivity(model.getProductID(),model.getShopID());
+    public void onProductClicked(int productId,int shopId,String fragmentId) {
+        activityNavigator.navigateToDetailsProductActivity(productId,shopId);
     }
 
     @Override
