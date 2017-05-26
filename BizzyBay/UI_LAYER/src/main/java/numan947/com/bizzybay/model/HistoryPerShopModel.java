@@ -29,4 +29,6 @@ public class HistoryPerShopModel {
     public ArrayList<HistoryPerProductModel> getHistoryPerProductModel() {
         return historyPerProductModel;
     }
+
+
 }

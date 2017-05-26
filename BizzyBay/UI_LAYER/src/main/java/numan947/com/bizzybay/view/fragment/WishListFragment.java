@@ -280,11 +280,13 @@ public class WishListFragment extends BaseFragment implements WishListView {
 
     @Override
     public void showLoading() {
+        this.swipeRefreshLayout.setRefreshing(true);
         this.loadingView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
+        this.swipeRefreshLayout.setRefreshing(false);
         this.loadingView.setVisibility(View.GONE);
     }
 
