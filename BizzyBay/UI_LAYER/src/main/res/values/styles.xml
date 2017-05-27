@@ -39,4 +39,23 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <!--For Error in TextInputLayout-->
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#e8ff0037</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- For Normal Text in Text Input Layout-->
+    <style name="styleTextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColor">#e84000ff</item>
+        <item name="android:textColorHint">#e8bfff00</item>
+    </style>
+
+
+    <!--For EditText-->
+    <style name="styleEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+    </style>
+
 </resources>

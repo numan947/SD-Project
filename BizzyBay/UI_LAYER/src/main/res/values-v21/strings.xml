@@ -2,4 +2,18 @@
 <resources>
     <string name="google_api_key">AIzaSyDjtWiyDzKTri1Z-TrWP7M7-4g_icylgkk</string>
     <string name="btn_text_retry">Retry</string>
+
+    <!--These are delivery address page edit text hints, these will be reused in login/sign up pages-->
+    <string name="user_name_hint">Name</string>
+    <string name="primary_phone_hint">Primary Phone</string>
+    <string name="auxiliary_phone_hint">Auxiliary Phone</string>
+    <string name="address_line_1_hint">Address Line 1 (Required)</string>
+    <string name="address_line_2_hint">Address Line 2</string>
+    <string name="address_line_3_hint">Address Line 3</string>
+    <string name="city_name_hint">City (Required)</string>
+    <string name="zip_code_hint">Zip Code (Postal Code)</string>
+    <string name="use_current_location_text">Use Current Location</string>
+    <string name="select_from_map_text">Select From Map</string>
+    <string name="map_location_text">Map Location</string>
+    <string name="choose_from_map_text">Choose From Map</string>
 </resources>

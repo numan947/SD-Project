@@ -49,7 +49,7 @@ public class ImageViewPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.view_pager_fragment,container,false);
+        View v = inflater.inflate(R.layout.image_view_pager_fragment,container,false);
 
         ImageView imageView = (ImageView) v.findViewById(R.id.image_view);
 
