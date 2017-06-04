@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Shopping Bag"
+            android:textSize="20sp"
+            android:textColor="@color/Black_Cat"
+            android:id="@+id/user_settings_shopping_bag"
+            android:paddingLeft="10dp"/>
+        <include
+            layout="@layout/view_separator"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Liked Items"
+            android:textSize="20sp"
+            android:textColor="@color/Black_Cat"
+            android:id="@+id/user_settings_liked_items"
+            android:paddingLeft="10dp"/>
+        <include
+            layout="@layout/view_separator"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Payment History"
+            android:textSize="20sp"
+            android:textColor="@color/Black_Cat"
+            android:id="@+id/user_settings_payment_history"
+            android:paddingLeft="10dp"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
