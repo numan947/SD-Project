@@ -12,36 +12,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_settings_phone"
-            android:textSize="20sp"
-            android:text="+8801682580337"
-            android:textColor="@color/colorBlack"
-            android:paddingLeft="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Phone"
-            android:paddingLeft="10dp"/>
+            android:orientation="vertical"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:id="@+id/user_settings_phone_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_settings_phone"
+                android:textSize="20sp"
+                android:text="+8801682580337"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Phone"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
         <include
-            layout="@layout/view_separator"/>
-        <TextView
+            layout="@layout/view_separator"
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:padding="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_settings_username"
-            android:textSize="20sp"
-            android:text="\@username"
-            android:textColor="@color/colorBlack"
-            android:paddingLeft="10dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Username"
-            android:paddingLeft="10dp"/>
+            android:orientation="vertical"
+            android:clickable="true"
+            android:id="@+id/user_settings_username_LL"
+            android:background="?android:selectableItemBackground"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_settings_username"
+                android:textSize="20sp"
+                android:text="\@username"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Username"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

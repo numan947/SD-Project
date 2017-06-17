@@ -12,76 +12,139 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_settings_email"
-            android:textSize="20sp"
-            android:text="thisissparta@spartancommunity.org"
-            android:textColor="@color/colorBlack"
-            android:paddingLeft="10dp"
-            android:ellipsize="end"
-            android:maxLines="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Email"
-            android:paddingLeft="10dp"/>
+            android:orientation="vertical"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/user_settings_email_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_settings_email"
+                android:textSize="20sp"
+                android:text="thisissparta@spartancommunity.org"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Change Email"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
+
         <include
-            layout="@layout/view_separator"/>
-        <TextView
+            layout="@layout/view_separator"
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:padding="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"/>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_settings_password"
-            android:textSize="20sp"
-            android:text="123456789"
-            android:inputType="textPassword"
-            android:textColor="@color/colorBlack"
-            android:paddingLeft="10dp"
-            android:ellipsize="end"
-            android:maxLines="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Password"
-            android:paddingLeft="10dp"/>
+            android:orientation="vertical"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/user_settings_password_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_settings_password"
+                android:textSize="20sp"
+                android:text="*********"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Change password"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
         <include
-            layout="@layout/view_separator"/>
-        <TextView
+            layout="@layout/view_separator"
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:padding="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_settings_whatsapp"
-            android:textSize="20sp"
-            android:text="+8801682580337"
-            android:textColor="@color/colorBlack"
-            android:paddingLeft="10dp"
-            android:ellipsize="end"
-            android:maxLines="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Whatsapp"
-            android:paddingLeft="10dp"/>
+            android:orientation="vertical"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/user_settings_whatsapp_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_settings_whatsapp"
+                android:textSize="20sp"
+                android:text="+8801682580337"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Setup or change Whatsapp account"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
         <include
-            layout="@layout/view_separator"/>
-        <TextView
+            layout="@layout/view_separator"
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:padding="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"/>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/user_settings_facebook"
-            android:textSize="20sp"
-            android:text="www.facebook.com/why.me"
-            android:textColor="@color/colorBlack"
-            android:paddingLeft="10dp"
-            android:ellipsize="end"
-            android:maxLines="1"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Facebook"
-            android:paddingLeft="10dp"/>
+            android:orientation="vertical"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/user_settings_facebook_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_settings_facebook"
+                android:textSize="20sp"
+                android:text="www.facebook.com/why.me"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Setup or change Whatsapp account"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
+
+
     </LinearLayout>
 </android.support.v7.widget.CardView>
