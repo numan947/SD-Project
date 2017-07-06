@@ -21,9 +21,13 @@
                 layout="@layout/shop_details_sliding_image_pager"
                 android:layout_width="match_parent"
                 android:layout_height="370dp"/>
-            <include
-                layout="@layout/generic_toolbar_layout"
-                android:id="@+id/shop_details_toolbar"/>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/shop_details_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@null"
+                app:layout_collapseMode="pin"
+                />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

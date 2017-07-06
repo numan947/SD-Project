@@ -21,11 +21,13 @@
 
             android:fitsSystemWindows="true"
             android:id="@+id/history_details_fragment_CTL">
-            <include
-                layout="@layout/generic_toolbar_layout"
+
+            <android.support.v7.widget.Toolbar
                 android:id="@+id/history_details_fragment_toolbar"
-                android:layout_height="80dp"
                 android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@null"
+                app:layout_collapseMode="pin"
                 />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
