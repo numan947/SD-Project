@@ -10,8 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -328,13 +326,6 @@ public class ShopDetailsFragment extends BaseFragment implements ShopDetailsView
         progressView = (RelativeLayout) returnView.findViewById(R.id.rl_progress);
     }
 
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        //todo have the toolbar setup here
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

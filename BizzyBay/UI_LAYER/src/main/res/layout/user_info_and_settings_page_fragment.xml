@@ -54,6 +54,7 @@
                 android:text="Easily Modifiable Account Name"
                 android:textSize="20sp"
                 android:textColor="@color/White"
+                android:id="@+id/user_info_and_settings_frag_accountname"
                 />
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
@@ -63,8 +64,18 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/user_info_and_settings_frag_SRL">
-        <include
-            layout="@layout/user_info_and_settings_page"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include
+                layout="@layout/user_info_and_settings_page"
+                android:id="@+id/user_info_and_settings_frag_NSV"/>
+            <include
+                layout="@layout/generic_retry_view"/>
+            <include
+                layout="@layout/generic_progress_view"/>
+        </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
