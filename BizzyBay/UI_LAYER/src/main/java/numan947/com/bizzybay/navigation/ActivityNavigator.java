@@ -7,6 +7,7 @@ import numan947.com.bizzybay.view.activity.DetailsProductActivity;
 import numan947.com.bizzybay.view.activity.HistoryDetailsActivity;
 import numan947.com.bizzybay.view.activity.MainActivity;
 import numan947.com.bizzybay.view.activity.ShopDetailsActivity;
+import numan947.com.bizzybay.view.activity.UserDetailsActivity;
 
 /**
  *
@@ -55,4 +56,8 @@ public class ActivityNavigator {
         context.startActivity(callingIntent);
     }
 
+    public void navigateToUserDetailsActivity(int userId) {
+        Intent callingIntent = UserDetailsActivity.getCallingIntent(context,userId);
+        context.startActivity(callingIntent);
+    }
 }

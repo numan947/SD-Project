@@ -1,9 +1,11 @@
 package numan947.com.data_layer.repository;
 
+import com.example.UserDetails;
 import com.example.repository.UserDetailsRepository;
 
+import numan947.com.data_layer.entity.UserDetailsEntity;
 import numan947.com.data_layer.entity.mapper.UserDetailsEntityDataMapper;
-import numan947.com.data_layer.repository.datasource.ShopDataStore;
+import numan947.com.data_layer.exception.RepositoryErrorBundle;
 import numan947.com.data_layer.repository.datasource.UserDetailsDataStore;
 import numan947.com.data_layer.repository.datasource.UserDetailsDataStoreFactory;
 
@@ -48,6 +50,17 @@ public class UserDetailsDataRepository implements UserDetailsRepository {
 
         UserDetailsDataStore userDetailsDataStore = userDetailsDataStoreFactory.createTestDataStore();
 
+        userDetailsDataStore.getUserDetails(userId, new UserDetailsDataStore.UserDetailsCallback() {
+            @Override
+            public void onUserDetailsLoaded(UserDetailsEntity userDetailsEntity) {
+                UserDetails userDetails = userDetailsEntityDataMapper.transform(userDetailsEntity);
+                providedCallback.onUserDetailsLoaded(userDetails);
+            }
 
+            @Override
+            public void onError(Exception exception) {
+                providedCallback.onError(new RepositoryErrorBundle(exception));
+            }
+        });
     }
 }

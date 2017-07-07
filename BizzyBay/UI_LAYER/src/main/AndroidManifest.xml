@@ -35,6 +35,7 @@
         <activity android:name=".view.activity.DetailsProductActivity"/>
         <activity android:name=".view.activity.HistoryDetailsActivity"/>
         <activity android:name=".view.activity.ShopDetailsActivity"/>
+        <activity android:name=".view.activity.UserDetailsActivity"/>
     </application>
 
 </manifest>

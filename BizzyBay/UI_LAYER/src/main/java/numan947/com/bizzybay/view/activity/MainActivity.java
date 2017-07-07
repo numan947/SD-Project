@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.R;
@@ -162,6 +161,9 @@ public class MainActivity extends BaseActivity implements
      * */
     private void getParameters() {
         userId = getIntent().getIntExtra(USER_ID,-1);
+
+        //todo we need to load the userDetails from cache here
+        userId = 12345;
     }
 
 
@@ -190,22 +192,15 @@ public class MainActivity extends BaseActivity implements
         //adding listener for the header views
         userNameNavDrawer.setOnClickListener(this);
         profileImageNavDrawer.setOnClickListener(this);
-        settingsImageNavDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //show Settings fragment
-                Toast.makeText(MainActivity.this,"Show Settings Fragment",Toast.LENGTH_SHORT).show();
-                drawerLayout.closeDrawer(navigationDrawerGravity);
-            }
-        });
     }
+
 
     /**
      * Binds the navigation view's header with the resources.
      * */
     private void bindNavigationViewHeader(View headerView) {
         //binding header layout views
-        settingsImageNavDrawer = (ImageView) headerView.findViewById(R.id.settings_image_nav_drawer);
+        //settingsImageNavDrawer = (ImageView) headerView.findViewById(R.id.settings_image_nav_drawer);
         profileImageNavDrawer = (CircleImageView) headerView.findViewById(R.id.profile_image_nav_drawer);
         userNameNavDrawer = (TextView) headerView.findViewById(R.id.user_name_nav_drawer);
     }
@@ -357,8 +352,17 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onClick(View v) {
         //todo show profile details, for both profile image and profile name
-        Toast.makeText(this,"Showing profile of owner",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"Showing profile of owner",Toast.LENGTH_SHORT).show();
         drawerLayout.closeDrawer(navigationDrawerGravity);
+
+        switch (v.getId()){
+            case R.id.user_name_nav_drawer :
+                activityNavigator.navigateToUserDetailsActivity(userId);
+                break;
+            case R.id.profile_image_nav_drawer:
+                activityNavigator.navigateToUserDetailsActivity(userId);
+                break;
+        }
     }
 
 

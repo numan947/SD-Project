@@ -1,4 +1,4 @@
-package numan947.com.data_layer.repository.datasource;
+package numan947.com.data_layer.cache;
 
 import numan947.com.data_layer.entity.UserDetailsEntity;
 
@@ -7,10 +7,12 @@ import numan947.com.data_layer.entity.UserDetailsEntity;
  * @since 7/7/17.<br>
  **/
 
-public interface UserDetailsDataStore {
+public interface UserDetailsCache {
+
     public interface UserDetailsCallback{
         void onUserDetailsLoaded(UserDetailsEntity userDetailsEntity);
         void onError(Exception exception);
     }
-    void getUserDetails(int userId, UserDetailsCallback providedCallback);
+
+    void loadUserDetails(int userId, UserDetailsCallback providedCallback);
 }

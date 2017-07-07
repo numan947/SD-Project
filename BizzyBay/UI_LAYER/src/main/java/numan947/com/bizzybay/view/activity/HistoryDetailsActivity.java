@@ -38,6 +38,10 @@ public class HistoryDetailsActivity extends BaseActivity implements HistoryDetai
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.getParameters();
+
+        FragmentNavigator fragmentNavigator = FragmentNavigator.getInstance();
+        fragmentNavigator.navigateToHistoryDetailsFragment(getSupportFragmentManager(),android.R.id.content,shopId,orderId,productId);
+
     }
 
     private void getParameters() {
@@ -46,11 +50,6 @@ public class HistoryDetailsActivity extends BaseActivity implements HistoryDetai
         this.productId = extra.getIntExtra(PRODUCT_ID,-1);
         this.shopId = extra.getIntExtra(SHOP_ID,-1);
         this.orderId = extra.getIntExtra(ORDER_ID,-1);
-
-        FragmentNavigator fragmentNavigator = FragmentNavigator.getInstance();
-
-        fragmentNavigator.navigateToHistoryDetailsFragment(getSupportFragmentManager(),android.R.id.content,shopId,orderId,productId);
-
     }
 
     @Override
@@ -65,12 +64,12 @@ public class HistoryDetailsActivity extends BaseActivity implements HistoryDetai
 
     @Override
     public void onProductNameClicked(int productId, int shopId) {
-
+        //todo ??
     }
 
     @Override
     public void onShopNameClicked(int shopId) {
-
+        //todo ??
     }
 
     @Override

@@ -3,11 +3,13 @@ package numan947.com.bizzybay.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,30 +22,37 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.executor.PostExecutionThread;
 import com.example.executor.ThreadExecutor;
+import com.example.interactor.GetUserDetailsUseCase;
+import com.example.interactor.GetUserDetailsUseCaseImpl;
+import com.example.repository.UserDetailsRepository;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
+import numan947.com.bizzybay.mapper.UserDetailsModelDataMapper;
 import numan947.com.bizzybay.model.UserDetailsModel;
 import numan947.com.bizzybay.presenter.UserDetailsPresenter;
 import numan947.com.bizzybay.view.UserDetailsView;
 import numan947.com.bizzybay.view.component.MyPasswordTransformationMethod;
-import numan947.com.data_layer.cache.TestUserCacheImpl;
-import numan947.com.data_layer.cache.UserCache;
+import numan947.com.data_layer.cache.TestUserDetailsCacheImpl;
+import numan947.com.data_layer.cache.UserDetailsCache;
+import numan947.com.data_layer.entity.mapper.UserDetailsEntityDataMapper;
 import numan947.com.data_layer.executor.BackgroundExecutor;
+import numan947.com.data_layer.repository.UserDetailsDataRepository;
+import numan947.com.data_layer.repository.datasource.UserDetailsDataStoreFactory;
 
 /**
  * @author numan947
  * @since 7/6/17.<br>
  **/
 
-public class UserDetailsFragment extends BaseFragment implements UserDetailsView {
+public class UserDetailsFragment extends BaseFragment implements UserDetailsView,AppBarLayout.OnOffsetChangedListener {
     private static final String fragmentId = "numan947.com.bizzybay.view.fragment.UserDetailsFragment.USER_DETAILS_FRAGMENT";
     private static final String USER_ID= "numan947.com.bizzybay.view.fragment.UserDetailsFragment.USER_ID";
 
 
     public static String getFragmentId(){return fragmentId;}
-
 
     public interface UserDetailsListener{
         void finishActivity();
@@ -89,10 +98,39 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     private RelativeLayout loadingView;
     private Button retryButton;
 
+
+    //for animation
+    private AppBarLayout appBarLayout;
+    private boolean profilePicVisible;
+    private int maxScrollSize;
+    private static final int PERCENTAGE_TO_ANIMATE_AVATAR = 20;
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        //animation
+
+        if(maxScrollSize==0)maxScrollSize = appBarLayout.getTotalScrollRange();
+
+        int percentage = (Math.abs(verticalOffset)*100) / maxScrollSize;
+
+        if(profilePicVisible && percentage>=PERCENTAGE_TO_ANIMATE_AVATAR){
+            profilePicVisible = false;
+
+            userImage.animate().scaleX(0).scaleY(0).setDuration(200).start();
+        }
+        if(!profilePicVisible&&percentage<=PERCENTAGE_TO_ANIMATE_AVATAR){
+            profilePicVisible = true;
+            userImage.animate().scaleY(1).scaleX(1).setDuration(200).start();
+        }
+
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        this.maxScrollSize = 0;
     }
 
 
@@ -120,6 +158,8 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     private void bindAll(View view) {
 
         this.nestedScrollView = (NestedScrollView) view.findViewById(R.id.user_info_and_settings_frag_NSV);
+        this.appBarLayout = (AppBarLayout)view.findViewById(R.id.user_info_and_settings_frag_ABL);
+
 
         this.toolbar = (Toolbar) view.findViewById(R.id.user_info_and_settings_frag_toolbar);
         this.userImageBackground = (ImageView) view.findViewById(R.id.user_info_and_settings_frag_CTL_bg);
@@ -155,6 +195,13 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
     private void addListeners() {
         //todo add listeners here for different type of user interactions
+        appBarLayout.addOnOffsetChangedListener(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                UserDetailsFragment.this.userDetailsPresenter.initialize(userId,0);
+            }
+        });
     }
 
     private void setupToolbar() {
@@ -166,6 +213,12 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
         //todo add items to toolbar here
         //todo add handling for toolbar item selections
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                return UserDetailsFragment.this.onOptionsItemSelected(item);
+            }
+        });
 
     }
 
@@ -208,9 +261,18 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
         //todo add real cache instead of test
 
-        UserCache userCache = TestUserCacheImpl.getInstance();
+        UserDetailsCache userDetailsCache = TestUserDetailsCacheImpl.getInstance();
 
+        UserDetailsEntityDataMapper entityDataMapper = new UserDetailsEntityDataMapper();
+        UserDetailsDataStoreFactory userDetailsDataStoreFactory = new UserDetailsDataStoreFactory(BizzyBay.getBizzyBayApplicationContext(),userDetailsCache);
 
+        UserDetailsRepository userDetailsRepository = UserDetailsDataRepository.getInstance(userDetailsDataStoreFactory,entityDataMapper);
+
+        GetUserDetailsUseCase getUserDetailsUseCase = new GetUserDetailsUseCaseImpl(postExecutionThread,threadExecutor,userDetailsRepository);
+
+        UserDetailsModelDataMapper modelDataMapper = new UserDetailsModelDataMapper();
+
+        this.userDetailsPresenter = new UserDetailsPresenter(this,getUserDetailsUseCase,modelDataMapper);
 
     }
 
@@ -282,6 +344,18 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     @Override
     public void showError(String message) {
         //todo what to do when there's error?
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId()==android.R.id.home){
+            actvityListener.finishActivity();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
