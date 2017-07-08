@@ -1,6 +1,7 @@
 package numan947.com.bizzybay.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -26,7 +27,6 @@ import com.example.interactor.GetUserDetailsUseCase;
 import com.example.interactor.GetUserDetailsUseCaseImpl;
 import com.example.repository.UserDetailsRepository;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import numan947.com.bizzybay.BizzyBay;
 import numan947.com.bizzybay.MainThread;
 import numan947.com.bizzybay.R;
@@ -34,6 +34,7 @@ import numan947.com.bizzybay.mapper.UserDetailsModelDataMapper;
 import numan947.com.bizzybay.model.UserDetailsModel;
 import numan947.com.bizzybay.presenter.UserDetailsPresenter;
 import numan947.com.bizzybay.view.UserDetailsView;
+import numan947.com.bizzybay.view.activity.GenericEditView;
 import numan947.com.bizzybay.view.component.MyPasswordTransformationMethod;
 import numan947.com.data_layer.cache.TestUserDetailsCacheImpl;
 import numan947.com.data_layer.cache.UserDetailsCache;
@@ -42,20 +43,38 @@ import numan947.com.data_layer.executor.BackgroundExecutor;
 import numan947.com.data_layer.repository.UserDetailsDataRepository;
 import numan947.com.data_layer.repository.datasource.UserDetailsDataStoreFactory;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * @author numan947
  * @since 7/6/17.<br>
  **/
 
-public class UserDetailsFragment extends BaseFragment implements UserDetailsView,AppBarLayout.OnOffsetChangedListener {
+public class UserDetailsFragment extends BaseFragment implements UserDetailsView,AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     private static final String fragmentId = "numan947.com.bizzybay.view.fragment.UserDetailsFragment.USER_DETAILS_FRAGMENT";
     private static final String USER_ID= "numan947.com.bizzybay.view.fragment.UserDetailsFragment.USER_ID";
 
 
+    public static final String EDITED_DATA="numan947.com.bizzybay.view.fragment.UserDetailsFragment.EDITED_DATA";
+
+    private static final int phoneReq = 3191;
+    private static final int usernameReq=3192;
+    private static final int emailReq=3193;
+    private static final int passwordReq=3194;
+    private static final int whatsappReq=3195;
+    private static final int facebookReq=3196;
+    private static final int userimageReq=3197;
+    private static final int accountNameReq=3198;
+
+
     public static String getFragmentId(){return fragmentId;}
+
 
     public interface UserDetailsListener{
         void finishActivity();
+        void navigateToShoppingBag();
+        void navigateToPaymentHistory();
+        void navigateToLikedItems();
         //todo add the things that can be edited and setup requests accordingly
     }
 
@@ -70,7 +89,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
     private Toolbar toolbar;
     private TextView userAccountName;
-    private CircleImageView userImage;
+    private ImageView userImage;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout shoppingBagLL;
 
@@ -130,6 +149,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         this.maxScrollSize = 0;
     }
 
@@ -163,7 +183,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
 
         this.toolbar = (Toolbar) view.findViewById(R.id.user_info_and_settings_frag_toolbar);
         this.userImageBackground = (ImageView) view.findViewById(R.id.user_info_and_settings_frag_CTL_bg);
-        this.userImage = (CircleImageView) view.findViewById(R.id.user_info_and_settings_frag_CircleImageView);
+        this.userImage = (ImageView) view.findViewById(R.id.user_info_and_settings_frag_CircleImageView);
         this.userAccountName =(TextView)view.findViewById(R.id.user_info_and_settings_frag_accountname);
         this.swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.user_info_and_settings_frag_SRL);
 
@@ -202,6 +222,95 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
                 UserDetailsFragment.this.userDetailsPresenter.initialize(userId,0);
             }
         });
+
+        this.shoppingBagLL.setOnClickListener(this);
+        this.likedItemsLL.setOnClickListener(this);
+        this.paymentHistoryLL.setOnClickListener(this);
+        
+        this.phoneLL.setOnClickListener(this);
+        this.userAccountName.setOnClickListener(this);
+        this.userNameLL.setOnClickListener(this);
+        this.userImage.setOnClickListener(this);
+        this.emailLL.setOnClickListener(this);
+        this.passwordLL.setOnClickListener(this);
+        this.whatsappLL.setOnClickListener(this);
+        this.facebookLL.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.user_settings_shopping_bag_LL:
+                //// TODO: 7/8/17
+                break;
+            case R.id.user_settings_liked_items_LL:
+                // TODO: 7/8/17
+                break;
+            case R.id.user_settings_payment_history_LL:
+                // TODO: 7/8/17
+                break;
+            case R.id.user_settings_username_LL:
+                Intent i = new Intent(getActivity(), GenericEditView.class);
+                i.putExtra(GenericEditView.PASSED_DATA,userNameTV.getText().toString());
+                startActivityForResult(i,usernameReq);
+                break;
+            case R.id.user_settings_phone_LL:
+                // TODO: 7/8/17  
+                break;
+            case R.id.user_info_and_settings_frag_accountname:
+                // TODO: 7/8/17  
+                break;
+            case R.id.user_info_and_settings_frag_CircleImageView:
+                // TODO: 7/8/17  
+                break;
+            case R.id.user_settings_email_LL:
+                // TODO: 7/8/17  
+                break;
+            case R.id.user_settings_password_LL:
+                // TODO: 7/8/17
+                break;
+            case R.id.user_settings_whatsapp_LL:
+                // TODO: 7/8/17
+                break;
+            case R.id.user_settings_facebook_LL:
+                // TODO: 7/8/17
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+
+                case phoneReq:
+                    // TODO: 7/8/17
+                    break;
+                case usernameReq:
+                    // TODO: 7/8/17
+                    break;
+                case emailReq:
+                    // TODO: 7/8/17
+                    break;
+                case passwordReq:
+                    // TODO: 7/8/17
+                    break;
+                case whatsappReq:
+                    // TODO: 7/8/17
+                    break;
+                case facebookReq:
+                    // TODO: 7/8/17
+                    break;
+                case userimageReq:
+                    // TODO: 7/8/17
+                    break;
+                case accountNameReq:
+                    // TODO: 7/8/17
+                    break;
+            }
+        }
     }
 
     private void setupToolbar() {
@@ -229,6 +338,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
             this.getParameters();
             this.userDetailsPresenter.initialize(userId,-1);
         }
+        else renderUserDetails(this.userDetailsModel);
         //otherwise the whole states should be automatically restored
     }
 
@@ -290,6 +400,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     public void renderUserDetails(UserDetailsModel userDetailsModel) {
         this.userDetailsModel = userDetailsModel;
 
+
         this.loadImage(userDetailsModel.getUserImageUrl());
 
         this.userAccountName.setText(userDetailsModel.getAccountName());
@@ -305,6 +416,7 @@ public class UserDetailsFragment extends BaseFragment implements UserDetailsView
     }
 
     private void loadImage(String userImageUrl) {
+        System.err.println("WHY IS IT NOT WORKING?? USERDETAILSFRAGMENT: "+userImageUrl);
         Glide.with(this).load(userImageUrl)
                 .error(R.drawable.error)
                 .placeholder(R.drawable.placeholder)

@@ -36,6 +36,7 @@
         <activity android:name=".view.activity.HistoryDetailsActivity"/>
         <activity android:name=".view.activity.ShopDetailsActivity"/>
         <activity android:name=".view.activity.UserDetailsActivity"/>
+        <activity android:name=".view.activity.GenericEditView"/>
     </application>
 
 </manifest>

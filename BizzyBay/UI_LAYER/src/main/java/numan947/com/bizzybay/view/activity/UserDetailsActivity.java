@@ -19,6 +19,7 @@ public class UserDetailsActivity extends BaseActivity implements UserDetailsFrag
 
     private int userId;
 
+    private FragmentNavigator fragmentNavigator;
 
     public static Intent getCallingIntent(Context context,int userId)
     {
@@ -34,7 +35,7 @@ public class UserDetailsActivity extends BaseActivity implements UserDetailsFrag
         super.onCreate(savedInstanceState);
         this.getParameters();
 
-        FragmentNavigator fragmentNavigator = FragmentNavigator.getInstance();
+        fragmentNavigator = FragmentNavigator.getInstance();
         fragmentNavigator.navigateToUserDetailsFragment(getSupportFragmentManager(),android.R.id.content,userId);
 
     }
@@ -57,5 +58,26 @@ public class UserDetailsActivity extends BaseActivity implements UserDetailsFrag
     @Override
     public void finishActivity() {
         finish();
+    }
+
+    @Override
+    public void navigateToShoppingBag() {
+        //// TODO: 7/8/17  
+
+    }
+
+    @Override
+    public void navigateToPaymentHistory() {
+        // TODO: 7/8/17  
+    }
+
+    @Override
+    public void navigateToLikedItems() {
+        // TODO: 7/8/17
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

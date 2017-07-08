@@ -83,12 +83,25 @@
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:id="@+id/user_info_and_settings_frag_CircleImageView"-->
+        <!--android:layout_width="96dp"-->
+        <!--android:layout_height="96dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--app:layout_anchor="@id/user_info_and_settings_frag_ABL_LL"-->
+        <!--android:elevation="8dp"-->
+        <!--app:layout_scrollFlags="scroll"-->
+        <!--app:layout_anchorGravity="top|center_horizontal"-->
+        <!--/>-->
+
+    <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
+        app:siShape="@drawable/rectangle2"
+        android:src="@drawable/placeholder"
+        app:siSquare="true"
         android:id="@+id/user_info_and_settings_frag_CircleImageView"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/place_holder"
         app:layout_anchor="@id/user_info_and_settings_frag_ABL_LL"
         android:elevation="8dp"
         app:layout_scrollFlags="scroll"

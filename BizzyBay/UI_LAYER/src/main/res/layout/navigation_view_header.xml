@@ -13,7 +13,7 @@
         android:id="@+id/profile_image_nav_drawer"
         android:layout_width="83dp"
         android:layout_height="0dp"
-        android:src="@drawable/place_holder"
+        android:src="@drawable/placeholder2"
         android:layout_gravity="start"
         android:layout_weight="0.70"/>
     <!--Add different background for the image via selector so that it acts like a button-->

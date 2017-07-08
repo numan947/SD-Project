@@ -72,8 +72,6 @@ public class FragmentNavigator {
 
         UserDetailsFragment fragment = (UserDetailsFragment)supportFragmentManager.findFragmentByTag(UserDetailsFragment.getFragmentId());
 
-        System.out.println("WHY WHY");
-
         if(fragment == null){
             fragment = UserDetailsFragment.newInstance(userId);
             supportFragmentManager.beginTransaction().add(container,fragment,UserDetailsFragment.getFragmentId()).commit();
