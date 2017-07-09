@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/user_settings_shopping_bag_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Shopping Bag"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="Go to my Shopping Bag"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+        <include
+            layout="@layout/view_separator"
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:background="#90909090"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:padding="0dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/user_settings_liked_items_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Liked Items"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="See my liked items"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
+        <include
+            layout="@layout/view_separator"
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:background="#90909090"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:padding="0dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/user_settings_payment_history_LL"
+            android:padding="2dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Payment History"
+                android:textColor="@color/colorBlack"
+                android:paddingLeft="10dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:text="See my Payment History"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

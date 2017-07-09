@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/productlist"
+            android:title="@string/browse_product"
+            android:icon="@drawable/ic_code_black_24dp"/>
+
+        <item
+            android:id="@+id/shoplist"
+            android:title="@string/find_shops_near_you"
+            android:icon="@drawable/ic_code_black_24dp"/>
+
+        <item
+            android:id="@+id/shoppingbag"
+            android:title="@string/shopping_bag"
+            android:icon="@drawable/ic_code_black_24dp"/>
+
+        <item
+            android:id="@+id/history"
+            android:title="@string/my_history"
+            android:icon="@drawable/ic_code_black_24dp"/>
+
+        <item
+            android:id="@+id/wishlist"
+            android:title="@string/my_wish_list"
+            android:icon="@drawable/ic_code_black_24dp"/>
+
+        <item
+            android:id="@+id/about"
+            android:title="@string/about_bizzybay"
+            android:icon="@drawable/ic_code_black_24dp"/>
+
+    </group>
+</menu>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+                                            android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ABOUT US"
+            android:textSize="24sp"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/shop_details_about_us_text"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:id="@+id/shop_details_about_image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder"
+                android:layout_alignParentBottom="true"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shop_details_about_description"
+            android:textSize="20sp"
+
+            android:text="Lorem ipsum dolor sit amet, sea tritani vituperatoribus et, tota iriure regione ea sea. Cum tale numquam id. Ut ius ferri alterum bonorum, id munere graeco pro, est ut vitae graeci expetendis. Ius nulla gloriatur ad, ei facer dissentias mel. Exerci splendide consequat id eam, pri veri semper alterum ea.
+
+Pri mucius consequuntur vituperatoribus eu, mei eu quis tractatos comprehensam. Duo in solet dissentias, sit omnesque placerat et, sea no modo aeque putent. Ius ea civibus forensibus, an nec postea antiopam, erat oportere sea ea. Vis aeque veritus ea, eos postulant maluisset ea, augue ullamcorper sed no. Ius mazim errem aperiri an. Eos an labitur gubergren conceptam, sit utroque atomorum ad. Usu cu dolor constituam dissentiet, sea an dico simul consequuntur.
+
+Sit tation indoctum deterruisset an, an debet movet inciderint qui. Vel id tantas adversarium, ea mei modo homero. Ridens tamquam eu nam, fierent scribentur mei et. Sed suas possim id.
+
+At deleniti phaedrum adversarium sea, nec facer dicam delectus ut, et est fugit consul soluta. Mel magna maiorum ut, unum veri populo eos ei. In mea ridens vidisse. Nulla fabulas docendi no nam, in vel omnis commodo interpretaris. Aeque putant accumsan mei cu, eu albucius consulatu persecuti sed, putent persequeris ei est. Nibh consul sententiae an vis.
+
+Et impedit iudicabit dissentiunt nec, est volutpat argumentum consectetuer ad. Senserit sadipscing no vix, pri at sumo solet. Id graece moderatius sit, qui in omnium maiestatis, paulo argumentum vix id. Dico eros doctus at has. Est exerci delicata et, ad fugit dissentias his, omnis nostrud complectitur no per."/>
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

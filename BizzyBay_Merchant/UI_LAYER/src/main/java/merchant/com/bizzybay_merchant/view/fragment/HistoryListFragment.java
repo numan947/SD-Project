@@ -1,0 +1,318 @@
+package merchant.com.bizzybay_merchant.view.fragment;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+
+import com.merchant_example.executor.PostExecutionThread;
+import com.merchant_example.executor.ThreadExecutor;
+import com.merchant_example.interactor.GetHistoryListUseCase;
+import com.merchant_example.interactor.GetHistoryListUseCaseImpl;
+import com.merchant_example.repository.HistoryRepository;
+
+import java.util.ArrayList;
+
+import merchant.com.bizzybay_merchant.BizzyBayMerchant;
+import merchant.com.bizzybay_merchant.MainThread;
+import merchant.com.bizzybay_merchant.R;
+import merchant.com.bizzybay_merchant.mapper.HistoryModelDataMapper;
+import merchant.com.bizzybay_merchant.model.HistoryListModel;
+import merchant.com.bizzybay_merchant.presenter.HistoryListPresenter;
+import merchant.com.bizzybay_merchant.view.HistoryListView;
+import merchant.com.bizzybay_merchant.view.adapter.HistoryListAdapter;
+import merchant.com.bizzybay_merchant.view.component.EndlessRecyclerViewScrollListener;
+import merchant.com.merchant_data_layer.cache.HistoryCache;
+import merchant.com.merchant_data_layer.cache.TestHistoryCacheImpl;
+import merchant.com.merchant_data_layer.entity.mapper.HistoryEntityDataMapper;
+import merchant.com.merchant_data_layer.executor.BackgroundExecutor;
+import merchant.com.merchant_data_layer.repository.HistoryDataRepository;
+import merchant.com.merchant_data_layer.repository.datasource.HistoryDataStoreFactory;
+
+/**
+ * @author numan947
+ * @since 5/10/17.<br>
+ **/
+
+@SuppressWarnings("FieldCanBeLocal")
+public class HistoryListFragment extends BaseFragment implements HistoryListView {
+    private static final String fragmentId = "numan947.com.bizzybay.view.fragment.HISTORY_LIST_FRAGMENT";
+
+
+    public interface HistoryListListener{
+        void onHistoryItemClicked(int orderId,int shopId,int productId);
+    }
+
+    private CoordinatorLayout coordinatorLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
+    private RelativeLayout loadingView;
+    private RelativeLayout retryView;
+    private Button retryButton;
+
+
+
+    private HistoryListPresenter historyListPresenter; //will be retained & reused
+    private HistoryListListener historyListListener; //will be retained & reused
+    private HistoryListAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
+    private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
+
+    private ArrayList<HistoryListModel>adapterItems; //will be retained & reused
+    private int pageNumber; //will be retained & reused
+
+
+
+    /**
+     * This is the callback implementation provided to the adapter of the
+     * {@link RecyclerView}, so that it can chain the event handling to this fragment.
+     * */
+    private final HistoryListAdapter.Callback adapterCallback = new HistoryListAdapter.Callback() {
+
+        @Override
+        public void onItemClicked(int orderId, int shopId, int productId) {
+            historyListPresenter.onItemClicked(orderId,shopId,productId);
+        }
+    };
+
+
+    public static HistoryListFragment newInstance()
+    {
+        //todo add viable parameters here
+        return new HistoryListFragment();
+    }
+
+    public static String getFragmentID()
+    {
+        return  fragmentId;
+    }
+
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof HistoryListListener)
+            this.historyListListener = (HistoryListListener)context;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.history_list_fragment,container,false);
+
+        this.bindAll(v);
+        this.setupRecyclerView();
+        this.addListenersToView();
+
+
+        return v;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if(savedInstanceState==null){
+            this.getParameters();
+            if(historyListPresenter==null)
+                initializePresenter();
+            historyListPresenter.initialize(0);
+        }
+        //else do noting
+    }
+
+    private void getParameters() {
+        Bundle b = getArguments();
+        if(b!=null){
+            //todo get the passed arguments here
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //todo save states here
+
+    }
+
+    private void restoreSavedStates(Bundle savedInstanceState) {
+        //todo restore states here
+    }
+
+
+    private void addListenersToView() {
+
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //again try to load the first page
+                historyListPresenter.initialize(0);
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                HistoryListFragment.this.pageNumber = 0;
+                historyListPresenter.initialize(0);
+            }
+        });
+
+    }
+
+    private void setupRecyclerView() {
+
+        adapter = new HistoryListAdapter(getContext(),adapterItems,adapterCallback);
+
+        linearLayoutManager  = new LinearLayoutManager(getContext());
+
+        endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+
+                //System.err.println("LOADING PAGE "+(pageNumber+1));
+
+                historyListPresenter.initialize(++pageNumber);
+            }
+        };
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void resetRecyclerViewAdapter() {
+        pageNumber = 0;
+        this.adapterItems.clear();
+        adapter.notifyDataSetChanged();
+        endlessRecyclerViewScrollListener.resetState();
+    }
+
+    private void bindAll(View v) {
+        recyclerView = (RecyclerView) v.findViewById(R.id.history_list_fragment_recycler_view);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.history_page_fragment_SRL);
+        coordinatorLayout = (CoordinatorLayout)v.findViewById(R.id.history_page_fragment_CL);
+        loadingView = (RelativeLayout)v.findViewById(R.id.rl_progress);
+        retryView = (RelativeLayout) v.findViewById(R.id.rl_retry);
+        retryButton = (Button)v.findViewById(R.id.bt_retry);
+    }
+
+    @Override
+    protected void initializePresenter() {
+       // System.out.println("ON CRET");
+        //todo
+
+        adapterItems = new ArrayList<>();//this should be always retained
+
+        PostExecutionThread postExecutionThread = MainThread.getInstance();
+        ThreadExecutor threadExecutor = BackgroundExecutor.getInstance();
+
+
+        //todo add JSON Parser here plus other things, like a real cache instead of a test one
+
+        HistoryCache historyCache = TestHistoryCacheImpl.getInstance();
+
+
+        HistoryDataStoreFactory historyDataStoreFactory = new HistoryDataStoreFactory(BizzyBayMerchant.getBizzyBayApplicationContext(),historyCache);
+        HistoryEntityDataMapper historyEntityDataMapper = new HistoryEntityDataMapper();
+
+        HistoryRepository historyRepository = HistoryDataRepository.getInstance(historyDataStoreFactory,historyEntityDataMapper);
+
+        GetHistoryListUseCase getHistoryListUseCase = new GetHistoryListUseCaseImpl(historyRepository,postExecutionThread,threadExecutor);
+
+        HistoryModelDataMapper historyModelDataMapper = new HistoryModelDataMapper();
+
+
+        this.historyListPresenter = new HistoryListPresenter(this,getHistoryListUseCase,historyModelDataMapper);
+
+    }
+
+    @Override
+    public void showLoading() {
+        recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideLoading() {
+        swipeRefreshLayout.setRefreshing(false);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showRetry() {
+        swipeRefreshLayout.setRefreshing(false);
+        retryView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideRetry() {
+        retryView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(String message) {
+        //todo show error here
+    }
+
+    @Override
+    public void renderHistoryList(int pageNumber, ArrayList<HistoryListModel> historyList) {
+        if(pageNumber==0){
+            resetRecyclerViewAdapter();
+
+            adapter.addAll(historyList);
+
+            adapter.notifyItemRangeInserted(0,historyList.size());
+        }
+        else{
+            this.pageNumber = pageNumber;
+            int before = adapter.getModelSize();
+            adapter.addAll(historyList);
+            int after = adapter.getModelSize();
+            adapter.notifyItemRangeInserted(before,after-before);
+        }
+    }
+
+    @Override
+    public void viewProductHistory(int orderId, int shopId,int productId) {
+        //pass to the activity
+        historyListListener.onHistoryItemClicked(orderId,shopId,productId);
+    }
+
+    @Override
+    public void hideList() {
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showList() {
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public void onResume() {
+        //todo do something here may be?
+        super.onResume();
+        historyListPresenter.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        //todo do something here may be?
+        historyListPresenter.onPause();
+        super.onPause();
+
+    }
+}

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:id="@+id/shopping_bag_product_linear_layout">
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/placeholder"
+        android:scaleType="centerCrop"
+        android:layout_margin="2dp"
+        android:id="@+id/shopping_bag_product_image"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="2dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:textSize="18sp"
+            android:layout_margin="2dp"
+            android:id="@+id/shopping_bag_product_name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity "
+            android:textSize="17sp"
+            android:layout_margin="2dp"
+            android:id="@+id/shopping_bag_product_quantity"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:textSize="17sp"
+            android:layout_margin="2dp"
+            android:id="@+id/shopping_bag_product_price"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available"
+            android:textSize="16sp"
+            android:id="@+id/shopping_bag_product_available"
+            android:layout_margin="2dp"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/cancel"
+            android:id="@+id/shopping_bag_product_delete_button"
+            android:layout_margin="5dp"/>
+    </RelativeLayout>
+
+</LinearLayout>

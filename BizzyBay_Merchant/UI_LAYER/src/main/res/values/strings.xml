@@ -1,0 +1,44 @@
+<resources>
+    <string name="google_api_key">AIzaSyDjtWiyDzKTri1Z-TrWP7M7-4g_icylgkk</string>
+    <string name="app_name">BizzyBay Merchant</string>
+    <string name="browse_product">Browse Product</string>
+    <string name="search_products">Search Products</string>
+    <string name="find_shops_near_you">Shop List</string>
+    <string name="shopping_bag">Shopping Bag</string>
+    <string name="my_history">My History</string>
+    <string name="my_wish_list">My Wish List</string>
+    <string name="offers">Offers</string>
+    <string name="settings">Settings</string>
+    <string name="about_bizzybay">About BizzyBay</string>
+    <string name="close_drawer">Close Nav Drawer</string>
+    <string name="open_drawer">Open Nav Drawer</string>
+    <string name="settings_icon">Settings Icon</string>
+    <string name="product_page_image_view">Product_Page_Image_View</string>
+    <string name="btn_text_retry">Retry</string>
+    <string name="list_product_button_like">LIKE</string>
+    <string name="dummy_product_details">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel ipsum sodales, egestas enim fringilla, tempor tortor. Curabitur malesuada non urna nec ultrices. Vestibulum sed faucibus tellus, nec egestas massa. Duis efficitur felis magna, ac mattis velit aliquet vitae. In luctus, urna dignissim ullamcorper vehicula, tortor metus malesuada dui, sed luctus tellus metus in risus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut elit diam, malesuada sed finibus sed, ullamcorper et dui. Integer id dictum nisi. Aenean sit amet maximus odio. Proin fermentum metus sit amet metus maximus volutpat. Pellentesque lacinia finibus nibh ut porttitor. Proin porttitor tristique leo. Phasellus ut suscipit lorem, eu scelerisque metus. Nam tempor lacinia tellus, at auctor risus eleifend sed. Phasellus non purus turpis. Proin neque ante, vestibulum in volutpat ac, tincidunt sed eros.
+
+Vestibulum auctor dolor sem. Aenean sollicitudin, risus non feugiat blandit, lectus nisi rhoncus ex, ac euismod odio sem a lectus. Vivamus ac vehicula nisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam vestibulum convallis viverra. Vestibulum nec velit nec massa aliquet mattis ac nec tellus. Phasellus efficitur laoreet nunc, eget auctor sapien commodo eu. Fusce facilisis lectus eget velit convallis, non egestas lectus blandit. Integer consequat tincidunt vehicula. Aenean scelerisque justo ut turpis ultrices consectetur. Phasellus suscipit ante vulputate arcu sodales, sed aliquet velit laoreet. Donec tincidunt, augue sed maximus aliquam, nunc velit ultrices nisl, nec convallis enim leo luctus tortor. Aliquam bibendum ante et urna scelerisque, ac commodo sapien auctor. Suspendisse consequat venenatis libero eu viverra. Donec accumsan tempor sapien, id tristique arcu gravida eget.
+
+Praesent gravida nibh eget tellus fermentum tempor. Duis accumsan dolor sed porttitor gravida. Morbi lobortis enim sed varius aliquam. Nulla enim metus, consequat eget laoreet ut, fringilla id magna. Etiam lobortis blandit luctus. Sed sed arcu arcu. Phasellus quam mi, scelerisque non felis eget, efficitur varius ipsum. Sed accumsan nulla a felis congue, sit amet posuere elit posuere. Vestibulum sed ipsum eget leo cursus consectetur a in lorem. Curabitur vitae sagittis nibh, facilisis ultricies dolor. Duis nec odio a lacus porttitor maximus id in dolor. Nullam porttitor volutpat urna, in placerat augue efficitur sit amet. Sed elementum lorem lacinia metus imperdiet, non hendrerit nulla dictum. Phasellus maximus malesuada nulla a aliquet. Morbi malesuada felis lobortis, congue dui nec, accumsan nulla.
+
+Pellentesque vel lorem congue augue fermentum varius sollicitudin ut neque. Sed vestibulum viverra purus at auctor. Donec ut mi vel turpis dignissim hendrerit. Sed congue massa rhoncus porttitor placerat. Curabitur porta mauris ac nisl accumsan, in efficitur magna mollis. Donec augue odio, imperdiet vitae dapibus quis, ornare ut justo. Nulla dolor ante, ultrices sed augue vitae, elementum luctus justo. Phasellus non consectetur sapien, in vulputate velit. Quisque scelerisque id ex a accumsan. Integer venenatis neque eu ullamcorper lacinia. Phasellus suscipit nibh lacus.
+
+Nunc blandit vel eros vitae molestie. Nullam tempus fermentum lorem, sed imperdiet turpis venenatis ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec facilisis sodales tellus, in varius nibh convallis sit amet. Donec fringilla dictum nibh, ut convallis sapien mollis ut. Donec iaculis dolor et iaculis rhoncus. Vestibulum viverra sit amet arcu in tincidunt. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean quis felis urna. Vestibulum fermentum quis elit non imperdiet. Vivamus congue elementum sagittis.</string>
+
+
+    <!--These are delivery address page edit text hints, these will be reused in login/sign up pages-->
+    <string name="user_name_hint">Name</string>
+    <string name="primary_phone_hint">Primary Phone</string>
+    <string name="auxiliary_phone_hint">Auxiliary Phone</string>
+    <string name="address_line_1_hint">Address Line 1 (Required)</string>
+    <string name="address_line_2_hint">Address Line 2</string>
+    <string name="address_line_3_hint">Address Line 3</string>
+    <string name="city_name_hint">City (Required)</string>
+    <string name="zip_code_hint">Zip Code (Postal Code)</string>
+    <string name="use_current_location_text">Use Current Location</string>
+    <string name="select_from_map_text">Select From Map</string>
+    <string name="map_location_text">Map Location</string>
+    <string name="choose_from_map_text">Choose From Map</string>
+
+</resources>

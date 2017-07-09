@@ -1,0 +1,17 @@
+package merchant.com.merchant_data_layer.entity.mapper;
+
+import com.merchant_example.UserDetails;
+
+import merchant.com.merchant_data_layer.entity.UserDetailsEntity;
+
+/**
+ * @author numan947
+ * @since 7/7/17.<br>
+ **/
+
+public class UserDetailsEntityDataMapper {
+    public UserDetails transform(UserDetailsEntity userDetailsEntity) {
+        return new UserDetails(userDetailsEntity.getUserId(),userDetailsEntity.getUserImageUrl(),userDetailsEntity.getAccountName(),userDetailsEntity.getUserName(),
+                userDetailsEntity.getPhone(),userDetailsEntity.getEmail(),userDetailsEntity.getPassword(),userDetailsEntity.getWhatsapp(),userDetailsEntity.getFacebook());
+    }
+}

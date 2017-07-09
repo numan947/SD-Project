@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_product_cardView"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="5dp"
+    app:cardMaxElevation="8dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/cardview_shadow_end_color"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <merchant.com.bizzybay_merchant.view.component.SquareImageView
+            android:id="@+id/list_product_image_view"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/product_page_image_view"
+            android:scaleType="fitXY"
+            android:src="@drawable/sample"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/list_product_product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Not your average title"
+                android:textSize="@dimen/list_product_product_title_size"/>
+
+            <TextView
+                android:id="@+id/list_product_shop_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Shop Name,location and what not -_-"
+                android:textSize="@dimen/browse_products_product_shop_size"/>
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/list_product_product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|start"
+                    android:gravity="center"
+                    android:text="3000Tk"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/browse_products_product_price_size"/>
+                <!--change button background with suitable background picture-->
+                <Button
+                    android:id="@+id/list_product_button_like"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/not_liked"/>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

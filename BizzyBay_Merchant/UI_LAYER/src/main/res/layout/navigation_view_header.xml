@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="192dp"
+              android:background="?attr/colorPrimaryDark"
+              android:padding="16dp"
+              android:theme="@style/ThemeOverlay.AppCompat.Dark"
+              android:orientation="vertical"
+              android:gravity="bottom">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image_nav_drawer"
+        android:layout_width="83dp"
+        android:layout_height="0dp"
+        android:src="@drawable/placeholder2"
+        android:layout_gravity="start"
+        android:layout_weight="0.70"/>
+    <!--Add different background for the image via selector so that it acts like a button-->
+
+    <TextView
+        android:id = "@+id/user_name_nav_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="#PlaceHolder_User_Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_weight="0.10"/>
+</LinearLayout>

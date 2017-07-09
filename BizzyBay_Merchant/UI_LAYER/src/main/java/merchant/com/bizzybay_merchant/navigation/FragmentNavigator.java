@@ -1,0 +1,80 @@
+package merchant.com.bizzybay_merchant.navigation;
+
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+
+import merchant.com.bizzybay_merchant.view.fragment.HistoryDetailsFragment;
+import merchant.com.bizzybay_merchant.view.fragment.ProductDetailsFragment;
+import merchant.com.bizzybay_merchant.view.fragment.UserDetailsFragment;
+
+/**
+ *
+ * @author numan947
+ * @since 5/9/17.<br>
+ *
+ * Provides navigation for fragments not in the {@link android.support.v4.widget.DrawerLayout}
+ **/
+
+public class FragmentNavigator {
+
+    private static final int TRANSITION = FragmentTransaction.TRANSIT_FRAGMENT_FADE;
+
+    //singleton
+    private static FragmentNavigator navigator;
+
+    public static FragmentNavigator getInstance()
+    {
+        if(navigator==null)navigator = new FragmentNavigator();
+        return navigator;
+    }
+
+    private FragmentNavigator() {
+
+    }
+
+    private void setupTransition(FragmentManager fragmentManager)
+    {
+        fragmentManager.beginTransaction().setTransition(TRANSITION).commit();
+    }
+
+    /**
+     * Navigation to the {@link ProductDetailsFragment} which is inside the {@link merchant.com.bizzybay_merchant.view.activity.DetailsProductActivity}
+     * */
+    public void navigateToProductDetailsFragment(FragmentManager fragmentManager, int container, int productId, int shopId) {
+
+        this.setupTransition(fragmentManager);
+
+        ProductDetailsFragment fragment = (ProductDetailsFragment) fragmentManager.findFragmentByTag(ProductDetailsFragment.getFragmentID());
+
+
+        if (fragment == null) {
+            fragment = ProductDetailsFragment.newInstance(productId, shopId);
+            fragmentManager.beginTransaction().add(container, fragment, ProductDetailsFragment.getFragmentID()).commit();
+        }
+    }
+
+    public void navigateToHistoryDetailsFragment(FragmentManager fragmentManager,int container,int shopId,int orderId, int productId)
+    {
+        this.setupTransition(fragmentManager);
+
+        HistoryDetailsFragment fragment = (HistoryDetailsFragment) fragmentManager.findFragmentByTag(HistoryDetailsFragment.getFragmentID());
+        if(fragment==null){
+            fragment = HistoryDetailsFragment.newInstance(orderId,shopId,productId);
+            fragmentManager.beginTransaction().add(container,fragment,HistoryDetailsFragment.getFragmentID()).commit();
+        }
+
+    }
+
+    public void navigateToUserDetailsFragment(FragmentManager supportFragmentManager, int container, int userId) {
+        this.setupTransition(supportFragmentManager);
+
+
+
+        UserDetailsFragment fragment = (UserDetailsFragment)supportFragmentManager.findFragmentByTag(UserDetailsFragment.getFragmentId());
+
+        if(fragment == null){
+            fragment = UserDetailsFragment.newInstance(userId);
+            supportFragmentManager.beginTransaction().add(container,fragment,UserDetailsFragment.getFragmentId()).commit();
+        }
+    }
+}
