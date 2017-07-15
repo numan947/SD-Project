@@ -10,7 +10,10 @@ package numan947.com.data_layer.entity;
 
 public class ListProductEntity {
     //needed IDs
+
     private int shopID;
+
+
     private int productID;
 
 
@@ -19,7 +22,7 @@ public class ListProductEntity {
     private int productPrice;
 
     //shop info
-    private String shopDetails;
+    private String shopName;
 
     //liked status
     private boolean isLiked;
@@ -28,12 +31,12 @@ public class ListProductEntity {
     private String productImage;
 
 
-    public ListProductEntity(int shopID, int productID, String productTitle, int productPrice, String shopDetails, boolean isLiked, String productImage) {
+    public ListProductEntity(int shopID, int productID, String productTitle, int productPrice, String shopName, boolean isLiked, String productImage) {
         this.shopID = shopID;
         this.productID = productID;
         this.productTitle = productTitle;
         this.productPrice = productPrice;
-        this.shopDetails = shopDetails;
+        this.shopName = shopName;
         this.isLiked = isLiked;
         this.productImage = productImage;
     }
@@ -54,8 +57,8 @@ public class ListProductEntity {
         return productPrice;
     }
 
-    public String getShopDetails() {
-        return shopDetails;
+    public String getShopName() {
+        return shopName;
     }
 
     public boolean isLiked() {
@@ -64,5 +67,33 @@ public class ListProductEntity {
 
     public String getProductImage() {
         return productImage;
+    }
+
+    public void setShopID(int shopID) {
+        this.shopID = shopID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
+    }
+
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
+    }
+
+    public void setProductPrice(int productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
     }
 }

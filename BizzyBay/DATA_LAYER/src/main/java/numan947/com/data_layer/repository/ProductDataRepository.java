@@ -59,7 +59,7 @@ public class ProductDataRepository implements ProductRepository {
         System.out.println("Product REQ....1  "+cnt);
         cnt++;
 
-        final ProductDataStore productDataStore = this.productDataStoreFactory.createTestDataStore();
+        final ProductDataStore productDataStore = this.productDataStoreFactory.createCloudDataStore();
 
 
         final ProductDataStore.ProductListCallback createdCallback = new ProductDataStore.ProductListCallback() {
@@ -89,11 +89,16 @@ public class ProductDataRepository implements ProductRepository {
         cnt2++;
         //todo create real data store and load
 
-        final ProductDataStore productDataStore = productDataStoreFactory.createTestDataStore();
+        System.out.println("PRODUCT DETTAILS......ID--"+productId);
+
+        final ProductDataStore productDataStore = productDataStoreFactory.createCloudDataStore();
 
         final ProductDataStore.ProductDetailsCallback createdCallback = new ProductDataStore.ProductDetailsCallback() {
             @Override
             public void onProductDetailsLoaded(DetailsProductEntity detailsProductEntity) {
+
+
+
                 ProductDetails productDetails =ProductDataRepository.this.productEntityDataMapper.transform(detailsProductEntity);
                 if(productDetails !=null)providedCallback.onProductDetailsLoaded(productDetails);
             }

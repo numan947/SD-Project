@@ -1,6 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,13 +20,13 @@ public class ProductDetails {
     private boolean isCarted;
     private boolean isLiked;
     private String productDetails;
-    private ArrayList<String> productCategory;
-    private ArrayList<String> productImages;
+    private List<String> productCategory;
+    private List<String> productImages;
 
 
     public ProductDetails(int productId, int shopId, String productTitle, String shopName, String productPrice,
                           String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
-                          ArrayList<String> productCategory, ArrayList<String> productImages) {
+                          List<String> productCategory, List<String> productImages) {
         this.productId = productId;
         this.shopId = shopId;
         this.productTitle = productTitle;
@@ -78,11 +78,11 @@ public class ProductDetails {
         return productDetails;
     }
 
-    public ArrayList<String> getProductCategory() {
+    public List<String> getProductCategory() {
         return productCategory;
     }
 
-    public ArrayList<String> getProductImages() {
+    public List<String> getProductImages() {
         return productImages;
     }
 }

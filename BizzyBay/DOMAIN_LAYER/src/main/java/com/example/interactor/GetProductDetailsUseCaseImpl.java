@@ -81,6 +81,7 @@ public class GetProductDetailsUseCaseImpl implements GetProductDetailsUseCase {
         postExecutionThread.post(new Runnable() {
             @Override
             public void run() {
+
                 GetProductDetailsUseCaseImpl.this.providedCallback.onProductDetailsLoaded(productDetails);
             }
         });

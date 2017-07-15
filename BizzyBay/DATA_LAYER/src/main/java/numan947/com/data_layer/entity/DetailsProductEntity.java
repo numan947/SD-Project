@@ -1,6 +1,7 @@
 package numan947.com.data_layer.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -20,8 +21,8 @@ public class DetailsProductEntity {
     private boolean isCarted;
     private boolean isLiked;
     private String productDetails;
-    private ArrayList<String> productCategory;
-    private ArrayList<String> productImages;
+    private List<String> productCategory;
+    private List<String> productImages;
 
     public DetailsProductEntity(){}
 
@@ -122,11 +123,11 @@ public class DetailsProductEntity {
         return productDetails;
     }
 
-    public ArrayList<String> getProductCategory() {
+    public List<String> getProductCategory() {
         return productCategory;
     }
 
-    public ArrayList<String> getProductImages() {
+    public List<String> getProductImages() {
         return productImages;
     }
 }

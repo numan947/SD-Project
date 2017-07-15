@@ -3,6 +3,8 @@ package numan947.com.data_layer.repository.datasource;
 import android.content.Context;
 
 import numan947.com.data_layer.cache.ProductCache;
+import numan947.com.data_layer.internet.RestApiCommon;
+import numan947.com.data_layer.internet.RestApiCommonImpl;
 
 /**
  *
@@ -38,6 +40,13 @@ public class ProductDataStoreFactory {
 
         return new DiskProductDataStore(productCache);
 
+    }
+
+    public ProductDataStore createCloudDataStore() {
+
+        RestApiCommon restApi = new RestApiCommonImpl(this.context);
+
+        return new CloudProductDataStore(restApi);
     }
 
 

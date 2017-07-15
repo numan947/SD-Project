@@ -77,7 +77,7 @@ public class WishListPresenter implements Presenter {
 
     public void onProductClicked(int productId, int shopId) {
         //chaining to view
-        view.onProductClicked(productId,shopId);
+        view.onProductClicked(0,shopId);
     }
 
     public void onLikeButtonClicked(WishListModel wishListModel, int position) {

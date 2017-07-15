@@ -29,9 +29,10 @@ public class ProductEntityDataMapper {
 
         for(ListProductEntity a:productEntities){
 
+            if(a.getProductImage()==null)a.setProductImage("https://placebear.com/200/300");
             ProductList b = new ProductList(a.getShopID(),a.getProductID()
                     ,a.getProductTitle(),a.getProductPrice()+"",
-                    a.getShopDetails(),a.isLiked(),a.getProductImage());
+                    a.getShopName(),a.isLiked(),a.getProductImage());
             collection.add(b);
         }
         return collection;
@@ -43,6 +44,8 @@ public class ProductEntityDataMapper {
     public ProductDetails transform(DetailsProductEntity detailProductEntity) {
 
         //todo transformCartList here
+
+
 
         return new ProductDetails(detailProductEntity.getProductId(),detailProductEntity.getShopId(),
                 detailProductEntity.getProductTitle(),detailProductEntity.getShopName(),detailProductEntity.getProductPrice()+"",

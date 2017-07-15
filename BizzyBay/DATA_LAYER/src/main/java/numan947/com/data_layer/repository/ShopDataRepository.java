@@ -53,7 +53,7 @@ public class ShopDataRepository implements ShopRepository {
         System.out.println("ShopREQ....1  "+cnt);
         cnt++;
 
-        final ShopDataStore shopDataStore = this.shopDataStoreFactory.createTestDataStore();
+        final ShopDataStore shopDataStore = this.shopDataStoreFactory.createCloudDataStore();
 
 
         shopDataStore.getShopEntityList(pageNumber, new ShopDataStore.ShopListCallback() {

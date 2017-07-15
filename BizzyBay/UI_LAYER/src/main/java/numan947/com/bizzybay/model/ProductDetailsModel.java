@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ProductDetailsModel implements Parcelable {
 
     public ProductDetailsModel(int productId, int shopId, String productTitle, String shopName, String productPrice,
                                String shopLocation, boolean isCarted, boolean isLiked, String productDetails,
-                               ArrayList<String> productCategories, ArrayList<String> productImages) {
+                               List<String> productCategories, List<String> productImages) {
         this.productId = productId;
         this.shopId = shopId;
         this.productTitle = productTitle;
@@ -40,8 +41,10 @@ public class ProductDetailsModel implements Parcelable {
         this.isCarted = isCarted;
         this.isLiked = isLiked;
         this.productDetails = productDetails;
-        this.productCategories = productCategories;
-        this.productImages = productImages;
+        this.productCategories = new ArrayList<>();
+        this.productCategories.addAll(productCategories);
+        this.productImages = new ArrayList<>();
+        this.productImages.addAll(productImages);
 
 
     }

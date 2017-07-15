@@ -57,8 +57,10 @@ public class ProductListPresenter implements Presenter {
      *
      * @param shopId*/
     private void loadProductList(int pageNumber, int shopId) {
-        this.hideRetryView();
-        this.showLoadingView();
+        if(pageNumber==0) {
+            this.hideRetryView();
+            this.showLoadingView();
+        }
         this.getProductsList(pageNumber,shopId);
     }
 
